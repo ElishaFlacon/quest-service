@@ -9,7 +9,7 @@ import (
 func (init *TInit) GetExample() ([]models.Example, error) {
 	rows, err := init.pool.Query(
 		context.Background(),
-		`SELECT * FROM Example;`,
+		`SELECT * FROM example;`,
 	)
 
 	if err != nil {
