@@ -5,16 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type IExample interface {
-	Get(context *gin.Context)
-	Set(context *gin.Context)
-}
-
-type TExample struct{}
-
 type TExampleBody struct {
 	Value string
 }
+
+type TExample struct{}
 
 var Example *TExample
 

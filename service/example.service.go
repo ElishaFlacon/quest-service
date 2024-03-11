@@ -5,11 +5,6 @@ import (
 	"github.com/ElishaFlacon/questionnaire-service/models"
 )
 
-type IExample interface {
-	Get() ([]models.Example, error)
-	Set(value string) error
-}
-
 type TExample struct{}
 
 var Example *TExample
