@@ -5,7 +5,16 @@ import (
 	"github.com/ElishaFlacon/questionnaire-service/models"
 )
 
-func GetExample() ([]models.Example, error) {
+type IExample interface {
+	Get() ([]models.Example, error)
+	Set(value string) error
+}
+
+type TExample struct{}
+
+var Example *TExample
+
+func (*TExample) Get() ([]models.Example, error) {
 	data, err := database.Example.Get()
 
 	if err != nil {
@@ -15,7 +24,7 @@ func GetExample() ([]models.Example, error) {
 	return data, nil
 }
 
-func SetExample(value string) error {
+func (*TExample) Set(value string) error {
 	err := database.Example.Set(value)
 
 	if err != nil {
