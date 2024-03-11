@@ -1,11 +1,12 @@
 package service
 
 import (
+	"github.com/ElishaFlacon/questionnaire-service/database"
 	"github.com/ElishaFlacon/questionnaire-service/models"
 )
 
-func (init *TInit) GetExample() ([]models.Example, error) {
-	data, err := init.db.GetExample()
+func GetExample() ([]models.Example, error) {
+	data, err := database.Example.Get()
 
 	if err != nil {
 		return nil, err
@@ -14,8 +15,8 @@ func (init *TInit) GetExample() ([]models.Example, error) {
 	return data, nil
 }
 
-func (init *TInit) SetExample(value string) error {
-	err := init.db.SetExample(value)
+func SetExample(value string) error {
+	err := database.Example.Set(value)
 
 	if err != nil {
 		return err

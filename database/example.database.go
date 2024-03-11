@@ -6,8 +6,15 @@ import (
 	"github.com/ElishaFlacon/questionnaire-service/models"
 )
 
-func (init *TInit) GetExample() ([]models.Example, error) {
-	rows, err := init.pool.Query(
+type IExample interface {
+	Get() ([]models.Example, error)
+	Set(value string) error
+}
+
+var Example IExample
+
+func (repo *TDatabase) Get() ([]models.Example, error) {
+	rows, err := repo.db.Query(
 		context.Background(),
 		`SELECT * FROM example;`,
 	)
@@ -37,8 +44,8 @@ func (init *TInit) GetExample() ([]models.Example, error) {
 	return data, nil
 }
 
-func (init *TInit) SetExample(value string) error {
-	rows, err := init.pool.Query(
+func (repo *TDatabase) Set(value string) error {
+	rows, err := repo.db.Query(
 		context.Background(),
 		`INSERT INTO example (value) VALUES ($1);`,
 		value,

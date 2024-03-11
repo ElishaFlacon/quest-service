@@ -2,9 +2,10 @@ package routes
 
 import (
 	"github.com/ElishaFlacon/questionnaire-service/controllers"
+	"github.com/gin-gonic/gin"
 )
 
-func (init *TInit) ExampleRoutes() {
-	init.app.GET("/example", controllers.Init(init.db).GetExample)
-	init.app.POST("/example", controllers.Init(init.db).SetExample)
+func Example(app *gin.Engine) {
+	app.GET("/example", controllers.GetExample)
+	app.POST("/example", controllers.SetExample)
 }

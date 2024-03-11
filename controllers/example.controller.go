@@ -5,12 +5,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type TExample struct {
+type TExampleBody struct {
 	Value string
 }
 
-func (init *TInit) GetExample(context *gin.Context) {
-	data, err := service.Init(init.db).GetExample()
+func GetExample(context *gin.Context) {
+	data, err := service.GetExample()
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
@@ -20,8 +20,8 @@ func (init *TInit) GetExample(context *gin.Context) {
 	context.JSON(200, gin.H{"data": data})
 }
 
-func (init *TInit) SetExample(context *gin.Context) {
-	var body TExample
+func SetExample(context *gin.Context) {
+	var body TExampleBody
 
 	errBody := context.BindJSON(&body)
 	if errBody != nil {
@@ -29,7 +29,7 @@ func (init *TInit) SetExample(context *gin.Context) {
 		return
 	}
 
-	err := service.Init(init.db).SetExample(body.Value)
+	err := service.SetExample(body.Value)
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
 		return

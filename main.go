@@ -11,9 +11,9 @@ import (
 func main() {
 	app := gin.Default()
 
-	config.Init(app).Start()
-	pool := database.Init(utils.GetDatabaseString())
-	routes.Init(app, pool).Start()
+	config.Init(app)
+	database.Init(utils.GetDatabaseString())
+	routes.Init(app)
 
 	app.Run(utils.GetAppUrl())
 }
