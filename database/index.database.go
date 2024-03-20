@@ -19,4 +19,5 @@ func Init(database_url string) {
 	}
 
 	Example = &TDatabase{db: db}
+	// Indicator = &TDatabase{db: db}
 }
