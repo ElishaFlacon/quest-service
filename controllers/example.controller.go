@@ -33,7 +33,7 @@ func (*TExample) Set(context *gin.Context) {
 		return
 	}
 
-	err := service.Example.Set(body.Value)
+	_, err := service.Example.Set(body.Value)
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
 		return
