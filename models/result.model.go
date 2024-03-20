@@ -1,5 +1,5 @@
 package models
 
 type Result struct {
-	Id int
+	Id int `json:"id"`
 }

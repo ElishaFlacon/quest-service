@@ -1,5 +1,5 @@
 package models
 
 type Indicator struct {
-	Id int
+	Id int `json:"id"`
 }
