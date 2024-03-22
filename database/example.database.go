@@ -15,29 +15,6 @@ type IExample interface {
 
 var Example IExample
 
-func (repo *TDatabase) Get1() ([]models.Example, error) {
-	sqlstring := `SELECT * FROM example;`
-
-	cultivating := func(rows pgx.Rows) (models.Example, error) {
-		var item models.Example
-
-		err := rows.Scan(
-			&item.Id,
-			&item.Value,
-		)
-
-		return item, err
-	}
-
-	data, err := core.QueryWithCultivating(
-		sqlstring,
-		cultivating,
-		repo.db.Query,
-	)
-
-	return data, err
-}
-
 func (repo *TDatabase) Get() ([]*models.Example, error) {
 	rows, err := repo.db.Query(context.Background(), "SELECT * FROM example;")
 
