@@ -3,11 +3,12 @@ package service
 import (
 	"context"
 	"encoding/json"
+	"log"
+	"time"
+
 	"github.com/ElishaFlacon/questionnaire-service/models"
 	"github.com/ElishaFlacon/questionnaire-service/utils"
 	"github.com/rabbitmq/amqp091-go"
-	"log"
-	"time"
 )
 
 func failOnError(err error, msg string) {
@@ -16,7 +17,7 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func convertToNotificationJSON(receiver models.NotificationDTO) []byte {
+func convertToNotificationJSON(receiver models.Notification) []byte {
 	notification := models.NotificationQueue{
 		ConsumerEmail: receiver.Email,
 		Title:         "Анонимный опрос",
@@ -29,7 +30,7 @@ func convertToNotificationJSON(receiver models.NotificationDTO) []byte {
 	return jsonMessage
 }
 
-func SendNotification(receivers []models.NotificationDTO) {
+func SendNotification(receivers []models.Notification) {
 
 	amqpServerURL := utils.GetAMQPUrl()
 
