@@ -25,16 +25,18 @@ func (*TExample) Set(context *gin.Context) {
 	var body models.ExampleBody
 
 	errBody := context.BindJSON(&body)
+
 	if errBody != nil {
 		context.JSON(500, gin.H{"error": errBody.Error()})
 		return
 	}
 
-	_, err := service.Example.Set(body.Value)
+	data, err := service.Example.Set(body.Data)
+
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	context.JSON(200, gin.H{"data": body})
+	context.JSON(200, gin.H{"data": data})
 }

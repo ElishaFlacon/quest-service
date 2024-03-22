@@ -22,20 +22,20 @@ func (*TQuest) GetAll() ([]models.Quest, error) {
 
 func (*TQuest) Create(value string) error {
 	err := database.Quest.Create(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TQuest) Update(value string) error {
 	err := database.Quest.Update(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TQuest) Delete() error {
 	err := database.Quest.Delete()
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TQuest) DeleteAll() error {
 	err := database.Quest.DeleteAll()
-	return core.CultivatingError(err)
+	return err
 }

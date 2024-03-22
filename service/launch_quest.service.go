@@ -22,20 +22,20 @@ func (*TLaunchQuest) GetAll() ([]models.LaunchQuest, error) {
 
 func (*TLaunchQuest) Create(value string) error {
 	err := database.LaunchQuest.Create(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TLaunchQuest) Update(value string) error {
 	err := database.LaunchQuest.Update(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TLaunchQuest) Delete() error {
 	err := database.LaunchQuest.Delete()
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TLaunchQuest) DeleteAll() error {
 	err := database.LaunchQuest.DeleteAll()
-	return core.CultivatingError(err)
+	return err
 }

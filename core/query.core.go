@@ -6,7 +6,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func Query[T comparable](
+func QueryWithCultivating[T comparable](
 	sql string,
 	cultivating func(rows pgx.Rows) (T, error),
 	query func(ctx context.Context, sql string, args ...any) (pgx.Rows, error),
@@ -32,4 +32,19 @@ func Query[T comparable](
 	}
 
 	return data, nil
+}
+
+func QueryWithoutCultivating(
+	sql string,
+	query func(ctx context.Context, sql string, args ...any) (pgx.Rows, error),
+	args ...any,
+) error {
+	rows, err := query(context.Background(), sql, args...)
+
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	return nil
 }

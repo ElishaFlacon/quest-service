@@ -22,20 +22,20 @@ func (*TResult) GetAll() ([]models.Result, error) {
 
 func (*TResult) Create(value string) error {
 	err := database.Result.Create(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TResult) Update(value string) error {
 	err := database.Result.Update(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TResult) Delete() error {
 	err := database.Result.Delete()
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TResult) DeleteAll() error {
 	err := database.Result.DeleteAll()
-	return core.CultivatingError(err)
+	return err
 }

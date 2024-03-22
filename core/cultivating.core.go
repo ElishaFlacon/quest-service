@@ -8,6 +8,7 @@ func CultivatingData[T comparable](data []T, err error) ([]T, error) {
 	return data, nil
 }
 
+// TODO: скорее всего стоит убрать из-за ненадобности
 func CultivatingError(err error) error {
 	if err != nil {
 		return err

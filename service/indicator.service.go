@@ -22,20 +22,20 @@ func (*TIndicator) GetAll() ([]models.Indicator, error) {
 
 func (*TIndicator) Create(value string) error {
 	err := database.Indicator.Create(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TIndicator) Update(value string) error {
 	err := database.Indicator.Update(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TIndicator) Delete() error {
 	err := database.Indicator.Delete()
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TIndicator) DeleteAll() error {
 	err := database.Indicator.DeleteAll()
-	return core.CultivatingError(err)
+	return err
 }

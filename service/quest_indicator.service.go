@@ -22,20 +22,20 @@ func (*TQuestIndicator) GetAll() ([]models.QuestIndicator, error) {
 
 func (*TQuestIndicator) Create(value string) error {
 	err := database.QuestIndicator.Create(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TQuestIndicator) Update(value string) error {
 	err := database.QuestIndicator.Update(value)
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TQuestIndicator) Delete() error {
 	err := database.QuestIndicator.Delete()
-	return core.CultivatingError(err)
+	return err
 }
 
 func (*TQuestIndicator) DeleteAll() error {
 	err := database.QuestIndicator.DeleteAll()
-	return core.CultivatingError(err)
+	return err
 }

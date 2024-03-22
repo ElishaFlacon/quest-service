@@ -6,5 +6,5 @@ type Example struct {
 }
 
 type ExampleBody struct {
-	Value string `json:"value"`
+	Data [][]any `json:"data"`
 }
