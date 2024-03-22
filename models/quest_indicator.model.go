@@ -1,5 +1,5 @@
 package models
 
 type QuestIndicator struct {
-	Id int
+	Id int `json:"id"`
 }

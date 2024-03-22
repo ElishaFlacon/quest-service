@@ -1,13 +1,10 @@
 package controllers
 
 import (
+	"github.com/ElishaFlacon/questionnaire-service/models"
 	"github.com/ElishaFlacon/questionnaire-service/service"
 	"github.com/gin-gonic/gin"
 )
-
-type TExampleBody struct {
-	Value string
-}
 
 type TExample struct{}
 
@@ -25,7 +22,7 @@ func (*TExample) Get(context *gin.Context) {
 }
 
 func (*TExample) Set(context *gin.Context) {
-	var body TExampleBody
+	var body models.ExampleBody
 
 	errBody := context.BindJSON(&body)
 	if errBody != nil {
@@ -33,7 +30,7 @@ func (*TExample) Set(context *gin.Context) {
 		return
 	}
 
-	err := service.Example.Set(body.Value)
+	_, err := service.Example.Set(body.Value)
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
 		return

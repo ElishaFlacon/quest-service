@@ -1,32 +1,22 @@
 package database
 
 import (
-	"context"
-
+	"github.com/ElishaFlacon/questionnaire-service/core"
 	"github.com/ElishaFlacon/questionnaire-service/models"
+	"github.com/jackc/pgx/v5"
 )
 
 type IExample interface {
 	Get() ([]models.Example, error)
-	Set(value string) error
+	Set(value string) ([]models.Example, error)
 }
 
 var Example IExample
 
 func (repo *TDatabase) Get() ([]models.Example, error) {
-	rows, err := repo.db.Query(
-		context.Background(),
-		`SELECT * FROM example;`,
-	)
+	sqlstring := `SELECT * FROM example;`
 
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var data []models.Example
-
-	for rows.Next() {
+	cultivating := func(rows pgx.Rows) (models.Example, error) {
 		var item models.Example
 
 		err := rows.Scan(
@@ -34,27 +24,39 @@ func (repo *TDatabase) Get() ([]models.Example, error) {
 			&item.Value,
 		)
 
-		if err != nil {
-			return nil, err
-		}
-
-		data = append(data, item)
+		return item, err
 	}
 
-	return data, nil
+	data, err := core.Query(
+		sqlstring,
+		cultivating,
+		repo.db.Query,
+	)
+
+	return data, err
 }
 
-func (repo *TDatabase) Set(value string) error {
-	rows, err := repo.db.Query(
-		context.Background(),
-		`INSERT INTO example (value) VALUES ($1);`,
+func (repo *TDatabase) Set(value string) ([]models.Example, error) {
+	sqlstring := `INSERT INTO example (value) VALUES ($1);`
+
+	cultivating := func(rows pgx.Rows) (models.Example, error) {
+		var item models.Example
+
+		err := rows.Scan(
+			&item.Id,
+			&item.Value,
+		)
+
+		return item, err
+	}
+
+	data, err := core.Query(
+		sqlstring,
+		cultivating,
+		repo.db.Query,
 		value,
 	)
 
-	if err != nil {
-		return err
-	}
-	defer rows.Close()
+	return data, err
 
-	return nil
 }

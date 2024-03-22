@@ -1,5 +1,5 @@
 package models
 
 type LaunchQuest struct {
-	Id int
+	Id int `json:"id"`
 }
