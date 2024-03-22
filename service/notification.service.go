@@ -29,7 +29,7 @@ func convertToNotificationJSON(receiver models.NotificationDTO) []byte {
 	return jsonMessage
 }
 
-func sendNotification(receivers []models.NotificationDTO) {
+func SendNotification(receivers []models.NotificationDTO) {
 
 	amqpServerURL := utils.GetAMQPUrl()
 
