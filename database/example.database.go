@@ -3,7 +3,6 @@ package database
 import (
 	"context"
 
-	"github.com/ElishaFlacon/questionnaire-service/core"
 	"github.com/ElishaFlacon/questionnaire-service/models"
 	"github.com/jackc/pgx/v5"
 )
