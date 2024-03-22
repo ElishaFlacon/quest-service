@@ -1,5 +1,9 @@
 package models
 
 type Quest struct {
-	Id int `json:"id"`
+	IdQuest     int    `json:"id_quest"`
+	Available   bool   `json:"available"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Link        string `json:"link"`
 }
