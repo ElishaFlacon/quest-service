@@ -6,45 +6,47 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func QueryWithCultivating[T comparable](
-	sql string,
-	cultivating func(rows pgx.Rows) (T, error),
-	query func(ctx context.Context, sql string, args ...any) (pgx.Rows, error),
+type TQuery func(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
+type TCopyFrom func(ctx context.Context, tableName pgx.Identifier, columnNames []string, rowSrc pgx.CopyFromSource) (int64, error)
+
+// подходит для селектов
+func QueryWithReturningData[T comparable](
+	sqlString string,
+	query TQuery,
 	args ...any,
-) ([]T, error) {
-	rows, err := query(context.Background(), sql, args...)
+) ([]*T, error) {
+	rows, err := query(context.Background(), sqlString, args...)
 
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
 
-	var data []T
-
-	for rows.Next() {
-		item, err := cultivating(rows)
-
-		if err != nil {
-			return nil, err
-		}
-
-		data = append(data, item)
-	}
-
-	return data, nil
-}
-
-func QueryWithoutCultivating(
-	sql string,
-	query func(ctx context.Context, sql string, args ...any) (pgx.Rows, error),
-	args ...any,
-) error {
-	rows, err := query(context.Background(), sql, args...)
+	data, err := pgx.CollectRows(rows, pgx.RowToAddrOfStructByName[T])
 
 	if err != nil {
-		return err
+		return nil, err
 	}
-	defer rows.Close()
 
-	return nil
+	return data, err
+}
+
+// подходит для инсертов, обновлений, удалений
+func QueryWithReturningCount(
+	tableName string,
+	columnNames []string,
+	rows [][]any,
+	copyFrom TCopyFrom,
+) (int64, error) {
+	count, err := copyFrom(
+		context.Background(),
+		pgx.Identifier{tableName},
+		columnNames,
+		pgx.CopyFromRows(rows),
+	)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return count, err
 }

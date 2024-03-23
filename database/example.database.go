@@ -1,10 +1,8 @@
 package database
 
 import (
-	"context"
-
+	"github.com/ElishaFlacon/questionnaire-service/core"
 	"github.com/ElishaFlacon/questionnaire-service/models"
-	"github.com/jackc/pgx/v5"
 )
 
 type IExample interface {
@@ -15,32 +13,18 @@ type IExample interface {
 var Example IExample
 
 func (repo *TDatabase) Get() ([]*models.Example, error) {
-	rows, err := repo.db.Query(context.Background(), "SELECT * FROM example;")
+	sqlString := `SELECT * FROM example;`
 
-	if err != nil {
-		return nil, err
-	}
-
-	data, err := pgx.CollectRows(rows, pgx.RowToAddrOfStructByName[models.Example])
-
-	if err != nil {
-		return nil, err
-	}
+	data, err := core.QueryWithReturningData[models.Example](sqlString, repo.db.Query)
 
 	return data, err
 }
 
 func (repo *TDatabase) Set(rows [][]any) (int64, error) {
-	count, err := repo.db.CopyFrom(
-		context.Background(),
-		pgx.Identifier{"example"},
-		[]string{"value"},
-		pgx.CopyFromRows(rows),
-	)
+	tableName := "example"
+	columnNames := []string{"value"}
 
-	if err != nil {
-		return 0, err
-	}
+	count, err := core.QueryWithReturningCount(tableName, columnNames, rows, repo.db.CopyFrom)
 
 	return count, err
 }
