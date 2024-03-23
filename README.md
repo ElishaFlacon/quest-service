@@ -72,51 +72,51 @@
 <h3>Структура проекта:</h3>
 
 <pre>
-    config - директория конфигов для приложения
-    └─── *NAME.config.go* - название конфиг файла, каждый файл выполняет только одну функцию
-    └─── index.config.go - точка входа в конфиг файл, метод Init, в нем вызываются все остальные конфиги
+config - директория конфигов для приложения
+└─── *NAME.config.go* - название конфиг файла, каждый файл выполняет только одну функцию
+└─── index.config.go - точка входа в конфиг файл, метод Init, в нем вызываются все остальные конфиги
 
-    controllers - директория 
-    └─── *NAME.controller.go* - 
-    
-    core - директория 
-    └─── *NAME.core.go* - 
+controllers - директория 
+└─── *NAME.controller.go* - 
 
-    database - директория 
-    └─── *NAME.database.go* - 
+core - директория 
+└─── *NAME.core.go* - 
 
-    middlewares - директория 
-    └─── *NAME.middleware.go* - 
+database - директория 
+└─── *NAME.database.go* - 
 
-    migrations - директория 
-    └─── *NAME.migration.go* - 
+middlewares - директория 
+└─── *NAME.middleware.go* - 
 
-    models - директория 
-    └─── *NAME.model.go* - 
+migrations - директория 
+└─── *NAME.migration.go* - 
 
-    routes - директория 
-    └─── *NAME.route.go* - 
+models - директория 
+└─── *NAME.model.go* - 
 
-    service - директория 
-    └─── *NAME.service.go* - 
+routes - директория 
+└─── *NAME.route.go* - 
 
-    tests - директория тестов, надеемся они появятся...
-    └─── *NAME.test.go* - 
+service - директория 
+└─── *NAME.service.go* - 
 
-    utils - директория 
-    └─── *NAME.util.go* - 
-    
+tests - директория тестов, надеемся они появятся...
+└─── *NAME.test.go* - 
 
-    .env-example -
-    .gitignore -
-    docker-compose.yml -
-    dockerfile -
-    go.mod -
-    go.sum -
-    goose.ps1 - 
-    goose.sh - 
-    main.go - точка входа в приложения
-    README.md - сокровище этого проекта
+utils - директория 
+└─── *NAME.util.go* - 
+
+
+.env-example -
+.gitignore -
+docker-compose.yml -
+dockerfile -
+go.mod -
+go.sum -
+goose.ps1 - 
+goose.sh - 
+main.go - точка входа в приложения
+README.md - сокровище этого проекта
 </pre>
 
 
