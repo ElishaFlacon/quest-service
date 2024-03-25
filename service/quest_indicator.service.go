@@ -10,13 +10,13 @@ type TQuestIndicator struct{}
 
 var QuestIndicator *TQuestIndicator
 
-func (*TQuestIndicator) Get() ([]models.QuestIndicator, error) {
-	data, err := database.QuestIndicator.Get()
-	return core.CultivatingData(data, err)
+func (*TQuestIndicator) Get(id int) (models.QuestIndicator, error) {
+	data, err := core.CultivatingOneData(database.QuestIndicator.GetQuestIndicator(id))
+	return *data, err
 }
 
 func (*TQuestIndicator) GetAll() ([]models.QuestIndicator, error) {
-	data, err := database.QuestIndicator.GetAll()
+	data, err := database.QuestIndicator.GetAllQuestIndicators()
 	return core.CultivatingData(data, err)
 }
 

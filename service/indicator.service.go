@@ -10,13 +10,13 @@ type TIndicator struct{}
 
 var Indicator *TIndicator
 
-func (*TIndicator) Get() ([]models.Indicator, error) {
-	data, err := database.Indicator.Get()
-	return core.CultivatingData(data, err)
+func (*TIndicator) Get(id int) (models.Indicator, error) {
+	data, err := core.CultivatingOneData(database.Indicator.GetIndicator(id))
+	return *data, err
 }
 
 func (*TIndicator) GetAll() ([]models.Indicator, error) {
-	data, err := database.Indicator.GetAll()
+	data, err := database.Indicator.GetAllIndicators()
 	return core.CultivatingData(data, err)
 }
 

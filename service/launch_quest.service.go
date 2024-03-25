@@ -10,13 +10,13 @@ type TLaunchQuest struct{}
 
 var LaunchQuest *TLaunchQuest
 
-func (*TLaunchQuest) Get() ([]models.LaunchQuest, error) {
-	data, err := database.LaunchQuest.Get()
-	return core.CultivatingData(data, err)
+func (*TLaunchQuest) Get(id int) (models.LaunchQuest, error) {
+	data, err := core.CultivatingOneData(database.LaunchQuest.GetLaunchQuest(id))
+	return *data, err
 }
 
 func (*TLaunchQuest) GetAll() ([]models.LaunchQuest, error) {
-	data, err := database.LaunchQuest.GetAll()
+	data, err := database.LaunchQuest.GetAllLaunchQuests()
 	return core.CultivatingData(data, err)
 }
 

@@ -10,13 +10,13 @@ type TQuest struct{}
 
 var Quest *TQuest
 
-func (*TQuest) Get() ([]models.Quest, error) {
-	data, err := database.Quest.Get()
-	return core.CultivatingData(data, err)
+func (*TQuest) Get(id int) (models.Quest, error) {
+	data, err := core.CultivatingOneData(database.Quest.GetQuest(id))
+	return *data, err
 }
 
 func (*TQuest) GetAll() ([]models.Quest, error) {
-	data, err := database.Quest.GetAll()
+	data, err := database.Quest.GetAllQuests()
 	return core.CultivatingData(data, err)
 }
 
