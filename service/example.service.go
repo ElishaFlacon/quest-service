@@ -10,12 +10,17 @@ type TExample struct{}
 
 var Example *TExample
 
-func (*TExample) Get() ([]*models.Example, error) {
-	data, err := database.Example.Get()
+func (*TExample) GetAll() ([]*models.Example, error) {
+	data, err := database.Example.GetAll()
 	return core.CultivatingData(data, err)
 }
 
-func (*TExample) Set(rows [][]any) (int64, error) {
-	count, err := database.Example.Set(rows)
+func (*TExample) Create(rows [][]any) (int64, error) {
+	count, err := database.Example.Create(rows)
 	return count, err
+}
+
+func (*TExample) Update(id int, value string) ([]*models.Example, error) {
+	data, err := database.Example.Update(id, value)
+	return core.CultivatingData(data, err)
 }

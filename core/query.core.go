@@ -30,7 +30,7 @@ func QueryWithReturningData[T comparable](
 	return data, err
 }
 
-// подходит для инсертов, обновлений, удалений
+// подходит для инсертов, удалений
 func QueryWithReturningCount(
 	tableName string,
 	columnNames []string,
