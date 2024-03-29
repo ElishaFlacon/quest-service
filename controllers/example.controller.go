@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"github.com/ElishaFlacon/questionnaire-service/cruds"
 	"github.com/ElishaFlacon/questionnaire-service/models"
-	"github.com/ElishaFlacon/questionnaire-service/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,7 +11,7 @@ type TExample struct{}
 var Example *TExample
 
 func (*TExample) GetAll(context *gin.Context) {
-	data, err := service.Example.GetAll()
+	data, err := cruds.Example.GetAll()
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
@@ -31,7 +31,7 @@ func (*TExample) Create(context *gin.Context) {
 		return
 	}
 
-	data, err := service.Example.Create(body.Data)
+	data, err := cruds.Example.Create(body.Data)
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
@@ -51,7 +51,7 @@ func (*TExample) Update(context *gin.Context) {
 		return
 	}
 
-	data, err := service.Example.Update(body.Id, body.Value)
+	data, err := cruds.Example.Update(body.Id, body.Value)
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
