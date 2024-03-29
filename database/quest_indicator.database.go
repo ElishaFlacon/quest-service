@@ -1,16 +1,7 @@
 package database
 
-import (
-	"github.com/ElishaFlacon/questionnaire-service/models"
-)
-
-type IQuestIndicator interface {
-	Get() ([]models.QuestIndicator, error)
-	GetAll() ([]models.QuestIndicator, error)
-	Create(value string) error
-	Update(value string) error
-	Delete() error
-	DeleteAll() error
+type TQuestIndicator struct {
+	repo *TDatabase
 }
 
-var QuestIndicator IQuestIndicator
+var QuestIndicator *TQuestIndicator

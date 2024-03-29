@@ -8,8 +8,10 @@ import (
 )
 
 type TDatabase struct {
-	db *pgxpool.Pool
+	*pgxpool.Pool
 }
+
+var Database *TDatabase
 
 func Init(database_url string) {
 	db, err := pgxpool.New(context.Background(), database_url)
@@ -18,6 +20,5 @@ func Init(database_url string) {
 		log.Fatal("Error create connection pool: ", database_url, err)
 	}
 
-	Example = &TDatabase{db: db}
-	// Indicator = &TDatabase{db: db}
+	Database = &TDatabase{db}
 }
