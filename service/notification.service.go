@@ -11,11 +11,9 @@ import (
 	"github.com/rabbitmq/amqp091-go"
 )
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
-}
+type TNotification struct{}
+
+var Notification *TNotification
 
 func convertToNotificationJSON(receiver models.Notification) []byte {
 	notification := models.NotificationQueue{
@@ -26,20 +24,20 @@ func convertToNotificationJSON(receiver models.Notification) []byte {
 		ButtonName:    "Перейти по ссылке",
 	}
 	jsonMessage, err := json.Marshal(notification)
-	failOnError(err, "Failed to convertToJson")
+	utils.FailMessage(err, "Failed to convertToJson")
 	return jsonMessage
 }
 
-func SendNotification(receivers []models.Notification) {
+func (*TNotification) SendNotification(receivers []models.Notification) {
 
 	amqpServerURL := utils.GetAMQPUrl()
 
 	connectRabbitMQ, err := amqp091.Dial(amqpServerURL)
-	failOnError(err, "Failed to connect to RabbitMQ")
+	utils.FailMessage(err, "Failed to connect to RabbitMQ")
 	defer connectRabbitMQ.Close()
 
 	channelRabbitMQ, err := connectRabbitMQ.Channel()
-	failOnError(err, "Failed to open a channel")
+	utils.FailMessage(err, "Failed to open a channel")
 	defer channelRabbitMQ.Close()
 
 	q, err := channelRabbitMQ.QueueDeclare(
@@ -50,7 +48,7 @@ func SendNotification(receivers []models.Notification) {
 		true,
 		nil,
 	)
-	failOnError(err, "Failed to declare a queue")
+	utils.FailMessage(err, "Failed to declare a queue")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -66,7 +64,7 @@ func SendNotification(receivers []models.Notification) {
 				ContentType: "application/json",
 				Body:        notification,
 			})
-		failOnError(err, "Failed to publish a message")
+		utils.FailMessage(err, "Failed to publish a message")
 		log.Printf(" [x] Sent %s\n", notification)
 	}
 }
