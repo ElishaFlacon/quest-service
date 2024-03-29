@@ -1,9 +1,9 @@
 <h1> 
-    ❓ Questionnaire Service 
+    ❓ Quest Service 
 </h1>
 
 <h3>
-    Questionnaire Service - это микросервис опросник
+    Quest Service - это микросервис опросник
 </h3>
 
 
@@ -33,14 +33,14 @@
 </h2>
 
 - Зпускаем локально:
-    - `git clone https://github.com/ElishaFlacon/questionnaire-service.git`
+    - `git clone https://github.com/ElishaFlacon/quest-service.git`
     - `cd questionnaire-service`
     - `cp .env-example .env`
     - `go run`
 
 - Зпускаем через Docker (может не работать):
     - устанавливаем Docker
-    - `git clone https://github.com/ElishaFlacon/questionnaire-service.git`
+    - `git clone https://github.com/ElishaFlacon/quest-service.git`
     - `cd questionnaire-service`
     - `docker-compose build`
     - `docker-compose run`
