@@ -36,7 +36,7 @@
     - `git clone https://github.com/ElishaFlacon/quest-service.git`
     - `cd questionnaire-service`
     - `cp .env-example .env`
-    - `go run`
+    - `go run` или `air` для запуска live mode (используйте `air -c .air.toml` при первом запуске)
 
 - Зпускаем через Docker (может не работать):
     - устанавливаем Docker
