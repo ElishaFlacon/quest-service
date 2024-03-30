@@ -1,10 +1,10 @@
 package models
 
 type LaunchQuest struct {
-	IdLaunchQuest int  `json:"id_launch_quest"`
-	IdQuest       int  `json:"id_quest"`
-	IdTeam        int  `json:"id_team"`
+	IdLaunchQuest int  `json:"idLaunchQuest"`
+	IdQuest       int  `json:"idQuest"`
+	IdTeam        int  `json:"idTeam"`
 	Available     bool `json:"available"`
-	StartAt       int  `json:"start_at"`
-	EndAt         int  `json:"end_at"`
+	StartAt       int  `json:"startAt"`
+	EndAt         int  `json:"endAt"`
 }
