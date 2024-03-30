@@ -4,4 +4,6 @@ import (
 	"os"
 )
 
-func GetAMQPExchange() string { return os.Getenv("AMQP_EXCHANGE") }
+func GetAMQPExchange() string {
+	return os.Getenv("AMQP_EXCHANGE")
+}
