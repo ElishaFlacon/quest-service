@@ -5,10 +5,9 @@ services:
     image: quest
     build:
       context: .
-      dockerfile: dockerfile.dev
+      dockerfile: dockerfile
     ports:
       - "5000:5000"
     env_file:
       - .env
-    volumes: 
-      - ./:/app
+
