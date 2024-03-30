@@ -1,10 +1,10 @@
 package models
 
 type Result struct {
-	IdResult      int    `json:"id_result"`
-	IdIndicator   int    `json:"id_indicator"`
-	IdLaunchQuest int    `json:"id_launch_quest"`
-	IdFromUser    int    `json:"id_from_user"`
-	IdToUser      int    `json:"id_to_user"`
+	IdResult      int    `json:"idResult"`
+	IdIndicator   int    `json:"idIndicator"`
+	IdLaunchQuest int    `json:"idLaunchQuest"`
+	IdFromUser    int    `json:"idFromUser"`
+	IdToUser      int    `json:"idToUser"`
 	Value         string `json:"value"`
 }

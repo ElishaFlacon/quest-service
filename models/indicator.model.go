@@ -1,7 +1,7 @@
 package models
 
 type Indicator struct {
-	IdIndicator int    `json:"id_indicator"`
+	IdIndicator int    `json:"idIndicator"`
 	Value       string `json:"value"`
 	Description string `json:"description"`
 	Type        string `json:"type"`
