@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS example (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS indicator (
 	id_indicator SERIAL NOT NULL UNIQUE,
-	value VARCHAR(255) NOT NULL,
+	name VARCHAR(255) NOT NULL,
 	description VARCHAR(255),
 	role VARCHAR(255) DEFAULT 'all',
 	visible BOOLEAN DEFAULT true,
