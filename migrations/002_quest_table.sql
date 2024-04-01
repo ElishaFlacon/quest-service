@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS template (
 CREATE TABLE IF NOT EXISTS quest (
     id_quest SERIAL NOT NULL UNIQUE,
     id_template INT NOT NULL,
-    id_team INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     available BOOLEAN DEFAULT true,
@@ -68,7 +67,7 @@ CREATE TABLE IF NOT EXISTS team (
 CREATE TABLE IF NOT EXISTS result (
     id_result SERIAL NOT NULL UNIQUE,
     id_indicator INT NOT NULL,
-    id_launch_quest INT NOT NULL,
+    id_quest INT NOT NULL,
     id_from_user INT NOT NULL,
     id_to_user INT NOT NULL,
     value VARCHAR(255) NOT NULL,
@@ -77,10 +76,10 @@ CREATE TABLE IF NOT EXISTS result (
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-ALTER TABLE template_indicator ADD CONSTRAINT template_indicator_fk1 FOREIGN KEY (id_template) REFERENCES quest(id_template);
+ALTER TABLE template_indicator ADD CONSTRAINT template_indicator_fk1 FOREIGN KEY (id_template) REFERENCES template(id_template);
 ALTER TABLE template_indicator ADD CONSTRAINT template_indicator_fk2 FOREIGN KEY (id_indicator) REFERENCES indicator(id_indicator);
-ALTER TABLE result ADD CONSTRAINT result_fk1 FOREIGN KEY (id_launch_quest) REFERENCES launch_quest(id_launch_quest);
-ALTER TABLE launch_quest ADD CONSTRAINT launch_quest_fk1 FOREIGN KEY (id_quest) REFERENCES quest(id_quest);
+ALTER TABLE quest ADD CONSTRAINT quest_fk1 FOREIGN KEY (id_template) REFERENCES template(id_template);
+ALTER TABLE result ADD CONSTRAINT result_fk1 FOREIGN KEY (id_quest) REFERENCES quest(id_quest);
 -- +goose StatementEnd
 
 
@@ -90,10 +89,10 @@ ALTER TABLE launch_quest ADD CONSTRAINT launch_quest_fk1 FOREIGN KEY (id_quest) 
 -- +goose Down
 
 -- +goose StatementBegin
-ALTER TABLE quest_indicator DROP CONSTRAINT IF EXISTS quest_indicator_fk1;
-ALTER TABLE quest_indicator DROP CONSTRAINT IF EXISTS quest_indicator_fk2;
+ALTER TABLE template_indicator DROP CONSTRAINT IF EXISTS template_indicator_fk1;
+ALTER TABLE template_indicator DROP CONSTRAINT IF EXISTS template_indicator_fk2;
+ALTER TABLE quest DROP CONSTRAINT IF EXISTS quest_fk1;
 ALTER TABLE result DROP CONSTRAINT IF EXISTS result_fk1;
-ALTER TABLE launch_quest DROP CONSTRAINT IF EXISTS launch_quest_fk1;
 -- +goose StatementEnd
 
 -- +goose StatementBegin
@@ -105,7 +104,11 @@ DROP TABLE IF EXISTS indicator;
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-DROP TABLE IF EXISTS quest_indicator;
+DROP TABLE IF EXISTS template_indicator;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP TABLE IF EXISTS template;
 -- +goose StatementEnd
 
 -- +goose StatementBegin
@@ -113,7 +116,7 @@ DROP TABLE IF EXISTS quest;
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-DROP TABLE IF EXISTS launch_quest;
+DROP TABLE IF EXISTS team;
 -- +goose StatementEnd
 
 -- +goose StatementBegin
