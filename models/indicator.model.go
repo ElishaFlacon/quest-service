@@ -8,3 +8,9 @@ type Indicator struct {
 	Role        string `json:"role"`
 	Visible     bool   `json:"visible"`
 }
+
+type IndicatorResponse struct {
+	IdIndicator int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}

@@ -6,7 +6,8 @@ import (
 )
 
 func Example(app *gin.Engine) {
-	app.GET("/example", controllers.Example.GetAll)
-	app.POST("/example", controllers.Example.Create)
-	app.PUT("/example", controllers.Example.Update)
+	example := app.Group("/example")
+	example.GET("/all", controllers.Example.GetAll)
+	example.POST("/create", controllers.Example.Create)
+	example.PUT("/update", controllers.Example.Update)
 }
