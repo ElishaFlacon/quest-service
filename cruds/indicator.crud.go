@@ -30,7 +30,7 @@ func (init *TIndicator) GetAll() ([]*models.Indicator, error) {
 }
 
 func (init *TIndicator) Create(rows [][]any) (int64, error) {
-	columnNames := []string{"value", "description", "type", "role", "visible"}
+	columnNames := []string{"name", "description", "role", "visible"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
 
@@ -39,20 +39,19 @@ func (init *TIndicator) Create(rows [][]any) (int64, error) {
 
 func (init *TIndicator) Update(
 	id int,
-	value string,
+	name string,
 	description string,
-	itype string,
 	role string,
 	visible bool,
 ) ([]*models.Indicator, error) {
 	sqlString := `
 		UPDATE "indicator" 
-		SET (value, description, type, role, visible) 
-		VALUES ($2, $3, $4, $5, $6)
+		SET (name, description, role, visible) 
+		VALUES ($2, $3, $4, $5)
 		WHERE id_indicator=$1 
 		RETURNING *;
 	`
-	args := []any{id, value, description, itype, role, visible}
+	args := []any{id, name, description, role, visible}
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
