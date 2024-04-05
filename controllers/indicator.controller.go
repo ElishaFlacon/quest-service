@@ -14,10 +14,10 @@ var Indicator *TIndicator
 
 func (*TIndicator) Get(context *gin.Context) {
 	params := context.Params
-	strId, paramErr := params.Get("id")
+	strId, paramGood := params.Get("id")
 	id, atoiErr := strconv.Atoi(strId)
 
-	if paramErr || atoiErr != nil {
+	if !paramGood || atoiErr != nil {
 		context.JSON(400, gin.H{"error": "Request params error!"})
 		return
 	}
@@ -45,10 +45,10 @@ func (*TIndicator) GetAll(context *gin.Context) {
 
 func (*TIndicator) GetByQuestId(context *gin.Context) {
 	params := context.Params
-	strId, paramErr := params.Get("id")
+	strId, paramGood := params.Get("id")
 	id, atoiErr := strconv.Atoi(strId)
 
-	if paramErr || atoiErr != nil {
+	if !paramGood || atoiErr != nil {
 		context.JSON(400, gin.H{"error": "Request params error!"})
 		return
 	}
