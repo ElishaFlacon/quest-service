@@ -22,17 +22,16 @@ func (*TIndicator) GetAll() ([]*models.IndicatorResponse, error) {
 	return data, err
 }
 
-func (*TIndicator) GetAllForQuest(idQuest int, idTeam int) ([]*models.IndicatorResponse, error) {
+func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorResponse, error) {
 	sqlString := `
 		SELECT * FROM "indicator"
 		INNER JOIN "template_indicator" ON "indicator".id_indicator = "template_indicator".id_template_indicator
 		INNER JOIN "template" ON "template_indicator".id_template_indicator = "template".id_template
 		INNER JOIN "quest" ON "template".id_template = "id_quest".id_quest
-		WHERE id_quest = $1 AND id_team = $2 
+		WHERE id_quest = $1
 	`
-	args := []any{idQuest, idTeam}
 
-	data, err := database.BaseQuery[models.IndicatorResponse](sqlString, args...)
+	data, err := database.BaseQuery[models.IndicatorResponse](sqlString, id)
 
 	return data, err
 }

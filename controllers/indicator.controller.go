@@ -43,19 +43,17 @@ func (*TIndicator) GetAll(context *gin.Context) {
 	context.JSON(200, gin.H{"data": data})
 }
 
-func (*TIndicator) GetAllForQuest(context *gin.Context) {
-	var body struct {
-		IdQuest int `json:"idQuest"`
-		IdTeam  int `json:"idTeam"`
-	}
-	errBody := context.BindJSON(&body)
+func (*TIndicator) GetByQuestId(context *gin.Context) {
+	params := context.Params
+	strId, paramErr := params.Get("id")
+	id, atoiErr := strconv.Atoi(strId)
 
-	if errBody != nil {
-		context.JSON(400, gin.H{"error": errBody.Error()})
+	if paramErr || atoiErr != nil {
+		context.JSON(400, gin.H{"error": "Request params error!"})
 		return
 	}
 
-	data, err := service.Indicator.GetAllForQuest(body.IdQuest, body.IdTeam)
+	data, err := service.Indicator.GetByQuestId(id)
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
