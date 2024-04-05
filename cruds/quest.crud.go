@@ -30,7 +30,7 @@ func (init *TQuest) GetAll() ([]*models.Quest, error) {
 }
 
 func (init *TQuest) Create(rows [][]any) (int64, error) {
-	columnNames := []string{"name", "description", "available"}
+	columnNames := []string{"name", "description", "available", "start_at", "end_at"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
 
@@ -42,15 +42,17 @@ func (init *TQuest) Update(
 	name string,
 	description string,
 	available bool,
+	startAt int,
+	endAt int,
 ) ([]*models.Quest, error) {
 	sqlString := `
 		UPDATE "quest"
-		SET (name, description, available)
-		VALUES ($2, $3, $4)
+		SET (name, description, available, start_at, end_at)
+		VALUES ($2, $3, $4, $5, $6)
 		WHERE id_quest = $1 
 		RETURNING *;
 	`
-	args := []any{id, name, description, available}
+	args := []any{id, name, description, available, startAt, endAt}
 
 	data, err := database.BaseQuery[models.Quest](sqlString, args...)
 
