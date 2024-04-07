@@ -10,5 +10,5 @@ func Indicator(app *gin.Engine) {
 	indicator.GET("/:id", controllers.Indicator.Get)
 	indicator.GET("/all", controllers.Indicator.GetAll)
 	indicator.GET("/quest/:id", controllers.Indicator.GetByQuestId)
-	indicator.POST("/create", controllers.Example.Create)
+	indicator.POST("/create", controllers.Indicator.Create)
 }

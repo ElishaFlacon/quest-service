@@ -8,6 +8,7 @@ func Init(app *gin.Engine) {
 	routes := []func(app *gin.Engine){
 		Example,
 		Indicator,
+		Template,
 	}
 
 	for index := 0; len(routes) > index; index++ {
