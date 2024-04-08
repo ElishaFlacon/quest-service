@@ -1,8 +1,8 @@
 package cruds
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/database"
-	"github.com/ElishaFlacon/questionnaire-service/models"
+	"github.com/ElishaFlacon/quest-service/database"
+	"github.com/ElishaFlacon/quest-service/models"
 )
 
 type TExample struct {

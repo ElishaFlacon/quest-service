@@ -1,9 +1,8 @@
 package service
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/cruds"
-	"github.com/ElishaFlacon/questionnaire-service/database"
-	"github.com/ElishaFlacon/questionnaire-service/models"
+	"github.com/ElishaFlacon/quest-service/database"
+	"github.com/ElishaFlacon/quest-service/models"
 )
 
 type TIndicator struct {
@@ -14,29 +13,22 @@ var Indicator = &TIndicator{
 	table: "indicator",
 }
 
-func (*TIndicator) GetAll() ([]*models.IndicatorResponse, error) {
-	sqlString := `SELECT id_indicator, name, description FROM "indicator";`
-
-	data, err := database.BaseQuery[models.IndicatorResponse](sqlString)
-
-	return data, err
-}
-
-func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorResponse, error) {
+func (*TIndicator) GetByQuestId(id int) ([]*models.Indicator, error) {
 	sqlString := `
-		SELECT "indicator".id_indicator, "indicator".name, "indicator".description FROM "indicator"
+		SELECT "indicator".id_indicator, "indicator".name, "indicator".description, "indicator".role, "indicator".visible
+		FROM "indicator"
 		INNER JOIN "template_indicator" ON "indicator".id_indicator = "template_indicator".id_indicator
 		INNER JOIN "template" ON "template_indicator".id_template = "template".id_template
 		INNER JOIN "quest" ON "template".id_template = "quest".id_template
 		WHERE "quest".id_quest = $1
 	`
 
-	data, err := database.BaseQuery[models.IndicatorResponse](sqlString, id)
+	data, err := database.BaseQuery[models.Indicator](sqlString, id)
 
 	return data, err
 }
 
-func (*TIndicator) GetByQuestAndUserId(idQuest int, idUser int) ([]*models.IndicatorResponse, error) {
+func (*TIndicator) GetByQuestAndUserId(idQuest int, idUser int) ([]*models.Indicator, error) {
 	sqlString := `
 		SELECT * FROM "indicator"
 		INNER JOIN "template_indicator" ON "indicator".id_indicator = "template_indicator".id_template_indicator
@@ -47,24 +39,21 @@ func (*TIndicator) GetByQuestAndUserId(idQuest int, idUser int) ([]*models.Indic
 	`
 	args := []any{idQuest, idUser}
 
-	data, err := database.BaseQuery[models.IndicatorResponse](sqlString, args...)
+	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
 	return data, err
 }
 
-func (*TIndicator) Create(name string, description string, IdCategory int) (*models.IndicatorResponse, error) {
-	args := [][]any{{IdCategory, name, description}}
+func (*TIndicator) Create(name string, description string, role string, visible bool, idCategory int) ([]*models.Indicator, error) {
+	sqlString := `
+		INSERT INTO "indicator" 
+		(name, description, role, visible, id_category) 
+		VALUES ($1, $2, $3, $4, $5) 
+		RETURNING *;
+	`
+	args := []any{name, description, role, true, idCategory}
 
-	count, err := cruds.Indicator.Create(args)
-
-	if count == 0 {
-		return nil, err
-	}
-
-	data := &models.IndicatorResponse{
-		Name:        name,
-		Description: description,
-	}
+	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
 	return data, err
 }

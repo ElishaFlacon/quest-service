@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/database"
-	"github.com/ElishaFlacon/questionnaire-service/models"
+	"github.com/ElishaFlacon/quest-service/database"
+	"github.com/ElishaFlacon/quest-service/models"
 )
 
 type TTemplate struct {
@@ -11,6 +11,21 @@ type TTemplate struct {
 
 var Template = &TTemplate{
 	table: "template",
+}
+
+func (*TIndicator) GetWithIndicators(id int) ([]*models.Indicator, error) {
+	sqlString := `
+		SELECT "indicator".id_indicator, "indicator".name, "indicator".description, "indicator".role, "indicator".visible
+		FROM "indicator"
+		INNER JOIN "template_indicator" ON "indicator".id_indicator = "template_indicator".id_indicator
+		INNER JOIN "template" ON "template_indicator".id_template = "template".id_template
+		INNER JOIN "quest" ON "template".id_template = "quest".id_template
+		WHERE "quest".id_quest = $1
+	`
+
+	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+
+	return data, err
 }
 
 func (*TTemplate) Create(name string, description string, indicators []int) ([]*models.Template, int64, error) {

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/controllers"
+	"github.com/ElishaFlacon/quest-service/controllers"
 	"github.com/gin-gonic/gin"
 )
 

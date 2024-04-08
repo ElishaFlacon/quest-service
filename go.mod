@@ -1,4 +1,4 @@
-module github.com/ElishaFlacon/questionnaire-service
+module github.com/ElishaFlacon/quest-service
 
 go 1.22.0
 

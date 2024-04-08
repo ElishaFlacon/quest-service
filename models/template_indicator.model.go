@@ -1,7 +1,7 @@
 package models
 
 type TemplateIndicator struct {
-	IdTemplateIndicator int `json:"idTemplateIndicator"`
+	IdTemplateIndicator int `json:"id"`
 	IdTemplate          int `json:"idTemplate"`
 	IdIndicator         int `json:"idIndicator"`
 }

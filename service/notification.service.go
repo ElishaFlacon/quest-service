@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/ElishaFlacon/questionnaire-service/models"
-	"github.com/ElishaFlacon/questionnaire-service/utils"
+	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/ElishaFlacon/quest-service/utils"
 	"github.com/rabbitmq/amqp091-go"
 )
 

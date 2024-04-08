@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/cruds"
-	"github.com/ElishaFlacon/questionnaire-service/models"
+	"github.com/ElishaFlacon/quest-service/cruds"
+	"github.com/ElishaFlacon/quest-service/models"
 	"github.com/gin-gonic/gin"
 )
 

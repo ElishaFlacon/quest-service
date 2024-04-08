@@ -1,8 +1,8 @@
 package cruds
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/database"
-	"github.com/ElishaFlacon/questionnaire-service/models"
+	"github.com/ElishaFlacon/quest-service/database"
+	"github.com/ElishaFlacon/quest-service/models"
 )
 
 type TIndicator struct {
@@ -30,7 +30,7 @@ func (init *TIndicator) GetAll() ([]*models.Indicator, error) {
 }
 
 func (init *TIndicator) Create(rows [][]any) (int64, error) {
-	columnNames := []string{"name", "description", "role", "visible"}
+	columnNames := []string{"name", "description", "role", "visible", "id_category"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
 

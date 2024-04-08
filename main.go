@@ -1,12 +1,18 @@
 package main
 
 import (
-	"github.com/ElishaFlacon/questionnaire-service/config"
-	"github.com/ElishaFlacon/questionnaire-service/database"
-	"github.com/ElishaFlacon/questionnaire-service/routes"
-	"github.com/ElishaFlacon/questionnaire-service/utils"
+	"github.com/ElishaFlacon/quest-service/config"
+	"github.com/ElishaFlacon/quest-service/database"
+	"github.com/ElishaFlacon/quest-service/routes"
+	"github.com/ElishaFlacon/quest-service/utils"
 	"github.com/gin-gonic/gin"
 )
+
+// fromRole toRole for indicators
+// перепроверить все
+// слои взаимодействуют ровно по cruds->service->controllers и ни как иначе, пофиксить
+// data не возвращать
+// pizdec
 
 func main() {
 	app := gin.Default()

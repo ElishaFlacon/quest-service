@@ -3,8 +3,8 @@ package controllers
 import (
 	"strconv"
 
-	"github.com/ElishaFlacon/questionnaire-service/cruds"
-	"github.com/ElishaFlacon/questionnaire-service/service"
+	"github.com/ElishaFlacon/quest-service/cruds"
+	"github.com/ElishaFlacon/quest-service/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,11 +29,11 @@ func (*TIndicator) Get(context *gin.Context) {
 		return
 	}
 
-	context.JSON(200, gin.H{"data": data})
+	context.JSON(200, gin.H{"data": data[0]})
 }
 
 func (*TIndicator) GetAll(context *gin.Context) {
-	data, err := service.Indicator.GetAll()
+	data, err := cruds.Indicator.GetAll()
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
@@ -65,9 +65,11 @@ func (*TIndicator) GetByQuestId(context *gin.Context) {
 
 func (*TIndicator) Create(context *gin.Context) {
 	var body struct {
-		IdCategory  int    `json:"idCategory"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
+		Role        string `json:"role"`
+		Visible     bool   `json:"visible"`
+		IdCategory  int    `json:"idCategory"`
 	}
 	errBody := context.BindJSON(&body)
 
@@ -76,12 +78,12 @@ func (*TIndicator) Create(context *gin.Context) {
 		return
 	}
 
-	data, err := service.Indicator.Create(body.Name, body.Description, body.IdCategory)
+	data, err := service.Indicator.Create(body.Name, body.Description, body.Role, body.Visible, body.IdCategory)
 
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	context.JSON(200, gin.H{"data": data})
+	context.JSON(200, gin.H{"data": data[0]})
 }
