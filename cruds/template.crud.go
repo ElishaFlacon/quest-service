@@ -30,7 +30,7 @@ func (init *TTemplate) GetAll() ([]*models.Template, error) {
 }
 
 func (init *TTemplate) Create(rows [][]any) (int64, error) {
-	columnNames := []string{"name", "description", "available"}
+	columnNames := []string{"name", "description", "available", "start_at", "end_at"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
 
@@ -42,11 +42,13 @@ func (init *TTemplate) Update(
 	name string,
 	description string,
 	available bool,
+	startAt int,
+	endAt int,
 ) ([]*models.Template, error) {
 	sqlString := `
 		UPDATE "template"
-		SET (name, description, available)
-		VALUES ($2, $3, $4)
+		SET (name, description, available, start_at, end_at)
+		VALUES ($2, $3, $4, $5, $6)
 		WHERE id_template = $1 
 		RETURNING *;
 	`

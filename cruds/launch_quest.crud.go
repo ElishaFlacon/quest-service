@@ -29,7 +29,15 @@ func (init *TLaunchQuest) GetAll() ([]*models.LaunchQuest, error) {
 	return data, err
 }
 
-func (init *TLaunchQuest) Create(
+func (init *TLaunchQuest) Create(rows [][]any) (int64, error) {
+	columnNames := []string{"available", "start_at", "end_at"}
+
+	count, err := database.CopyFromQuery(init.table, columnNames, rows)
+
+	return count, err
+}
+
+func (init *TLaunchQuest) Update(
 	id int,
 	idTeam int,
 	available bool,
@@ -48,14 +56,6 @@ func (init *TLaunchQuest) Create(
 	data, err := database.BaseQuery[models.LaunchQuest](sqlString, args...)
 
 	return data, err
-}
-
-func (init *TLaunchQuest) Update(rows [][]any) (int64, error) {
-	columnNames := []string{"available", "start_at", "end_at"}
-
-	count, err := database.CopyFromQuery(init.table, columnNames, rows)
-
-	return count, err
 }
 
 func (init *TLaunchQuest) Delete(id int) ([]*models.LaunchQuest, error) {

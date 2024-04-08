@@ -13,6 +13,7 @@ import (
 // слои взаимодействуют ровно по cruds->service->controllers и ни как иначе, пофиксить
 // data не возвращать
 // pizdec
+// переписать форы на for := range
 
 func main() {
 	app := gin.Default()
