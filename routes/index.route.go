@@ -6,6 +6,7 @@ import (
 
 func Init(app *gin.Engine) {
 	routes := []func(app *gin.Engine){
+		Docs,
 		Example,
 		Indicator,
 		Template,
