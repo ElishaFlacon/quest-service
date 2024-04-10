@@ -19,6 +19,7 @@
 - Go
 - Gin
 - Pgx
+- RabbitMQ 
 - PostgreSQL
 - Docker
 
