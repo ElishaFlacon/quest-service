@@ -10,8 +10,8 @@ import (
 
 // fromRole toRole for indicators
 // перепроверить все
-// слои взаимодействуют ровно по cruds->service->controllers и ни как иначе, пофиксить
-// data не возвращать
+// docs
+// взаимодействие слоев
 // переписать форы на for := range
 
 func main() {
