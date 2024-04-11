@@ -9,6 +9,7 @@ func Init(app *gin.Engine) {
 		Example,
 		Indicator,
 		Template,
+		Quest,
 	}
 
 	for index := 0; len(routes) > index; index++ {
