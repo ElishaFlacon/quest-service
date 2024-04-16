@@ -1,10 +1,8 @@
 package controllers
 
 import (
-	"strconv"
-
-	"github.com/ElishaFlacon/quest-service/cruds"
 	"github.com/ElishaFlacon/quest-service/service"
+	"github.com/ElishaFlacon/quest-service/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,78 +10,119 @@ type TIndicator struct{}
 
 var Indicator *TIndicator
 
+// Indicator Get	godoc
+// @Summary	Пример get indicator by id
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/:id [get]
 func (*TIndicator) Get(context *gin.Context) {
-	params := context.Params
-	strId, paramGood := params.Get("id")
-	id, atoiErr := strconv.Atoi(strId)
-
-	if !paramGood || atoiErr != nil {
-		context.JSON(400, gin.H{"error": "Request params error!"})
-		return
-	}
-
-	data, err := cruds.Indicator.Get(id)
-
-	if err != nil {
-		context.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	context.JSON(200, gin.H{"data": data[0]})
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Indicator.Get(id)
+	utils.CultivateServiceData(context, data, errData)
 }
 
+// Indicator GetAll	godoc
+// @Summary	Пример get all indicators
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{array}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/:id [get]
 func (*TIndicator) GetAll(context *gin.Context) {
-	data, err := cruds.Indicator.GetAll()
-
-	if err != nil {
-		context.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	context.JSON(200, gin.H{"data": data})
+	data, errData := service.Indicator.GetAll()
+	utils.CultivateServiceData(context, data, errData)
 }
 
+// Indicator GetByTemplateId	godoc
+// @Summary	Пример get indicator by template id
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{array}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/template/:id [get]
+func (*TIndicator) GetByTemplateId(context *gin.Context) {
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Indicator.GetByTemplateId(id)
+	utils.CultivateServiceData(context, data, errData)
+}
+
+// Indicator GetByQuestId	godoc
+// @Summary	Пример get indicator by quest id
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{array}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/quest/:id [get]
 func (*TIndicator) GetByQuestId(context *gin.Context) {
-	params := context.Params
-	strId, paramGood := params.Get("id")
-	id, atoiErr := strconv.Atoi(strId)
-
-	if !paramGood || atoiErr != nil {
-		context.JSON(400, gin.H{"error": "Request params error!"})
-		return
-	}
-
-	data, err := service.Indicator.GetByQuestId(id)
-
-	if err != nil {
-		context.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	context.JSON(200, gin.H{"data": data})
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Indicator.GetByQuestId(id)
+	utils.CultivateServiceData(context, data, errData)
 }
 
+// Indicator Create	godoc
+// @Summary	Пример create indicator
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/create [post]
 func (*TIndicator) Create(context *gin.Context) {
-	var body struct {
+	body := struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Role        string `json:"role"`
 		Visible     bool   `json:"visible"`
 		IdCategory  int    `json:"idCategory"`
-	}
-	errBody := context.BindJSON(&body)
+	}{}
+	utils.CultivateBody(context, body)
+	data, errData := service.Indicator.Create(
+		body.Name,
+		body.Description,
+		body.Role,
+		body.Visible,
+		body.IdCategory,
+	)
+	utils.CultivateServiceData(context, data, errData)
+}
 
-	if errBody != nil {
-		context.JSON(400, gin.H{"error": errBody.Error()})
-		return
-	}
+// Indicator Hide	godoc
+// @Summary	Пример hide indicator
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/hide/:id [put]
+func (*TIndicator) Hide(context *gin.Context) {
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Indicator.Hide(id)
+	utils.CultivateServiceData(context, data, errData)
+}
 
-	data, err := service.Indicator.Create(body.Name, body.Description, body.Role, body.Visible, body.IdCategory)
-
-	if err != nil {
-		context.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	context.JSON(200, gin.H{"data": data[0]})
+// Indicator Delete	godoc
+// @Summary	Пример delete indicator
+// @Tags	indicator
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Indicator
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/indicator/delete/:id [delete]
+func (*TIndicator) Delete(context *gin.Context) {
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Indicator.Delete(id)
+	utils.CultivateServiceData(context, data, errData)
 }
