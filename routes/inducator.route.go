@@ -6,9 +6,9 @@ import (
 )
 
 func Indicator(app *gin.Engine) {
-	indicator := app.Group("/indicator")
-	indicator.GET("/:id", controllers.Indicator.Get)
-	indicator.GET("/all", controllers.Indicator.GetAll)
-	indicator.GET("/quest/:id", controllers.Indicator.GetByQuestId)
-	indicator.POST("/create", controllers.Indicator.Create)
+	group := app.Group("/indicator")
+	group.GET("/:id", controllers.Indicator.Get)
+	group.GET("/all", controllers.Indicator.GetAll)
+	group.GET("/quest/:id", controllers.Indicator.GetByQuestId)
+	group.POST("/create", controllers.Indicator.Create)
 }

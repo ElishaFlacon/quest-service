@@ -7,5 +7,6 @@ import (
 )
 
 func Docs(app *gin.Engine) {
-	app.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	group := app.Group("/docs")
+	group.GET("/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

@@ -6,8 +6,8 @@ import (
 )
 
 func Template(app *gin.Engine) {
-	template := app.Group("/template")
-	template.GET("/:id", controllers.Template.Get)
-	template.GET("/all", controllers.Template.GetAll)
-	template.POST("/create", controllers.Template.Create)
+	group := app.Group("/template")
+	group.GET("/:id", controllers.Template.Get)
+	group.GET("/all", controllers.Template.GetAll)
+	group.POST("/create", controllers.Template.Create)
 }

@@ -6,13 +6,15 @@ import (
 
 func Init(app *gin.Engine) {
 	routes := []func(app *gin.Engine){
+		Category,
 		Docs,
-		Example,
 		Indicator,
+		Quest,
+		Result,
 		Template,
 	}
 
-	for index := 0; len(routes) > index; index++ {
+	for index := range routes {
 		routes[index](app)
 	}
 }
