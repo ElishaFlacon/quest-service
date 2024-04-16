@@ -1,5 +1,7 @@
 package service
 
+// TODO add all methods
+
 import (
 	"github.com/ElishaFlacon/quest-service/cruds"
 	"github.com/ElishaFlacon/quest-service/models"
@@ -14,30 +16,36 @@ var Quest = &TQuest{
 	table: "quest",
 }
 
-func (*TQuest) GetAll() ([]models.QuestListResponse, error) {
-	quests, err := cruds.LaunchQuest.GetAll()
+func (*TQuest) GetAll() ([]*models.QuestListResponse, error) {
+	data, errData := cruds.Quest.GetAll()
 
-	if err != nil {
-		return nil, err
+	if errData != nil {
+		return nil, errData
 	}
 
-	var questListResponse []models.QuestListResponse
+	quests := []*models.QuestListResponse{}
 
-	for index := range quests {
-		quest := quests[index]
+	for index := range data {
+		quest := data[index]
 
-		questResponse := models.QuestListResponse{
+		// TODO ДОДЕЛАТЬ ПОДСЧЕТ ПРОЦЕНТА
+		percent := float32(0)
+		status := utils.GetQuestTimeStatus(
+			quest.StartAt,
+			quest.EndAt,
+		)
+
+		newQuest := &models.QuestListResponse{
 			IdQuest: quest.IdQuest,
 			Name:    quest.Name,
 			StartAt: quest.StartAt,
 			EndAt:   quest.EndAt,
-			Percent: 12, // TODO ДОДЕЛАТЬ ПОДСЧЕТ ПРОЦЕНТА
-			Status:  utils.GetTimeStatus(quest.StartAt, quest.EndAt),
+			Percent: percent,
+			Status:  status,
 		}
 
-		questListResponse = append(questListResponse, questResponse)
+		quests = append(quests, newQuest)
 	}
 
-	return questListResponse, err
-
+	return quests, errData
 }
