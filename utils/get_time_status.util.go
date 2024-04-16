@@ -4,14 +4,17 @@ import (
 	"time"
 )
 
-func GetTimeStatus(StartAt int, EndAt int) string {
-	currentTimeMinutes := time.Now().Minute()
+func GetQuestTimeStatus(StartAt int, EndAt int) string {
+	currentMinutes := time.Now().Minute()
 
-	if StartAt < currentTimeMinutes {
+	isReady := StartAt < currentMinutes
+	isStart := StartAt >= currentMinutes && EndAt <= currentMinutes
+
+	if isReady {
 		return "Подготовлен"
 	}
 
-	if StartAt >= currentTimeMinutes && EndAt <= currentTimeMinutes {
+	if isStart {
 		return "Запущен"
 	}
 
