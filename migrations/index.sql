@@ -1,7 +1,9 @@
 -- FULL DATABASE CODE IN ONE FILE
--- LAST UPDATE: 14.04.2024
+-- LAST UPDATE: 15.04.2024
 
 
+
+-- TODO add alter, add data
 
 
 
@@ -63,10 +65,17 @@ CREATE TABLE IF NOT EXISTS quest (
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS team (
-    id_team_quest SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS quest_team (
+    id_quest_team SERIAL PRIMARY KEY,
     id_team INT NOT NULL,
     id_quest INT NOT NULL
+);
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+CREATE TABLE IF NOT EXISTS quest_team_user (
+    id_quest_team INT NOT NULL,
+    id_user INT NOT NULL
 );
 -- +goose StatementEnd
 
