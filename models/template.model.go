@@ -1,21 +1,22 @@
 package models
 
 type Template struct {
-	IdTemplate  int     `json:"idQuest"`
+	IdTemplate  int     `json:"id"`
 	Name        string  `json:"name"`
 	Description *string `json:"description"`
 	Available   bool    `json:"available"`
 }
 
 type TemplateWithCountIndicators struct {
-	IdTemplate      int     `json:"idQuest"`
+	IdTemplate      int     `json:"id"`
 	Name            string  `json:"name"`
 	Description     *string `json:"description"`
 	Available       bool    `json:"available"`
 	AddedIndicators int64   `json:"addedIndicators"`
 }
+
 type TemplateWithIndicators struct {
-	IdTemplate  int         `json:"idQuest"`
+	IdTemplate  int         `json:"id"`
 	Name        string      `json:"name"`
 	Description *string     `json:"description"`
 	Available   bool        `json:"available"`
