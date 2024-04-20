@@ -58,7 +58,7 @@ func (*TCategory) Create(context *gin.Context) {
 }
 
 // Category Delete	godoc
-// @Summary	Пример delete category
+// @Summary	Пример delete category by id
 // @Tags	category
 // @Accept	json
 // @Produce	json
