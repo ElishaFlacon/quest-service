@@ -10,11 +10,21 @@ type Quest struct {
 	EndAt       int    `json:"endAt"`
 }
 
-type QuestListResponse struct {
+type QuestResponse struct {
 	IdQuest int     `json:"id"`
 	Name    string  `json:"name"`
 	StartAt int     `json:"startAt"`
 	EndAt   int     `json:"endAt"`
 	Percent float32 `json:"percent"`
 	Status  string  `json:"status"`
+}
+
+type QuestWithIndicators struct {
+	IdQuest    int         `json:"id"`
+	Name       string      `json:"name"`
+	StartAt    int         `json:"startAt"`
+	EndAt      int         `json:"endAt"`
+	Percent    float32     `json:"percent"`
+	Status     string      `json:"status"`
+	Indicators []Indicator `json:"indicators"`
 }
