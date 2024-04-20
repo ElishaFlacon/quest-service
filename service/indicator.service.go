@@ -131,7 +131,7 @@ func (*TIndicator) Hide(id int) (*models.Indicator, error) {
 
 func (*TIndicator) Delete(id int) (*models.Indicator, error) {
 	sqlString := `
-		DELETE * FROM "indicator" 
+		DELETE FROM "indicator" 
 		WHERE id_indicator = $1 
 		RETURNING *;
 	`

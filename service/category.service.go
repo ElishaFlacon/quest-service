@@ -48,7 +48,7 @@ func (*TCategory) Create(name string) (*models.Category, error) {
 
 func (*TCategory) Delete(id int) (*models.Category, error) {
 	sqlString := `
-		DELETE * FROM "category" 
+		DELETE FROM "category" 
 		WHERE id_category = $1 
 		RETURNING *;
 	`
