@@ -1,10 +1,9 @@
 package service
 
-// TODO add all methods
-
 import (
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/ElishaFlacon/quest-service/utils"
 )
 
 type TIndicator struct {
@@ -16,15 +15,23 @@ var Indicator = &TIndicator{
 }
 
 func (*TIndicator) Get(id int) (*models.Indicator, error) {
-	// TODO
+	sqlString := `
+		SELECT * FROM "indicator" 
+		WHERE id_indicator = $1
+		RETURNING *;
+	`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
 }
 
 func (*TIndicator) GetAll() ([]*models.Indicator, error) {
-	// TODO
+	sqlString := `SELECT * FROM "indicator" RETURNING *;`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Indicator](sqlString)
+
+	return data, err
 }
 
 func (*TIndicator) GetByTemplateId(id int) ([]*models.Indicator, error) {
@@ -95,7 +102,7 @@ func (*TIndicator) Create(
 	role string,
 	visible bool,
 	idCategory int,
-) ([]*models.Indicator, error) {
+) (*models.Indicator, error) {
 	sqlString := `
 		INSERT INTO "indicator" 
 		(name, description, role, visible, id_category) 
@@ -106,17 +113,30 @@ func (*TIndicator) Create(
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
-	return data, err
+	return utils.CultivateFirstDataElemet(data, err)
 }
 
 func (*TIndicator) Hide(id int) (*models.Indicator, error) {
-	// TODO
+	sqlString := `
+		UPDATE "indicator" 
+		SET visible = false
+		WHERE id_indicator = $1 
+		RETURNING *;
+	`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
 }
 
 func (*TIndicator) Delete(id int) (*models.Indicator, error) {
-	// TODO
+	sqlString := `
+		DELETE * FROM "indicator" 
+		WHERE id_indicator = $1 
+		RETURNING *;
+	`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
 }
