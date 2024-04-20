@@ -14,13 +14,27 @@ var Quest = &TQuest{
 	table: "quest",
 }
 
-func (*TQuest) Get(id int) (*models.Quest, error) {
-	// TODO для Тимура: возвращаем все поля для опроса
+func (*TQuest) Get(id int) (*models.QuestResponse, error) {
+	// TODO для Тимура: возвращаем все поля для опроса как в GetAll
 	return nil, nil
 }
 
-func (*TQuest) GetWithIndicators(id int) (*models.QuestWithIndicators, error) {
-	// TODO для Тимура: возвращаем все поля для опроса + массив вопросов (use indicators.GetByQuestId)
+func (*TQuest) GetWithIndicators(
+	id int,
+) (*models.QuestWithIndicators, error) {
+	// TODO для Тимура: возвращаем все поля для опроса как в GetAll + массив вопросов (use indicators.GetByQuestId)
+	return nil, nil
+}
+
+func (*TQuest) GetWithUsers(id int) (*models.QuestWithUsers, error) {
+	// TODO в quest_team_user.service добавить GetByQuestId
+	return nil, nil
+}
+
+func (*TQuest) GetWithUsersAndIndicators(
+	id int,
+) (*models.QuestWithUsersAndIndicators, error) {
+	// TODO делать когда будут готовы GetWithIndicators и GetWithUsers
 	return nil, nil
 }
 
@@ -36,7 +50,7 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 	for index := range data {
 		quest := data[index]
 
-		// TODO доделать percent когда-нибудь
+		// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
 		percent := float32(0)
 		status := utils.GetQuestTimeStatus(
 			quest.StartAt,
@@ -62,9 +76,71 @@ func (*TQuest) Create(
 	name string,
 	description string,
 	teams []string,
-) (*models.Template, error) {
-	// TODO продумать + доделать
-	return nil, nil
+) (*models.Quest, error) {
+	sqlString := `
+		INSERT INTO "quest" 
+		(name, description) 
+		VALUES ($1, $2) 
+		RETURNING *;
+	`
+	args := []any{name, description}
+
+	data, errData := database.BaseQuery[models.Quest](
+		sqlString,
+		args...,
+	)
+	if errData != nil {
+		return nil, errData
+	}
+
+	idQuest := data[0].IdQuest
+
+	members, errMembers := Team.GetAllMembersOfTeams(teams)
+	if errMembers != nil {
+		return nil, errMembers
+	}
+
+	questTeamData, errQuestTeam := QuestTeam.CreateWithBatch(
+		idQuest,
+		teams,
+	)
+	if errQuestTeam != nil {
+		return nil, errQuestTeam
+	}
+
+	teamUserArgs := []*models.QuestTeamUsers{}
+
+	for index := range questTeamData {
+		idQuestTeamUser := questTeamData[index].IdQuestTeamUser
+		idTeamFromQuestTeam := questTeamData[index].IdTeam
+
+		for indexTeam := range members {
+			idTeamFromMembers := members[indexTeam].IdTeam
+			users := members[indexTeam].IdUsers
+
+			if idTeamFromMembers != idTeamFromQuestTeam {
+				continue
+			}
+
+			element := &models.QuestTeamUsers{
+				IdQuestTeam: idQuestTeamUser,
+				Users:       users,
+			}
+
+			teamUserArgs = append(teamUserArgs, element)
+		}
+	}
+
+	_, errTeamUser := QuestTeamUser.CreateWithBatch(
+		teamUserArgs,
+	)
+	if errTeamUser != nil {
+		return nil, errTeamUser
+	}
+
+	// TODO вызов notification service добавить когда-нибудь
+
+	return data[0], nil
 }
 
 func (*TQuest) Hide(id int) (*models.Quest, error) {
