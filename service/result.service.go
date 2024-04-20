@@ -21,6 +21,16 @@ func (*TResult) Get(id int) ([]*models.Result, error) {
 	return data, err
 }
 
+func (*TResult) GetByUserId(id string) (*models.Result, error) {
+	// TODO
+	return nil, nil
+}
+
+func (*TResult) GetByUsersId(id []string) ([]*models.Result, error) {
+	// TODO
+	return nil, nil
+}
+
 func (*TResult) GetAll() ([]*models.Result, error) {
 	sqlString := `SELECT * FROM "result";`
 
@@ -31,8 +41,8 @@ func (*TResult) GetAll() ([]*models.Result, error) {
 
 func (init *TResult) Create(rows [][]any) (int64, error) {
 	columnNames := []string{
+		"id_quest",
 		"id_indicator",
-		"id_launch_quest",
 		"id_from_user",
 		"id_to_user",
 		"value",
@@ -45,20 +55,20 @@ func (init *TResult) Create(rows [][]any) (int64, error) {
 
 func (*TResult) Update(
 	id int,
+	id_quest int,
 	id_indicator int,
-	id_launch_quest int,
 	id_from_user int,
 	id_to_user int,
 	value string,
 ) ([]*models.Result, error) {
 	sqlString := `
 		UPDATE "result" 
-		SET (id_indicator, id_launch_quest, id_from_user, id_to_user, value)
+		SET (id_indicator, id_quest, id_from_user, id_to_user, value)
 		VALUES ($2, $3, $4, $5, $6) 
 		WHERE id_result = $1
 		RETURNING *;
 	`
-	args := []any{id, id_indicator, id_launch_quest, id_from_user, id_to_user, value}
+	args := []any{id, id_indicator, id_quest, id_from_user, id_to_user, value}
 
 	data, err := database.BaseQuery[models.Result](
 		sqlString,
