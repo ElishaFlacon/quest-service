@@ -31,6 +31,28 @@ func Init(databaseUrl string) {
 	Database = &TDatabase{db}
 }
 
+func SendBatch[T comparable](batch *pgx.Batch) ([]*T, error) {
+	batchResult := Database.SendBatch(
+		context.Background(),
+		batch,
+	)
+
+	rows, err := batchResult.Query()
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := pgx.CollectRows(
+		rows,
+		pgx.RowToAddrOfStructByName[T],
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
 func BaseQuery[T comparable](
 	sqlString string,
 	args ...any,
@@ -43,7 +65,6 @@ func BaseQuery[T comparable](
 		sqlString,
 		args...,
 	)
-
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +73,6 @@ func BaseQuery[T comparable](
 		rows,
 		pgx.RowToAddrOfStructByName[T],
 	)
-
 	if err != nil {
 		return nil, err
 	}
