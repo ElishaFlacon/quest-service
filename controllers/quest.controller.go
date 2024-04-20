@@ -101,7 +101,7 @@ func (*TQuest) Create(context *gin.Context) {
 	}{}
 	utils.CultivateBody(context, body)
 
-	teams := utils.CultivateId(body.Teams)
+	teams := utils.GetBodyIds(body.Teams)
 	data, errData := service.Quest.Create(
 		body.Name,
 		body.Description,

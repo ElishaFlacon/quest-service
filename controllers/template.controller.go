@@ -1,10 +1,5 @@
 package controllers
 
-// Таблица *
-// Деталка сам шаблон + вопросы
-// Создание *
-// удаление\скрытие (в самом конце)
-
 import (
 	"net/http"
 
@@ -30,6 +25,21 @@ var Template *TTemplate
 func (*TTemplate) Get(context *gin.Context) {
 	id := utils.CultivateNumberParam(context, "id")
 	data, errData := service.Template.Get(id)
+	utils.CultivateServiceData(context, data, errData)
+}
+
+// Template GetWithIndicators	godoc
+// @Summary	Пример get template by id with indicators
+// @Tags	template
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Template
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/template/:id [get]
+func (*TTemplate) GetWithIndicators(context *gin.Context) {
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Template.GetWithIndicators(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -64,7 +74,7 @@ func (*TTemplate) Create(context *gin.Context) {
 	}{}
 	utils.CultivateBody(context, body)
 
-	indicators := utils.CultivateId(body.Indicators)
+	indicators := utils.GetBodyIds(body.Indicators)
 	utils.CultivateCondition(
 		context,
 		len(indicators) == 0,
@@ -88,4 +98,34 @@ func (*TTemplate) Create(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, returningData)
+}
+
+// Template Hide	godoc
+// @Summary	Пример hide template by id
+// @Tags	template
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Template
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/template/hide/:id [put]
+func (*TTemplate) Hide(context *gin.Context) {
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Quest.Hide(id)
+	utils.CultivateServiceData(context, data, errData)
+}
+
+// Template Delete	godoc
+// @Summary	Пример delete template by id
+// @Tags	template
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	models.Template
+// @Failure	400	{string} 	string
+// @Failure	500	{string} 	string
+// @Router	/template/delete/:id [delete]
+func (*TTemplate) Delete(context *gin.Context) {
+	id := utils.CultivateNumberParam(context, "id")
+	data, errData := service.Quest.Delete(id)
+	utils.CultivateServiceData(context, data, errData)
 }
