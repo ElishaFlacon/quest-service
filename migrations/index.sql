@@ -1,20 +1,12 @@
+-- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
 -- FULL DATABASE CODE IN ONE FILE
--- LAST UPDATE: 15.04.2024
+-- LAST UPDATE: 20.04.2024
 
 
-
--- TODO add alter, add data
 
 
 
 -- +goose Up
-
--- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS example (
-    id SERIAL PRIMARY KEY,
-    value VARCHAR(255)
-);
--- +goose StatementEnd
 
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS category (
@@ -67,7 +59,7 @@ CREATE TABLE IF NOT EXISTS quest (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS quest_team (
     id_quest_team SERIAL PRIMARY KEY,
-    id_team INT NOT NULL,
+    id_team VARCHAR(255) NOT NULL,
     id_quest INT NOT NULL
 );
 -- +goose StatementEnd
@@ -75,7 +67,7 @@ CREATE TABLE IF NOT EXISTS quest_team (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS quest_team_user (
     id_quest_team INT NOT NULL,
-    id_user INT NOT NULL
+    id_user VARCHAR(255) NOT NULL
 );
 -- +goose StatementEnd
 
@@ -84,8 +76,8 @@ CREATE TABLE IF NOT EXISTS result (
     id_result SERIAL PRIMARY KEY,
     id_indicator INT NOT NULL,
     id_quest INT NOT NULL,
-    id_from_user INT NOT NULL,
-    id_to_user INT NOT NULL,
+    id_from_user VARCHAR(255) NOT NULL,
+    id_to_user VARCHAR(255) NOT NULL,
     value VARCHAR(255) NOT NULL
 );
 -- +goose StatementEnd
@@ -100,11 +92,6 @@ ALTER TABLE result ADD CONSTRAINT result_fk1 FOREIGN KEY (id_quest) REFERENCES q
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-INSERT INTO example 
-(value) VALUES 
-('test 1'), 
-('test 2');
-
 INSERT INTO category 
 (name) VALUES 
 ('программирование'), 
@@ -152,33 +139,45 @@ INSERT INTO quest
 (1, 'Будущий тест', 'Описание будущего теста', false, 1736005346, 1751643746), 
 (3, 'Прошедший тест', 'Описание прошедшего теста', false, 1704382946, 1709566946);
 
-INSERT INTO team 
+INSERT INTO quest_team 
 (id_team, id_quest) VALUES 
-(50, 1),
-(56, 1),
-(30, 2),
-(31, 3),
-(98, 1),
-(98, 2),
-(98, 3),
-(98, 4),
-(98, 5);
+('50', 1),
+('56', 1),
+('30', 2),
+('31', 3),
+('98', 1),
+('98', 2),
+('98', 3),
+('98', 4),
+('98', 5);
+
+INSERT INTO quest_team_user 
+(id_quest_team , id_user) VALUES 
+(1, '500'),
+(2, '500'),
+(3, '500'),
+(4, '500'),
+(5, '500'),
+(6, '500'),
+(7, '500'),
+(8, '500'),
+(9, '500');
 
 INSERT INTO result 
 (id_indicator, id_quest, id_from_user, id_to_user, value) VALUES 
-(1, 1, 500, 524, '5'),
-(1, 2, 500, 524, '4'),
-(1, 3, 500, 524, '3'),
-(1, 5, 500, 524, '2'),
-(1, 1, 500, 525, '2'),
-(1, 2, 500, 525, '3'),
-(1, 3, 500, 525, '2'),
-(1, 5, 500, 525, '3'),
-(1, 1, 501, 601, '6'),
-(2, 1, 501, 601, '6'),
-(3, 1, 501, 601, '6'),
-(4, 1, 501, 601, '6'),
-(5, 1, 501, 601, '6'),
-(6, 1, 501, 601, '6'),
-(7, 1, 501, 601, '6');
+(1, 1, '500', '524', '5'),
+(1, 2, '500', '524', '4'),
+(1, 3, '500', '524', '3'),
+(1, 5, '500', '524', '2'),
+(1, 1, '500', '525', '2'),
+(1, 2, '500', '525', '3'),
+(1, 3, '500', '525', '2'),
+(1, 5, '500', '525', '3'),
+(1, 1, '501', '601', '6'),
+(2, 1, '501', '601', '6'),
+(3, 1, '501', '601', '6'),
+(4, 1, '501', '601', '6'),
+(5, 1, '501', '601', '6'),
+(6, 1, '501', '601', '6'),
+(7, 1, '501', '601', '6');
 -- +goose StatementEnd
