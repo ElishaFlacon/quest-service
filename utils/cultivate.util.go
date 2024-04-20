@@ -48,16 +48,6 @@ func CultivateBody(
 	context.Abort()
 }
 
-func CultivateId(data []struct{ Id int }) []int {
-	result := []int{}
-
-	for index := range data {
-		result = append(result, data[index].Id)
-	}
-
-	return result
-}
-
 func CultivateServiceError(
 	context *gin.Context,
 	err error,
