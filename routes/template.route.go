@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Template(app *gin.Engine) {
-	group := app.Group("/template")
+func Template(baseGroup *gin.RouterGroup) {
+	group := baseGroup.Group("/template")
 	group.GET("/:id", controllers.Template.Get)
 	group.GET("/all", controllers.Template.GetAll)
 	group.POST("/create", controllers.Template.Create)

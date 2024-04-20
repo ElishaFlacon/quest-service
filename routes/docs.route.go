@@ -6,7 +6,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func Docs(app *gin.Engine) {
-	group := app.Group("/docs")
+func Docs(baseGroup *gin.RouterGroup) {
+	group := baseGroup.Group("/docs")
 	group.GET("/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

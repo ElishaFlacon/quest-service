@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Indicator(app *gin.Engine) {
-	group := app.Group("/indicator")
+func Indicator(baseGroup *gin.RouterGroup) {
+	group := baseGroup.Group("/indicator")
 	group.GET("/:id", controllers.Indicator.Get)
 	group.GET("/all", controllers.Indicator.GetAll)
 	group.GET("/quest/:id", controllers.Indicator.GetByQuestId)
