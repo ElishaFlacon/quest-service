@@ -17,7 +17,7 @@ var Team *TTeam
 var TeamServiceUrl = utils.GetTeamServiceUrl()
 
 func (*TTeam) GetAllMembersOfTeams(
-	idTeams []*int,
+	idTeams []string,
 ) ([]*models.TeamMembers, error) {
 	client := &http.Client{}
 	teams := models.TeamsResponse{}
