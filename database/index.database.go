@@ -14,24 +14,44 @@ type TDatabase struct {
 
 var Database *TDatabase
 
-func Init(database_url string) {
-	db, err := pgxpool.New(context.Background(), database_url)
+func Init(databaseUrl string) {
+	db, err := pgxpool.New(
+		context.Background(),
+		databaseUrl,
+	)
 
 	if err != nil {
-		log.Fatal("Error create connection pool: ", database_url, err)
+		log.Fatal(
+			"Error create connection pool: ",
+			databaseUrl,
+			err,
+		)
 	}
 
 	Database = &TDatabase{db}
 }
 
-func BaseQuery[T comparable](sqlString string, args ...any) ([]*T, error) {
-	rows, err := Database.Query(context.Background(), sqlString, args...)
+func BaseQuery[T comparable](
+	sqlString string,
+	args ...any,
+) (
+	[]*T,
+	error,
+) {
+	rows, err := Database.Query(
+		context.Background(),
+		sqlString,
+		args...,
+	)
 
 	if err != nil {
 		return nil, err
 	}
 
-	data, err := pgx.CollectRows(rows, pgx.RowToAddrOfStructByName[T])
+	data, err := pgx.CollectRows(
+		rows,
+		pgx.RowToAddrOfStructByName[T],
+	)
 
 	if err != nil {
 		return nil, err
@@ -40,8 +60,15 @@ func BaseQuery[T comparable](sqlString string, args ...any) ([]*T, error) {
 	return data, err
 }
 
-// using for inserts
-func CopyFromQuery(tableName string, columnNames []string, rows [][]any) (int64, error) {
+// using for big inserts
+func CopyFromQuery(
+	tableName string,
+	columnNames []string,
+	rows [][]any,
+) (
+	int64,
+	error,
+) {
 	count, err := Database.CopyFrom(
 		context.Background(),
 		pgx.Identifier{tableName},

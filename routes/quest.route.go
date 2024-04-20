@@ -5,7 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Quest(app *gin.Engine) {
-	quest := app.Group("/quest")
-	quest.GET("/all", controllers.Quest.GetAll)
+func Quest(baseGroup *gin.RouterGroup) {
+	group := baseGroup.Group("/quest")
+	group.GET("/:id", controllers.Quest.Get)
+	group.GET("/all", controllers.Quest.GetAll)
+
+	// TODO доделать все роуты
 }

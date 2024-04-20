@@ -5,31 +5,31 @@ import (
 	"github.com/ElishaFlacon/quest-service/models"
 )
 
-type TLaunchQuest struct {
+type TQuest struct {
 	table string
 }
 
-var LaunchQuest = &TLaunchQuest{
+var Quest = &TQuest{
 	table: "launch_quest",
 }
 
-func (init *TLaunchQuest) Get(id int) ([]*models.LaunchQuest, error) {
+func (init *TQuest) Get(id int) ([]*models.Quest, error) {
 	sqlString := `SELECT * FROM "launch_quests" WHERE id_launch_quest = $1;`
 
-	data, err := database.BaseQuery[models.LaunchQuest](sqlString, id)
+	data, err := database.BaseQuery[models.Quest](sqlString, id)
 
 	return data, err
 }
 
-func (init *TLaunchQuest) GetAll() ([]*models.LaunchQuest, error) {
+func (init *TQuest) GetAll() ([]*models.Quest, error) {
 	sqlString := `SELECT * FROM "launch_quests";`
 
-	data, err := database.BaseQuery[models.LaunchQuest](sqlString)
+	data, err := database.BaseQuery[models.Quest](sqlString)
 
 	return data, err
 }
 
-func (init *TLaunchQuest) Create(rows [][]any) (int64, error) {
+func (init *TQuest) Create(rows [][]any) (int64, error) {
 	columnNames := []string{"available", "start_at", "end_at"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
@@ -37,13 +37,13 @@ func (init *TLaunchQuest) Create(rows [][]any) (int64, error) {
 	return count, err
 }
 
-func (init *TLaunchQuest) Update(
+func (init *TQuest) Update(
 	id int,
 	idTeam int,
 	available bool,
 	startAt int,
 	endAt int,
-) ([]*models.LaunchQuest, error) {
+) ([]*models.Quest, error) {
 	sqlString := `
 		UPDATE "launch_quest" 
 		SET (id_quest, id_team, available, start_at, end_at) 
@@ -53,23 +53,23 @@ func (init *TLaunchQuest) Update(
 	`
 	args := []any{id, idTeam, available, startAt, endAt}
 
-	data, err := database.BaseQuery[models.LaunchQuest](sqlString, args...)
+	data, err := database.BaseQuery[models.Quest](sqlString, args...)
 
 	return data, err
 }
 
-func (init *TLaunchQuest) Delete(id int) ([]*models.LaunchQuest, error) {
+func (init *TQuest) Delete(id int) ([]*models.Quest, error) {
 	sqlString := `DELETE * FROM "launch_quest" WHERE id_launch_quest = $1 RETURNING *;`
 
-	data, err := database.BaseQuery[models.LaunchQuest](sqlString, id)
+	data, err := database.BaseQuery[models.Quest](sqlString, id)
 
 	return data, err
 }
 
-func (init *TLaunchQuest) DeleteAll() ([]*models.LaunchQuest, error) {
+func (init *TQuest) DeleteAll() ([]*models.Quest, error) {
 	sqlString := `DELETE * FROM "launch_quest" RETURNING *;`
 
-	data, err := database.BaseQuery[models.LaunchQuest](sqlString)
+	data, err := database.BaseQuery[models.Quest](sqlString)
 
 	return data, err
 }

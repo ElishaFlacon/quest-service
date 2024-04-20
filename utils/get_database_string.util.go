@@ -12,5 +12,12 @@ func GetDatabaseString() string {
 	port := os.Getenv("POSTGRES_PORT")
 	name := os.Getenv("POSTGRES_DB")
 
-	return fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", user, password, host, port, name)
+	return fmt.Sprintf(
+		"postgresql://%s:%s@%s:%s/%s",
+		user,
+		password,
+		host,
+		port,
+		name,
+	)
 }

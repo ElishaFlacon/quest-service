@@ -1,5 +1,7 @@
 package service
 
+// TODO check for refactoring
+
 import (
 	"context"
 	"encoding/json"
@@ -29,7 +31,6 @@ func convertToNotificationJSON(receiver models.Notification) []byte {
 }
 
 func (*TNotification) SendNotification(receivers []models.Notification) {
-
 	amqpServerURL := utils.GetAMQPUrl()
 
 	connectRabbitMQ, err := amqp091.Dial(amqpServerURL)

@@ -1,17 +1,7 @@
 package models
 
-type LaunchQuest struct {
-	IdQuest     int    `json:"idQuest"`
-	IdTemplate  int    `json:"idTemplate"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Available   bool   `json:"available"`
-	StartAt     int    `json:"startAt"`
-	EndAt       int    `json:"endAt"`
-}
-
 type Quest struct {
-	IdQuest     int    `json:"idQuest"`
+	IdQuest     int    `json:"id"`
 	IdTemplate  int    `json:"idTemplate"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -21,7 +11,7 @@ type Quest struct {
 }
 
 type QuestListResponse struct {
-	IdQuest int     `json:"idQuest"`
+	IdQuest int     `json:"id"`
 	Name    string  `json:"name"`
 	StartAt int     `json:"startAt"`
 	EndAt   int     `json:"endAt"`

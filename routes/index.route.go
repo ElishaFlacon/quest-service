@@ -5,14 +5,19 @@ import (
 )
 
 func Init(app *gin.Engine) {
-	routes := []func(app *gin.Engine){
-		Example,
+	group := app.Group("/quest-service")
+
+	routes := []func(app *gin.RouterGroup){
+		Category,
+		Docs,
 		Indicator,
+		Quest,
+		Result,
 		Template,
 		Quest,
 	}
 
-	for index := 0; len(routes) > index; index++ {
-		routes[index](app)
+	for index := range routes {
+		routes[index](group)
 	}
 }

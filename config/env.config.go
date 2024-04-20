@@ -9,7 +9,9 @@ import (
 func InitDotenv() {
 	err := godotenv.Load()
 
-	if err != nil {
-		log.Fatal("Error loading .env file: ", err)
+	if err == nil {
+		return
 	}
+
+	log.Fatal("Error loading .env file: ", err)
 }
