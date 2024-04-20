@@ -60,7 +60,7 @@ func (*TTemplate) Create(
 		rows = append(rows, elememt)
 	}
 
-	count, errTemplateIndicator := TemplateIndicator.Create(rows)
+	count, errTemplateIndicator := TemplateIndicator.CreateWithCopy(rows)
 	if errTemplateIndicator != nil {
 		return nil, 0, errTemplateIndicator
 	}

@@ -34,7 +34,7 @@ func (init *TTemplateIndicator) GetAll() ([]*models.TemplateIndicator, error) {
 	return data, err
 }
 
-func (init *TTemplateIndicator) Create(rows [][]any) (int64, error) {
+func (init *TTemplateIndicator) CreateWithCopy(rows [][]any) (int64, error) {
 	columnNames := []string{"id_template", "id_indicator"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)

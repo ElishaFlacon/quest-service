@@ -81,7 +81,7 @@ func (*TResult) Create(context *gin.Context) {
 		rows = append(rows, element)
 	}
 
-	count, errData := service.Result.Create(rows)
+	count, errData := service.Result.CreateWithCopy(rows)
 	data := struct {
 		CreatedResults int64 `json:"createdResults"`
 	}{CreatedResults: count}

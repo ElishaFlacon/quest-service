@@ -39,7 +39,7 @@ func (*TResult) GetAll() ([]*models.Result, error) {
 	return data, err
 }
 
-func (init *TResult) Create(rows [][]any) (int64, error) {
+func (init *TResult) CreateWithCopy(rows [][]any) (int64, error) {
 	columnNames := []string{
 		"id_quest",
 		"id_indicator",
