@@ -1,10 +1,9 @@
 package service
 
-// TODO add all methods
-
 import (
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/ElishaFlacon/quest-service/utils"
 )
 
 type TTemplate struct {
@@ -16,14 +15,17 @@ var Template = &TTemplate{
 }
 
 func (*TTemplate) Get(id int) (*models.Template, error) {
-	// TODO
+	// TODO для Тимура: возвращаем все поля для шаблона
+	return nil, nil
+}
 
+func (*TTemplate) GetWithIndicators(id int) (*models.TemplateWithIndicators, error) {
+	// TODO для Тимура: возвращаем все поля для шаблона + массив вопросов (use indicators.GetByTemplateId)
 	return nil, nil
 }
 
 func (*TTemplate) GetAll() ([]*models.Template, error) {
-	// TODO
-
+	// TODO для Тимура: возвращаем все шаблоны
 	return nil, nil
 }
 
@@ -44,31 +46,49 @@ func (*TTemplate) Create(
 	`
 	args := []any{name, description}
 
-	data, err := database.BaseQuery[models.Template](
+	data, errData := database.BaseQuery[models.Template](
 		sqlString,
 		args...,
 	)
-
-	if err != nil {
-		return nil, 0, err
+	if errData != nil {
+		return nil, 0, errData
 	}
 
-	tableName := "template_indicator"
-	columnNames := []string{"id_template", "id_indicator"}
 	var rows [][]any
-
 	for index := range indicators {
-		rows = append(
-			rows,
-			[]any{data[0].IdTemplate, indicators[index]},
-		)
+		elememt := []any{data[0].IdTemplate, indicators[index]}
+		rows = append(rows, elememt)
 	}
 
-	count, err := database.CopyFromQuery(
-		tableName,
-		columnNames,
-		rows,
-	)
+	count, errTemplateIndicator := TemplateIndicator.Create(rows)
+	if errTemplateIndicator != nil {
+		return nil, 0, errTemplateIndicator
+	}
 
-	return data[0], count, err
+	return data[0], count, nil
+}
+
+func (*TTemplate) Hide(id int) (*models.Template, error) {
+	sqlString := `
+		UPDATE "template" 
+		SET available = false
+		WHERE id_template = $1 
+		RETURNING *;
+	`
+
+	data, err := database.BaseQuery[models.Template](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
+}
+
+func (*TTemplate) Delete(id int) (*models.Template, error) {
+	sqlString := `
+		DELETE FROM "template" 
+		WHERE id_template = $1 
+		RETURNING *;
+	`
+
+	data, err := database.BaseQuery[models.Template](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
 }
