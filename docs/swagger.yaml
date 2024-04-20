@@ -38,18 +38,33 @@ definitions:
       startAt:
         type: integer
     type: object
+  models.QuestResponse:
+    properties:
+      endAt:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      percent:
+        type: number
+      startAt:
+        type: integer
+      status:
+        type: string
+    type: object
   models.Result:
     properties:
       id:
         type: integer
       idFromUser:
-        type: integer
+        type: string
       idIndicator:
         type: integer
       idQuest:
         type: integer
       idToUser:
-        type: integer
+        type: string
       value:
         type: string
     type: object
@@ -170,29 +185,7 @@ paths:
           description: Internal Server Error
           schema:
             type: string
-      summary: Пример delete category
-      tags:
-      - category
-  /category/hide/:id:
-    put:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Category'
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema:
-            type: string
-      summary: Пример hide category
+      summary: Пример delete category by id
       tags:
       - category
   /indicator/:id:
@@ -343,6 +336,52 @@ paths:
         "200":
           description: OK
           schema:
+            $ref: '#/definitions/models.QuestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример get quest by id
+      tags:
+      - quest
+  /quest/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.QuestResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример get all quest
+      tags:
+      - quest
+  /quest/create:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
             $ref: '#/definitions/models.Quest'
         "400":
           description: Bad Request
@@ -352,7 +391,117 @@ paths:
           description: Internal Server Error
           schema:
             type: string
-      summary: Пример get quest
+      summary: Пример create quest
+      tags:
+      - quest
+  /quest/delete/:id:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Quest'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример delete quest by id
+      tags:
+      - quest
+  /quest/hide/:id:
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Quest'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример hide quest by id
+      tags:
+      - quest
+  /quest/with-indicators/:id:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример get quest by id with indicators
+      tags:
+      - quest
+  /quest/with-users-and-indicators/:id:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример get quest by id with users and indicators
+      tags:
+      - quest
+  /quest/with-users/:id:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример get quest by id with users
       tags:
       - quest
   /result/create:
@@ -420,7 +569,7 @@ paths:
           description: Internal Server Error
           schema:
             type: string
-      summary: Пример get result by users id
+      summary: Пример get result by users ids
       tags:
       - result
   /template/:id:
@@ -467,6 +616,50 @@ paths:
           schema:
             type: string
       summary: Пример create template
+      tags:
+      - template
+  /template/delete/:id:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Template'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример delete template by id
+      tags:
+      - template
+  /template/hide/:id:
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Template'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Пример hide template by id
       tags:
       - template
 swagger: "2.0"
