@@ -1,8 +1,8 @@
 package models
 
 type TeamMembers struct {
-	teamId  string
-	idUsers []*string
+	TeamId  string
+	IdUsers []*string
 }
 
 type TeamsResponse struct {
