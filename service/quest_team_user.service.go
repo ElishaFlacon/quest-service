@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/jackc/pgx/v5"
 )
 
 type TQuestTeamUser struct {
@@ -33,12 +34,43 @@ func (*TQuestTeamUser) GetAll() ([]*models.QuestTeamUser, error) {
 	return data, err
 }
 
-func (init *TQuestTeamUser) Create(rows [][]any) (int64, error) {
+func (init *TQuestTeamUser) CreateWithCopy(
+	rows [][]any,
+) (int64, error) {
 	columnNames := []string{"id_user"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
 
 	return count, err
+}
+
+func (*TQuestTeamUser) CreateWithBatch(
+	questTeams []*models.QuestTeamUsers,
+) ([]*models.QuestTeam, error) {
+	sqlString := `
+		INSERT INTO "quest_team_user"
+		(id_quest_team, id_user)
+		VALUES ($1, $2)
+		RETURNING *;
+	`
+
+	batch := &pgx.Batch{}
+
+	for index := range questTeams {
+		questTeam := questTeams[index]
+		for userIndex := range questTeam.Users {
+			user := questTeam.Users[userIndex]
+			batch.Queue(
+				sqlString,
+				questTeam.IdQuestTeam,
+				user,
+			)
+		}
+	}
+
+	data, err := database.SendBatch[models.QuestTeam](batch)
+
+	return data, err
 }
 
 func (*TQuestTeamUser) Update(

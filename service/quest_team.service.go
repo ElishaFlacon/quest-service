@@ -4,6 +4,7 @@ import (
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
 	"github.com/ElishaFlacon/quest-service/utils"
+	"github.com/jackc/pgx/v5"
 )
 
 type TQuestTeam struct {
@@ -34,27 +35,50 @@ func (*TQuestTeam) GetAll() ([]*models.QuestTeam, error) {
 	return data, err
 }
 
-func (init *TQuestTeam) Create(rows [][]any) (int64, error) {
-	columnNames := []string{"id_team", "id_quest"}
+func (init *TQuestTeam) CreateWithCopy(rows [][]any) (int64, error) {
+	columnNames := []string{"id_quest", "id_team"}
 
 	count, err := database.CopyFromQuery(init.table, columnNames, rows)
 
 	return count, err
 }
 
+func (*TQuestTeam) CreateWithBatch(
+	idQuest int,
+	teams []string,
+) ([]*models.QuestTeam, error) {
+	sqlString := `
+		INSERT INTO "quest_team"
+		(id_quest, id_team)
+		VALUES ($1, $2)
+		RETURNING *;
+	`
+
+	batch := &pgx.Batch{}
+
+	for index := range teams {
+		team := teams[index]
+		batch.Queue(sqlString, idQuest, team)
+	}
+
+	data, err := database.SendBatch[models.QuestTeam](batch)
+
+	return data, err
+}
+
 func (*TQuestTeam) Update(
 	id int,
-	id_team string,
 	id_quest int,
+	id_team string,
 ) (*models.QuestTeam, error) {
 	sqlString := `
 		UPDATE "quest_team" 
-		SET (id_team, id_quest)
+		SET (id_quest, id_team)
 		VALUES ($2, $3) 
 		WHERE id_quest_team = $1
 		RETURNING *;
 	`
-	args := []any{id, id_team, id_quest}
+	args := []any{id, id_quest, id_team}
 
 	data, err := database.BaseQuery[models.QuestTeam](
 		sqlString,
