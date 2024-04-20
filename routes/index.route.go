@@ -14,7 +14,6 @@ func Init(app *gin.Engine) {
 		Quest,
 		Result,
 		Template,
-		Quest,
 	}
 
 	for index := range routes {
