@@ -5,9 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Category(app *gin.Engine) {
-	group := app.Group("/category")
+func Category(baseGroup *gin.RouterGroup) {
+	group := baseGroup.Group("/category")
 	group.GET("/:id", controllers.Category.Get)
-
-	// TODO доделать все роуты
+	group.GET("/all", controllers.Category.GetAll)
+	group.POST("/create/:id", controllers.Category.Create)
+	group.DELETE("/delete/:id", controllers.Category.Delete)
 }

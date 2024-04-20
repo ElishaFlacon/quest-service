@@ -6,6 +6,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func CultivateFirstDataElemet[T comparable](
+	data []*T,
+	err error,
+) (*T, error) {
+	if err != nil {
+		return nil, err
+	}
+
+	return data[0], err
+}
+
 func CultivateCondition(
 	context *gin.Context,
 	condition bool,

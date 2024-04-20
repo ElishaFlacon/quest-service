@@ -57,21 +57,6 @@ func (*TCategory) Create(context *gin.Context) {
 	utils.CultivateServiceData(context, data, errData)
 }
 
-// Category Hide	godoc
-// @Summary	Пример hide category
-// @Tags	category
-// @Accept	json
-// @Produce	json
-// @Success	200	{object}	models.Category
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
-// @Router	/category/hide/:id [put]
-func (*TCategory) Hide(context *gin.Context) {
-	id := utils.CultivateNumberParam(context, "id")
-	data, errData := service.Category.Hide(id)
-	utils.CultivateServiceData(context, data, errData)
-}
-
 // Category Delete	godoc
 // @Summary	Пример delete category
 // @Tags	category

@@ -1,37 +1,59 @@
 package service
 
-import "github.com/ElishaFlacon/quest-service/models"
+import (
+	"github.com/ElishaFlacon/quest-service/database"
+	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/ElishaFlacon/quest-service/utils"
+)
 
-type TCategory struct{}
+type TCategory struct {
+	table string
+}
 
-var Category *TCategory
+var Category = &TCategory{
+	table: "category",
+}
 
 func (*TCategory) Get(id int) (*models.Category, error) {
-	// TODO
+	sqlString := `
+		SELECT * FROM "category" 
+		WHERE id_category = $1
+		RETURNING *;
+	`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Category](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
 }
 
 func (*TCategory) GetAll() ([]*models.Category, error) {
-	// TODO
+	sqlString := `SELECT * FROM "category" RETURNING *;`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Category](sqlString)
+
+	return data, err
 }
 
 func (*TCategory) Create(name string) (*models.Category, error) {
-	// TODO
+	sqlString := `
+		INSERT INTO "category" 
+		(name) VALUES ($1) 
+		RETURNING *;
+	`
 
-	return nil, nil
-}
+	data, err := database.BaseQuery[models.Category](sqlString, name)
 
-func (*TCategory) Hide(id int) (*models.Category, error) {
-	// TODO
-
-	return nil, nil
+	return utils.CultivateFirstDataElemet(data, err)
 }
 
 func (*TCategory) Delete(id int) (*models.Category, error) {
-	// TODO
+	sqlString := `
+		DELETE * FROM "category" 
+		WHERE id_category = $1 
+		RETURNING *;
+	`
 
-	return nil, nil
+	data, err := database.BaseQuery[models.Category](sqlString, id)
+
+	return utils.CultivateFirstDataElemet(data, err)
 }
