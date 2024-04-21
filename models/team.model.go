@@ -1,5 +1,10 @@
 package models
 
+type Team struct {
+	IdTeam string `json:"id"`
+	Users  []User `json:"users"`
+}
+
 type TeamMembers struct {
 	IdTeam  string
 	IdUsers []string
