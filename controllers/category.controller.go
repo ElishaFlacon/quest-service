@@ -12,7 +12,7 @@ type TCategory struct{}
 var Category *TCategory
 
 // Category Get	godoc
-// @Summary	Получение категорий по ID
+// @Summary	Получение категории по ID
 // @Tags	category
 // @Accept	json
 // @Produce	json

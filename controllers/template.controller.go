@@ -14,7 +14,7 @@ type TTemplate struct{}
 var Template *TTemplate
 
 // Template Get	godoc
-// @Summary	Получение шаблона по ID
+// @Summary	Получение шаблона по ID *В РАБОТЕ
 // @Tags	template
 // @Accept	json
 // @Produce	json
@@ -29,7 +29,7 @@ func (*TTemplate) Get(context *gin.Context) {
 }
 
 // Template GetWithIndicators	godoc
-// @Summary	Получение шаблона с вопросами по ID
+// @Summary	Получение шаблона с вопросами по ID *В РАБОТЕ
 // @Tags	template
 // @Accept	json
 // @Produce	json
@@ -44,7 +44,7 @@ func (*TTemplate) GetWithIndicators(context *gin.Context) {
 }
 
 // Template GetAll	godoc
-// @Summary	Получение всех шаблонов
+// @Summary	Получение всех шаблонов *В РАБОТЕ
 // @Tags	template
 // @Accept	json
 // @Produce	json

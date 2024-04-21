@@ -16,7 +16,7 @@ var Result *TResult
 // @Tags	result
 // @Accept	json
 // @Produce	json
-// @Success	200	{object}	models.Result
+// @Success	200	{array}	models.Result
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
 // @Router	/quest-service/result/by-user/{id} [get]
@@ -52,7 +52,7 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param request body models.ResultCreateRequest true "Body для создания результатов"
-// @Success	200	{object}	models.Result
+// @Success	200	{array}	models.Result
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
 // @Router	/quest-service/result/create [post]
