@@ -9,6 +9,6 @@ func Category(baseGroup *gin.RouterGroup) {
 	group := baseGroup.Group("/category")
 	group.GET("/:id", controllers.Category.Get)
 	group.GET("/all", controllers.Category.GetAll)
-	group.POST("/create/:id", controllers.Category.Create)
+	group.POST("/create", controllers.Category.Create)
 	group.DELETE("/delete/:id", controllers.Category.Delete)
 }
