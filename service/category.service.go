@@ -15,11 +15,7 @@ var Category = &TCategory{
 }
 
 func (*TCategory) Get(id int) (*models.Category, error) {
-	sqlString := `
-		SELECT * FROM "category" 
-		WHERE id_category = $1
-		RETURNING *;
-	`
+	sqlString := `SELECT * FROM "category" WHERE id_category = $1;`
 
 	data, err := database.BaseQuery[models.Category](sqlString, id)
 
@@ -27,7 +23,7 @@ func (*TCategory) Get(id int) (*models.Category, error) {
 }
 
 func (*TCategory) GetAll() ([]*models.Category, error) {
-	sqlString := `SELECT * FROM "category" RETURNING *;`
+	sqlString := `SELECT * FROM "category";`
 
 	data, err := database.BaseQuery[models.Category](sqlString)
 

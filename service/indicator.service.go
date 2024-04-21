@@ -15,11 +15,7 @@ var Indicator = &TIndicator{
 }
 
 func (*TIndicator) Get(id int) (*models.Indicator, error) {
-	sqlString := `
-		SELECT * FROM "indicator" 
-		WHERE id_indicator = $1
-		RETURNING *;
-	`
+	sqlString := `SELECT * FROM "indicator" WHERE id_indicator = $1;`
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, id)
 
@@ -27,7 +23,7 @@ func (*TIndicator) Get(id int) (*models.Indicator, error) {
 }
 
 func (*TIndicator) GetAll() ([]*models.Indicator, error) {
-	sqlString := `SELECT * FROM "indicator" RETURNING *;`
+	sqlString := `SELECT * FROM "indicator";`
 
 	data, err := database.BaseQuery[models.Indicator](sqlString)
 
@@ -63,8 +59,7 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.Indicator, error) {
 			ON "indicator".id_indicator = "template_indicator".id_indicator
 		INNER JOIN "template" 
 			ON "template_indicator".id_template = "template".id_template
-		WHERE "template".id_template = $1
-		RETURNING *;
+		WHERE "template".id_template = $1;
 	`
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, id)
@@ -87,8 +82,7 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.Indicator, error) {
 			"template_indicator".id_template = "template".id_template
 		INNER JOIN "quest" ON 
 			"template".id_template = "quest".id_template
-		WHERE "quest".id_quest = $1
-		RETURNING *;
+		WHERE "quest".id_quest = $1;
 	`
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, id)

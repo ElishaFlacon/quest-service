@@ -17,8 +17,7 @@ var QuestTeam = &TQuestTeam{
 
 func (*TQuestTeam) Get(id int) (*models.QuestTeam, error) {
 	sqlString := `
-		SELECT * 
-		FROM "quest_team" 
+		SELECT * FROM "quest_team" 
 		WHERE id_quest_team = $1;
 	`
 

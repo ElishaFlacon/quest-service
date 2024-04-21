@@ -16,8 +16,7 @@ var TemplateIndicator = &TTemplateIndicator{
 
 func (init *TTemplateIndicator) Get(id int) (*models.TemplateIndicator, error) {
 	sqlString := `
-		SELECT * 
-		FROM "template_indicator" 
+		SELECT * FROM "template_indicator" 
 		WHERE id_template_indicator = $1;
 	`
 
