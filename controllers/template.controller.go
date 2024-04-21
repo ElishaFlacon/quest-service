@@ -14,14 +14,14 @@ type TTemplate struct{}
 var Template *TTemplate
 
 // Template Get	godoc
-// @Summary	Пример get template by id
+// @Summary	Получение шаблона по ID
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Success	200	{object}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/template/:id [get]
+// @Router	/quest-service/template/:id [get]
 func (*TTemplate) Get(context *gin.Context) {
 	id := utils.CultivateNumberParam(context, "id")
 	data, errData := service.Template.Get(id)
@@ -29,14 +29,14 @@ func (*TTemplate) Get(context *gin.Context) {
 }
 
 // Template GetWithIndicators	godoc
-// @Summary	Пример get template by id with indicators
+// @Summary	Получение шаблона с вопросами по ID
 // @Tags	template
 // @Accept	json
 // @Produce	json
-// @Success	200	{object}	models.Template
+// @Success	200	{object}	models.TemplateWithIndicators
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/template/:id [get]
+// @Router	/quest-service/template/with-indicators/:id [get]
 func (*TTemplate) GetWithIndicators(context *gin.Context) {
 	id := utils.CultivateNumberParam(context, "id")
 	data, errData := service.Template.GetWithIndicators(id)
@@ -44,34 +44,31 @@ func (*TTemplate) GetWithIndicators(context *gin.Context) {
 }
 
 // Template GetAll	godoc
-// @Summary	Пример get all templates
+// @Summary	Получение всех шаблонов
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Success	200	{array}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/template/:id [get]
+// @Router	/quest-service/template/all [get]
 func (*TTemplate) GetAll(context *gin.Context) {
 	data, errData := service.Template.GetAll()
 	utils.CultivateServiceData(context, data, errData)
 }
 
 // Template Create	godoc
-// @Summary	Пример create template
+// @Summary	Создание шаблона
 // @Tags	template
 // @Accept	json
 // @Produce	json
+// @Param request body models.TemplateCreateRequest true "Body для создания шаблона"
 // @Success	200	{object}	models.TemplateWithCountIndicators
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/template/create [post]
+// @Router	/quest-service/template/create [post]
 func (*TTemplate) Create(context *gin.Context) {
-	body := struct {
-		Name        string             `json:"name"`
-		Description string             `json:"description"`
-		Indicators  []struct{ Id int } `json:"indicators"`
-	}{}
+	body := models.TemplateCreateRequest{}
 	utils.CultivateBody(context, body)
 
 	indicators := utils.GetBodyIds(body.Indicators)
@@ -101,14 +98,14 @@ func (*TTemplate) Create(context *gin.Context) {
 }
 
 // Template Hide	godoc
-// @Summary	Пример hide template by id
+// @Summary	Скрытие шаблона по ID
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Success	200	{object}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/template/hide/:id [put]
+// @Router	/quest-service/template/hide/{id} [put]
 func (*TTemplate) Hide(context *gin.Context) {
 	id := utils.CultivateNumberParam(context, "id")
 	data, errData := service.Quest.Hide(id)
@@ -116,14 +113,14 @@ func (*TTemplate) Hide(context *gin.Context) {
 }
 
 // Template Delete	godoc
-// @Summary	Пример delete template by id
+// @Summary	Удаление шаблона по ID
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Success	200	{object}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/template/delete/:id [delete]
+// @Router	/quest-service/template/delete/{id} [delete]
 func (*TTemplate) Delete(context *gin.Context) {
 	id := utils.CultivateNumberParam(context, "id")
 	data, errData := service.Quest.Delete(id)

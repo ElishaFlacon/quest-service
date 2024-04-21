@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/ElishaFlacon/quest-service/models"
 	"github.com/ElishaFlacon/quest-service/service"
 	"github.com/ElishaFlacon/quest-service/utils"
 	"github.com/gin-gonic/gin"
@@ -11,14 +12,14 @@ type TResult struct{}
 var Result *TResult
 
 // Result GetByUserId	godoc
-// @Summary	Пример get result by user id
+// @Summary	Получение результатов по ID пользователя
 // @Tags	result
 // @Accept	json
 // @Produce	json
 // @Success	200	{object}	models.Result
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/result/user/:id [get]
+// @Router	/quest-service/result/by-user/{id} [get]
 func (*TResult) GetByUserId(context *gin.Context) {
 	id := utils.CultivateStringParam(context, "id")
 	data, errData := service.Result.GetByUserId(id)
@@ -26,18 +27,17 @@ func (*TResult) GetByUserId(context *gin.Context) {
 }
 
 // Result GetByUsersId	godoc
-// @Summary	Пример get result by users ids
+// @Summary	Получение результатов по ID пользователей
 // @Tags	result
 // @Accept	json
 // @Produce	json
+// @Param request body models.GetByUsersIdRequest true "Body для получения результатов по ID пользователей"
 // @Success	200	{array}	models.Result
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/result/users [get]
+// @Router	/quest-service/result/by-users [get]
 func (*TResult) GetByUsersId(context *gin.Context) {
-	body := struct {
-		Users []struct{ Id string } `json:"users"`
-	}{}
+	body := models.GetByUsersIdRequest{}
 	utils.CultivateBody(context, body)
 
 	users := utils.GetBodyIds(body.Users)
@@ -47,24 +47,17 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 }
 
 // Result Create	godoc
-// @Summary	Пример result create
+// @Summary	Создание результатов
 // @Tags	result
 // @Accept	json
 // @Produce	json
+// @Param request body models.ResultCreateRequest true "Body для создания результатов"
 // @Success	200	{object}	models.Result
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
-// @Router	/result/create [post]
+// @Router	/quest-service/result/create [post]
 func (*TResult) Create(context *gin.Context) {
-	body := struct {
-		Results []struct {
-			IdQuest     int    `json:"id_quest"`
-			IdIndicator int    `json:"id_indicator"`
-			IdFromUser  string `json:"id_from_user"`
-			IdToUser    string `json:"id_to_user"`
-			Value       string `json:"value"`
-		} `json:"results"`
-	}{}
+	body := models.ResultCreateRequest{}
 	utils.CultivateBody(context, body)
 
 	rows := [][]any{}
