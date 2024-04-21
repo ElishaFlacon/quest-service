@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/category/:id": {
+        "/quest-service/category/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -26,41 +26,7 @@ const docTemplate = `{
                 "tags": [
                     "category"
                 ],
-                "summary": "Пример get category by id",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Category"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/category/all": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "category"
-                ],
-                "summary": "Пример get all categorys",
+                "summary": "Получение всех категорий",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -86,7 +52,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/create": {
+        "/quest-service/category/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -97,7 +63,18 @@ const docTemplate = `{
                 "tags": [
                     "category"
                 ],
-                "summary": "Пример create category",
+                "summary": "Создание категории",
+                "parameters": [
+                    {
+                        "description": "Body для создания категории",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CategoryCreateRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -120,7 +97,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/delete/:id": {
+        "/quest-service/category/delete/{id}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -131,7 +108,16 @@ const docTemplate = `{
                 "tags": [
                     "category"
                 ],
-                "summary": "Пример delete category by id",
+                "summary": "Удаление категории по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID категории",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -154,7 +140,50 @@ const docTemplate = `{
                 }
             }
         },
-        "/indicator/:id": {
+        "/quest-service/category/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Получение категории по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID категории",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Category"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/indicator/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -165,7 +194,7 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Пример get all indicators",
+                "summary": "Получение всех вопросов",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -191,7 +220,99 @@ const docTemplate = `{
                 }
             }
         },
-        "/indicator/create": {
+        "/quest-service/indicator/by-quest/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "indicator"
+                ],
+                "summary": "Получение вопросов по ID опроса",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Indicator"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/indicator/by-template/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "indicator"
+                ],
+                "summary": "Получение вопросов по ID шаблона",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Indicator"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/indicator/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -202,7 +323,18 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Пример create indicator",
+                "summary": "Создание вопроса",
+                "parameters": [
+                    {
+                        "description": "Body для создания вопроса",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.IndicatorCreateRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -225,7 +357,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/indicator/delete/:id": {
+        "/quest-service/indicator/delete/{id}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -236,7 +368,16 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Пример delete indicator",
+                "summary": "Удаление вопроса по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID вопроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -259,7 +400,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/indicator/hide/:id": {
+        "/quest-service/indicator/hide/{id}": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -270,7 +411,16 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Пример hide indicator",
+                "summary": "Скрытие вопроса по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID вопроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -293,7 +443,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/indicator/quest/:id": {
+        "/quest-service/indicator/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -304,15 +454,21 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Пример get indicator by quest id",
+                "summary": "Получение вопроса по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID вопроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Indicator"
-                            }
+                            "$ref": "#/definitions/models.Indicator"
                         }
                     },
                     "400": {
@@ -330,44 +486,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/indicator/template/:id": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "indicator"
-                ],
-                "summary": "Пример get indicator by template id",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Indicator"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest/:id": {
+        "/quest-service/quest/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -378,41 +497,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Пример get quest by id",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.QuestResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest/all": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "quest"
-                ],
-                "summary": "Пример get all quest",
+                "summary": "Получение всех опросов",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -438,7 +523,53 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest/create": {
+        "/quest-service/quest/by-user/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quest"
+                ],
+                "summary": "Получение опросов по ID пользователя *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID пользователя",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.QuestWithIndicators"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/quest/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -449,7 +580,18 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Пример create quest",
+                "summary": "Создание опроса",
+                "parameters": [
+                    {
+                        "description": "Body для создания опроса",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.QuestCreateRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -472,7 +614,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest/delete/:id": {
+        "/quest-service/quest/delete/{id}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -483,7 +625,16 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Пример delete quest by id",
+                "summary": "Удаление опроса по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -506,7 +657,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest/hide/:id": {
+        "/quest-service/quest/hide/{id}": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -517,7 +668,16 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Пример hide quest by id",
+                "summary": "Скрытие опроса по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -540,7 +700,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest/with-indicators/:id": {
+        "/quest-service/quest/with-indicators/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -551,7 +711,145 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Пример get quest by id with indicators",
+                "summary": "Получение опроса c его вопросами по ID *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.QuestWithIndicators"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/quest/with-users-and-indicators/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quest"
+                ],
+                "summary": "Получение опроса c его вопросами и пользователями по ID *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.QuestWithUsersAndIndicators"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/quest/with-users/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quest"
+                ],
+                "summary": "Получение опроса c его пользователями по ID *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.QuestWithUsers"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/quest/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quest"
+                ],
+                "summary": "Получение опроса по ID *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -574,109 +872,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest/with-users-and-indicators/:id": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "quest"
-                ],
-                "summary": "Пример get quest by id with users and indicators",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.QuestResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest/with-users/:id": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "quest"
-                ],
-                "summary": "Пример get quest by id with users",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.QuestResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/result/create": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "result"
-                ],
-                "summary": "Пример result create",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Result"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/result/user/:id": {
+        "/quest-service/result/by-user/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -687,41 +883,16 @@ const docTemplate = `{
                 "tags": [
                     "result"
                 ],
-                "summary": "Пример get result by user id",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Result"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
+                "summary": "Получение результатов по ID пользователя",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
-                }
-            }
-        },
-        "/result/users": {
-            "get": {
-                "consumes": [
-                    "application/json"
                 ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "result"
-                ],
-                "summary": "Пример get result by users ids",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -747,7 +918,103 @@ const docTemplate = `{
                 }
             }
         },
-        "/template/:id": {
+        "/quest-service/result/by-users": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "result"
+                ],
+                "summary": "Получение результатов по ID пользователей",
+                "parameters": [
+                    {
+                        "description": "Body для получения результатов по ID пользователей",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.GetByUsersIdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Result"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/result/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "result"
+                ],
+                "summary": "Создание результатов",
+                "parameters": [
+                    {
+                        "description": "Body для создания результатов",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ResultCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Result"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/template/:id": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -758,7 +1025,50 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Пример get all templates",
+                "summary": "Получение шаблона по ID *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Template"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/template/all": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "template"
+                ],
+                "summary": "Получение всех шаблонов *В РАБОТЕ",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -784,7 +1094,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/template/create": {
+        "/quest-service/template/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -795,7 +1105,18 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Пример create template",
+                "summary": "Создание шаблона",
+                "parameters": [
+                    {
+                        "description": "Body для создания шаблона",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TemplateCreateRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -818,7 +1139,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/template/delete/:id": {
+        "/quest-service/template/delete/{id}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -829,7 +1150,16 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Пример delete template by id",
+                "summary": "Удаление шаблона по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -852,7 +1182,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/template/hide/:id": {
+        "/quest-service/template/hide/{id}": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -863,12 +1193,64 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Пример hide template by id",
+                "summary": "Скрытие шаблона по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Template"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/template/with-indicators/:id": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "template"
+                ],
+                "summary": "Получение шаблона с вопросами по ID *В РАБОТЕ",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.TemplateWithIndicators"
                         }
                     },
                     "400": {
@@ -899,6 +1281,30 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CategoryCreateRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.GetByUsersIdRequest": {
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "models.Indicator": {
             "type": "object",
             "properties": {
@@ -909,6 +1315,26 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "idСategory": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "visible": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.IndicatorCreateRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "idCategory": {
                     "type": "integer"
                 },
                 "name": {
@@ -948,6 +1374,28 @@ const docTemplate = `{
                 }
             }
         },
+        "models.QuestCreateRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "teams": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "models.QuestResponse": {
             "type": "object",
             "properties": {
@@ -968,6 +1416,99 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "models.QuestWithIndicators": {
+            "type": "object",
+            "properties": {
+                "endAt": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "indicators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Indicator"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "percent": {
+                    "type": "number"
+                },
+                "startAt": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.QuestWithUsers": {
+            "type": "object",
+            "properties": {
+                "endAt": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "percent": {
+                    "type": "number"
+                },
+                "startAt": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.QuestWithUsersAndIndicators": {
+            "type": "object",
+            "properties": {
+                "endAt": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "indicators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Indicator"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "percent": {
+                    "type": "number"
+                },
+                "startAt": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -994,6 +1535,34 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ResultCreateRequest": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id_from_user": {
+                                "type": "string"
+                            },
+                            "id_indicator": {
+                                "type": "integer"
+                            },
+                            "id_quest": {
+                                "type": "integer"
+                            },
+                            "id_to_user": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "models.Template": {
             "type": "object",
             "properties": {
@@ -1005,6 +1574,28 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TemplateCreateRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "indicators": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            }
+                        }
+                    }
                 },
                 "name": {
                     "type": "string"
@@ -1025,6 +1616,29 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TemplateWithIndicators": {
+            "type": "object",
+            "properties": {
+                "available": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "indicators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Indicator"
+                    }
                 },
                 "name": {
                     "type": "string"
