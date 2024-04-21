@@ -16,6 +16,7 @@ var Category *TCategory
 // @Tags	category
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID категории"
 // @Success	200	{object}	models.Category
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -62,6 +63,7 @@ func (*TCategory) Create(context *gin.Context) {
 // @Tags	category
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID категории"
 // @Success	200	{object}	models.Category
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string

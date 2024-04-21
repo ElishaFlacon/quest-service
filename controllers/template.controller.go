@@ -18,6 +18,7 @@ var Template *TTemplate
 // @Tags	template
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -33,6 +34,7 @@ func (*TTemplate) Get(context *gin.Context) {
 // @Tags	template
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.TemplateWithIndicators
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -102,6 +104,7 @@ func (*TTemplate) Create(context *gin.Context) {
 // @Tags	template
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -117,6 +120,7 @@ func (*TTemplate) Hide(context *gin.Context) {
 // @Tags	template
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.Template
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string

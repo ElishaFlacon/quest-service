@@ -16,6 +16,7 @@ var Result *TResult
 // @Tags	result
 // @Accept	json
 // @Produce	json
+// @Param	id path string true "ID пользователя"
 // @Success	200	{array}	models.Result
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string

@@ -16,6 +16,7 @@ var Indicator *TIndicator
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID вопроса"
 // @Success	200	{object}	models.Indicator
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -31,6 +32,7 @@ func (*TIndicator) Get(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID шаблона"
 // @Success	200	{array}	models.Indicator
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -46,6 +48,7 @@ func (*TIndicator) GetByTemplateId(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{array}	models.Indicator
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -98,6 +101,7 @@ func (*TIndicator) Create(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID вопроса"
 // @Success	200	{object}	models.Indicator
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -113,6 +117,7 @@ func (*TIndicator) Hide(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID вопроса"
 // @Success	200	{object}	models.Indicator
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string

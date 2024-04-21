@@ -16,6 +16,7 @@ var Quest *TQuest
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{object}	models.QuestResponse
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -31,6 +32,7 @@ func (*TQuest) Get(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID пользователя"
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -46,6 +48,7 @@ func (*TQuest) GetByUserId(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{object}	models.QuestWithIndicators
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -61,6 +64,7 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{object}	models.QuestWithUsers
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -76,6 +80,7 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{object}	models.QuestWithUsersAndIndicators
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -129,6 +134,7 @@ func (*TQuest) Create(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{object}	models.Quest
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
@@ -144,6 +150,7 @@ func (*TQuest) Hide(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	id path int true "ID опроса"
 // @Success	200	{object}	models.Quest
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
