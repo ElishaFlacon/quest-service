@@ -19,6 +19,11 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 	return nil, nil
 }
 
+func (*TQuest) GetByUserId(id int) ([]*models.QuestWithIndicators, error) {
+	// TODO будет похож на GetWithIndicators, только под конкретного пользователя
+	return nil, nil
+}
+
 func (*TQuest) GetWithIndicators(
 	id int,
 ) (*models.QuestWithIndicators, error) {
