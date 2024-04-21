@@ -49,3 +49,9 @@ type QuestWithUsersAndIndicators struct {
 	Indicators []Indicator `json:"indicators"`
 	Users      []string    `json:"users"`
 }
+
+type QuestCreateRequest struct {
+	Name        string                `json:"name"`
+	Description string                `json:"description"`
+	Teams       []struct{ Id string } `json:"teams"`
+}

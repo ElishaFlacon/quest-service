@@ -22,3 +22,9 @@ type TemplateWithIndicators struct {
 	Available   bool        `json:"available"`
 	Indicators  []Indicator `json:"indicators"`
 }
+
+type TemplateCreateRequest struct {
+	Name        string             `json:"name"`
+	Description string             `json:"description"`
+	Indicators  []struct{ Id int } `json:"indicators"`
+}
