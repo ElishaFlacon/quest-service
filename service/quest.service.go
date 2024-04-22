@@ -15,8 +15,28 @@ var Quest = &TQuest{
 }
 
 func (*TQuest) Get(id int) (*models.QuestResponse, error) {
-	// TODO для Тимура: возвращаем все поля для опроса как в GetAll
-	return nil, nil
+	sqlString := `SELECT * FROM "launch_quests" WHERE "id_quest" = $1;`
+	data, errData := database.BaseQuery[models.Quest](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+	foundedQuest := data[0]
+
+	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
+	percent := float32(0)
+
+	status := utils.GetQuestTimeStatus(foundedQuest.StartAt, foundedQuest.EndAt)
+
+	quest := &models.QuestResponse{
+		IdQuest: foundedQuest.IdQuest,
+		Name:    foundedQuest.Name,
+		StartAt: foundedQuest.StartAt,
+		EndAt:   foundedQuest.EndAt,
+		Percent: percent,
+		Status:  status,
+	}
+
+	return quest, nil
 }
 
 func (*TQuest) GetByUserId(id int) ([]*models.QuestWithIndicators, error) {
@@ -27,8 +47,33 @@ func (*TQuest) GetByUserId(id int) ([]*models.QuestWithIndicators, error) {
 func (*TQuest) GetWithIndicators(
 	id int,
 ) (*models.QuestWithIndicators, error) {
-	// TODO для Тимура: возвращаем все поля для опроса как в GetAll + массив вопросов (use indicators.GetByQuestId)
-	return nil, nil
+	sqlString := `SELECT * FROM "launch_quests" WHERE "id_quest" = $1;`
+	data, errData := database.BaseQuery[models.Quest](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+	foundedQuest := data[0]
+
+	questIndicators, err := Indicator.GetByQuestId(id)
+	if err != nil {
+		return nil, err
+	}
+	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
+	percent := float32(0)
+
+	status := utils.GetQuestTimeStatus(foundedQuest.StartAt, foundedQuest.EndAt)
+
+	quest := &models.QuestWithIndicators{
+		IdQuest:    foundedQuest.IdQuest,
+		Name:       foundedQuest.Name,
+		StartAt:    foundedQuest.StartAt,
+		EndAt:      foundedQuest.EndAt,
+		Percent:    percent,
+		Status:     status,
+		Indicators: questIndicators,
+	}
+
+	return quest, nil
 }
 
 func (*TQuest) GetWithUsers(id int) (*models.QuestWithUsers, error) {

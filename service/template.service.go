@@ -15,18 +15,50 @@ var Template = &TTemplate{
 }
 
 func (*TTemplate) Get(id int) (*models.Template, error) {
-	// TODO для Тимура: возвращаем все поля для шаблона
-	return nil, nil
+	sqlString := `SELECT * FROM "template" WHERE "id_template" = $1;`
+	data, errData := database.BaseQuery[models.Template](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+
+	return data[0], nil
 }
 
 func (*TTemplate) GetWithIndicators(id int) (*models.TemplateWithIndicators, error) {
 	// TODO для Тимура: возвращаем все поля для шаблона + массив вопросов (use indicators.GetByTemplateId)
-	return nil, nil
+	sqlString := `SELECT * FROM "template" WHERE "id_quest" = $1;`
+	data, errData := database.BaseQuery[models.Template](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+	foundedTemplate := data[0]
+
+	templateIndicators, err := Indicator.GetByTemplateId(id)
+	if err != nil {
+		return nil, err
+	}
+
+	template := &models.TemplateWithIndicators{
+		IdTemplate:  foundedTemplate.IdTemplate,
+		Name:        foundedTemplate.Name,
+		Description: foundedTemplate.Description,
+		Available:   foundedTemplate.Available,
+		Indicators:  templateIndicators,
+	}
+	return template, nil
 }
 
 func (*TTemplate) GetAll() ([]*models.Template, error) {
 	// TODO для Тимура: возвращаем все шаблоны
-	return nil, nil
+
+	sqlString := `SELECT * FROM "template";`
+
+	data, errData := database.BaseQuery[models.Template](sqlString)
+	if errData != nil {
+		return nil, errData
+	}
+
+	return data, errData
 }
 
 func (*TTemplate) Create(
