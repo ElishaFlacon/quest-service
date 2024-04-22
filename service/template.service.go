@@ -25,8 +25,7 @@ func (*TTemplate) Get(id int) (*models.Template, error) {
 }
 
 func (*TTemplate) GetWithIndicators(id int) (*models.TemplateWithIndicators, error) {
-	// TODO для Тимура: возвращаем все поля для шаблона + массив вопросов (use indicators.GetByTemplateId)
-	sqlString := `SELECT * FROM "template" WHERE "id_quest" = $1;`
+	sqlString := `SELECT * FROM "template" WHERE "id_template" = $1;`
 	data, errData := database.BaseQuery[models.Template](sqlString, id)
 	if errData != nil {
 		return nil, errData
@@ -49,8 +48,6 @@ func (*TTemplate) GetWithIndicators(id int) (*models.TemplateWithIndicators, err
 }
 
 func (*TTemplate) GetAll() ([]*models.Template, error) {
-	// TODO для Тимура: возвращаем все шаблоны
-
 	sqlString := `SELECT * FROM "template";`
 
 	data, errData := database.BaseQuery[models.Template](sqlString)
