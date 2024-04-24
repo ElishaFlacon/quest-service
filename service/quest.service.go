@@ -14,32 +14,45 @@ var Quest = &TQuest{
 	table: "quest",
 }
 
+func mapQuestTeamUserToString(questTeamUser *models.QuestTeamUser) string {
+	return questTeamUser.IdUser
+}
+
 func (*TQuest) Get(id int) (*models.QuestResponse, error) {
-	sqlString := `SELECT * FROM "launch_quests" WHERE "id_quest" = $1;`
+	sqlString := `
+		SELECT * FROM "quest" 
+		WHERE id_quest = $1;
+	`
+
 	data, errData := database.BaseQuery[models.Quest](sqlString, id)
 	if errData != nil {
 		return nil, errData
 	}
-	foundedQuest := data[0]
 
+	quest := data[0]
 	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
 	percent := float32(0)
 
-	status := utils.GetQuestTimeStatus(foundedQuest.StartAt, foundedQuest.EndAt)
+	status := utils.GetQuestTimeStatus(
+		quest.StartAt,
+		quest.EndAt,
+	)
 
-	quest := &models.QuestResponse{
-		IdQuest: foundedQuest.IdQuest,
-		Name:    foundedQuest.Name,
-		StartAt: foundedQuest.StartAt,
-		EndAt:   foundedQuest.EndAt,
+	newQuest := &models.QuestResponse{
+		IdQuest: quest.IdQuest,
+		Name:    quest.Name,
+		StartAt: quest.StartAt,
+		EndAt:   quest.EndAt,
 		Percent: percent,
 		Status:  status,
 	}
 
-	return quest, nil
+	return newQuest, nil
 }
 
-func (*TQuest) GetByUserId(id int) ([]*models.QuestWithIndicators, error) {
+func (*TQuest) GetByUserId(
+	id int,
+) ([]*models.QuestWithIndicators, error) {
 	// TODO будет похож на GetWithIndicators, только под конкретного пользователя
 	return nil, nil
 }
@@ -47,21 +60,29 @@ func (*TQuest) GetByUserId(id int) ([]*models.QuestWithIndicators, error) {
 func (*TQuest) GetWithIndicators(
 	id int,
 ) (*models.QuestWithIndicators, error) {
-	sqlString := `SELECT * FROM "launch_quests" WHERE "id_quest" = $1;`
+	sqlString := `
+		SELECT * FROM "quest" 
+		WHERE id_quest = $1;
+	`
+
 	data, errData := database.BaseQuery[models.Quest](sqlString, id)
 	if errData != nil {
 		return nil, errData
 	}
-	foundedQuest := data[0]
 
-	questIndicators, err := Indicator.GetByQuestId(id)
-	if err != nil {
-		return nil, err
+	indicators, errIndicators := Indicator.GetByQuestId(id)
+	if errIndicators != nil {
+		return nil, errIndicators
 	}
+
+	foundedQuest := data[0]
 	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
 	percent := float32(0)
 
-	status := utils.GetQuestTimeStatus(foundedQuest.StartAt, foundedQuest.EndAt)
+	status := utils.GetQuestTimeStatus(
+		foundedQuest.StartAt,
+		foundedQuest.EndAt,
+	)
 
 	quest := &models.QuestWithIndicators{
 		IdQuest:    foundedQuest.IdQuest,
@@ -70,26 +91,90 @@ func (*TQuest) GetWithIndicators(
 		EndAt:      foundedQuest.EndAt,
 		Percent:    percent,
 		Status:     status,
-		Indicators: questIndicators,
+		Indicators: indicators,
 	}
 
 	return quest, nil
 }
 
-func (*TQuest) GetWithUsers(id int) (*models.QuestWithUsers, error) {
-	// TODO в quest_team_user.service добавить GetByQuestId
-	return nil, nil
+func (*TQuest) GetWithUsers(
+	id int,
+) (*models.QuestWithUsers, error) {
+	sqlString := `
+		SELECT * FROM "quest" 
+		WHERE id_quest = $1;
+	`
+
+	data, errData := database.BaseQuery[models.Quest](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+
+	questTeamUsers, errQuestTeamUsers := QuestTeamUser.GetByQuestId(id)
+	if errQuestTeamUsers != nil {
+		return nil, errQuestTeamUsers
+	}
+
+	quest := data[0]
+
+	percent := float32(0)
+
+	questWithUsers := &models.QuestWithUsers{
+		IdQuest: quest.IdQuest,
+		Name:    quest.Name,
+		StartAt: quest.StartAt,
+		EndAt:   quest.EndAt,
+		Status:  utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt),
+		Percent: percent,
+		Users:   utils.MapToPrimitiveArray(questTeamUsers, mapQuestTeamUserToString),
+	}
+
+	return questWithUsers, nil
 }
 
 func (*TQuest) GetWithUsersAndIndicators(
 	id int,
 ) (*models.QuestWithUsersAndIndicators, error) {
-	// TODO делать когда будут готовы GetWithIndicators и GetWithUsers
-	return nil, nil
+	sqlString := `
+		SELECT * FROM "quest" 
+		WHERE id_quest = $1;
+	`
+
+	data, errData := database.BaseQuery[models.Quest](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+
+	questTeamUsers, errQuestTeamUsers := QuestTeamUser.GetByQuestId(id)
+	if errQuestTeamUsers != nil {
+		return nil, errQuestTeamUsers
+	}
+
+	indicators, errIndicators := Indicator.GetByQuestId(id)
+	if errIndicators != nil {
+		return nil, errIndicators
+	}
+
+	quest := data[0]
+
+	percent := float32(0)
+
+	questWithUsersAndIndicators := &models.QuestWithUsersAndIndicators{
+		IdQuest:    quest.IdQuest,
+		Name:       quest.Name,
+		StartAt:    quest.StartAt,
+		EndAt:      quest.EndAt,
+		Status:     utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt),
+		Percent:    percent,
+		Users:      utils.MapToPrimitiveArray(questTeamUsers, mapQuestTeamUserToString),
+		Indicators: indicators,
+	}
+
+	return questWithUsersAndIndicators, nil
 }
 
 func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
-	sqlString := `SELECT * FROM "launch_quests";`
+	sqlString := `SELECT * FROM "quest";`
 
 	data, errData := database.BaseQuery[models.Quest](sqlString)
 	if errData != nil {

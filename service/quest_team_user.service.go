@@ -33,6 +33,25 @@ func (*TQuestTeamUser) GetAll() ([]*models.QuestTeamUser, error) {
 	return data, err
 }
 
+func (*TQuestTeamUser) GetByQuestId(
+	id int,
+) ([]*models.QuestTeamUser, error) {
+	sqlString := `
+		SELECT 
+		"quest_team_user".id_quest_team,
+		"quest_team_user".id_user   
+		FROM "quest"
+		INNER JOIN "quest_team"
+		ON "quest".id_quest = "quest_team".id_quest
+		INNER JOIN "quest_team_user"
+		ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+		WHERE "quest".id_quest = $1;
+	`
+
+	data, err := database.BaseQuery[models.QuestTeamUser](sqlString, id)
+	return data, err
+}
+
 func (init *TQuestTeamUser) CreateWithCopy(
 	rows [][]any,
 ) (int64, error) {

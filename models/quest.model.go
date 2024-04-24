@@ -40,14 +40,14 @@ type QuestWithUsers struct {
 }
 
 type QuestWithUsersAndIndicators struct {
-	IdQuest    int         `json:"id"`
-	Name       string      `json:"name"`
-	StartAt    int         `json:"startAt"`
-	EndAt      int         `json:"endAt"`
-	Percent    float32     `json:"percent"`
-	Status     string      `json:"status"`
-	Indicators []Indicator `json:"indicators"`
-	Users      []string    `json:"users"`
+	IdQuest    int          `json:"id"`
+	Name       string       `json:"name"`
+	StartAt    int          `json:"startAt"`
+	EndAt      int          `json:"endAt"`
+	Percent    float32      `json:"percent"`
+	Status     string       `json:"status"`
+	Indicators []*Indicator `json:"indicators"`
+	Users      []string     `json:"users"`
 }
 
 type QuestCreateRequest struct {
