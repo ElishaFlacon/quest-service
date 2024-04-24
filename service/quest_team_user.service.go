@@ -33,6 +33,30 @@ func (*TQuestTeamUser) GetAll() ([]*models.QuestTeamUser, error) {
 	return data, err
 }
 
+func (*TQuestTeamUser) GetByQuestId(
+	id int,
+) ([]*models.QuestTeamUser, error) {
+	// TODO для Тимура, 1 очередь
+	// нужно дописать sql запрос, который будет выдавать поля из models.QuestTeamUser по айдишнику
+	sqlString := `
+		SELECT 
+		"quest_team_user".id_quest_team,
+		"quest_team_user".id_user   
+		FROM "quest"
+		
+
+		ТУТ ДОЛЖНА БЫТЬ ЦЕПОЧКА INNER JOIN'ов
+		схема таблицы в readme (смотреть на гитхабе, чтобы картинка подгрузилась)
+
+		
+		WHERE "quest".quest_id = $1;
+	`
+
+	data, err := database.BaseQuery[models.QuestTeamUser](sqlString, id)
+
+	return data, err
+}
+
 func (init *TQuestTeamUser) CreateWithCopy(
 	rows [][]any,
 ) (int64, error) {

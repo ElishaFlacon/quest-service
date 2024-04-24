@@ -15,7 +15,8 @@ var Template = &TTemplate{
 }
 
 func (*TTemplate) Get(id int) (*models.Template, error) {
-	sqlString := `SELECT * FROM "template" WHERE "id_template" = $1;`
+	sqlString := `SELECT * FROM "template" WHERE id_template = $1;`
+
 	data, errData := database.BaseQuery[models.Template](sqlString, id)
 	if errData != nil {
 		return nil, errData
@@ -24,27 +25,32 @@ func (*TTemplate) Get(id int) (*models.Template, error) {
 	return data[0], nil
 }
 
-func (*TTemplate) GetWithIndicators(id int) (*models.TemplateWithIndicators, error) {
-	sqlString := `SELECT * FROM "template" WHERE "id_template" = $1;`
+func (*TTemplate) GetWithIndicators(
+	id int,
+) (*models.TemplateWithIndicators, error) {
+	sqlString := `SELECT * FROM "template" WHERE id_template = $1;`
+
 	data, errData := database.BaseQuery[models.Template](sqlString, id)
 	if errData != nil {
 		return nil, errData
 	}
-	foundedTemplate := data[0]
 
 	templateIndicators, err := Indicator.GetByTemplateId(id)
 	if err != nil {
 		return nil, err
 	}
 
-	template := &models.TemplateWithIndicators{
-		IdTemplate:  foundedTemplate.IdTemplate,
-		Name:        foundedTemplate.Name,
-		Description: foundedTemplate.Description,
-		Available:   foundedTemplate.Available,
+	template := data[0]
+
+	newTemplate := &models.TemplateWithIndicators{
+		IdTemplate:  template.IdTemplate,
+		Name:        template.Name,
+		Description: template.Description,
+		Available:   template.Available,
 		Indicators:  templateIndicators,
 	}
-	return template, nil
+
+	return newTemplate, nil
 }
 
 func (*TTemplate) GetAll() ([]*models.Template, error) {
