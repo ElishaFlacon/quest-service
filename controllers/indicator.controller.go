@@ -17,7 +17,7 @@ var Indicator *TIndicator
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID вопроса"
-// @Success	200	{object}	models.Indicator
+// @Success	200	{object}	models.IndicatorWithCategoryName
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
 // @Router	/quest-service/indicator/{id} [get]
@@ -33,7 +33,7 @@ func (*TIndicator) Get(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID шаблона"
-// @Success	200	{array}	models.Indicator
+// @Success	200	{array}	models.IndicatorWithCategoryName
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
 // @Router	/quest-service/indicator/by-template/{id} [get]
@@ -49,7 +49,7 @@ func (*TIndicator) GetByTemplateId(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Success	200	{array}	models.Indicator
+// @Success	200	{array}	models.IndicatorWithCategoryName
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
 // @Router	/quest-service/indicator/by-quest/{id} [get]
@@ -64,7 +64,7 @@ func (*TIndicator) GetByQuestId(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
-// @Success	200	{array}	models.Indicator
+// @Success	200	{array}	models.IndicatorWithCategoryName
 // @Failure	400	{string} 	string
 // @Failure	500	{string} 	string
 // @Router	/quest-service/indicator/all [get]
@@ -89,7 +89,8 @@ func (*TIndicator) Create(context *gin.Context) {
 	data, errData := service.Indicator.Create(
 		body.Name,
 		body.Description,
-		body.Role,
+		body.FromRole,
+		body.ToRole,
 		body.Visible,
 		body.IdCategory,
 	)

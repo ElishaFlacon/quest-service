@@ -34,11 +34,14 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 		quest.EndAt,
 	)
 
+	startAt := utils.GetStringDate(quest.StartAt)
+	endAt := utils.GetStringDate(quest.EndAt)
+
 	newQuest := &models.QuestResponse{
 		IdQuest: quest.IdQuest,
 		Name:    quest.Name,
-		StartAt: quest.StartAt,
-		EndAt:   quest.EndAt,
+		StartAt: startAt,
+		EndAt:   endAt,
 		Percent: percent,
 		Status:  status,
 	}
@@ -71,26 +74,29 @@ func (*TQuest) GetWithIndicators(
 		return nil, errIndicators
 	}
 
-	foundedQuest := data[0]
+	quest := data[0]
 	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
 	percent := float32(0)
 
 	status := utils.GetQuestTimeStatus(
-		foundedQuest.StartAt,
-		foundedQuest.EndAt,
+		quest.StartAt,
+		quest.EndAt,
 	)
 
-	quest := &models.QuestWithIndicators{
-		IdQuest:    foundedQuest.IdQuest,
-		Name:       foundedQuest.Name,
-		StartAt:    foundedQuest.StartAt,
-		EndAt:      foundedQuest.EndAt,
+	startAt := utils.GetStringDate(quest.StartAt)
+	endAt := utils.GetStringDate(quest.EndAt)
+
+	newQuest := &models.QuestWithIndicators{
+		IdQuest:    quest.IdQuest,
+		Name:       quest.Name,
+		StartAt:    startAt,
+		EndAt:      endAt,
 		Percent:    percent,
 		Status:     status,
 		Indicators: indicators,
 	}
 
-	return quest, nil
+	return newQuest, nil
 }
 
 func (*TQuest) GetWithUsers(
@@ -129,11 +135,14 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 			quest.EndAt,
 		)
 
+		startAt := utils.GetStringDate(quest.StartAt)
+		endAt := utils.GetStringDate(quest.EndAt)
+
 		newQuest := &models.QuestResponse{
 			IdQuest: quest.IdQuest,
 			Name:    quest.Name,
-			StartAt: quest.StartAt,
-			EndAt:   quest.EndAt,
+			StartAt: startAt,
+			EndAt:   endAt,
 			Percent: percent,
 			Status:  status,
 		}

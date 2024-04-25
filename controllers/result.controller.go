@@ -38,7 +38,7 @@ func (*TResult) GetByUserId(context *gin.Context) {
 // @Failure	500	{string} 	string
 // @Router	/quest-service/result/by-users [get]
 func (*TResult) GetByUsersId(context *gin.Context) {
-	body := models.GetByUsersIdRequest{}
+	body := &models.GetByUsersIdRequest{}
 	utils.CultivateBody(context, body)
 
 	users := utils.GetBodyIds(body.Users)
@@ -58,7 +58,7 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 // @Failure	500	{string} 	string
 // @Router	/quest-service/result/create [post]
 func (*TResult) Create(context *gin.Context) {
-	body := models.ResultCreateRequest{}
+	body := &models.ResultCreateRequest{}
 	utils.CultivateBody(context, body)
 
 	rows := [][]any{}

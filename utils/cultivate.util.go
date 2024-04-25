@@ -22,20 +22,21 @@ func CultivateCondition(
 	condition bool,
 	code int,
 	message string,
-) {
+) bool {
 	if !condition {
-		return
+		return false
 	}
 
 	context.JSON(code, gin.H{"error": message})
 	context.Abort()
+	return true
 }
 
-func CultivateBody(
+func CultivateBody[T comparable](
 	context *gin.Context,
-	object any,
+	object T,
 ) {
-	err := context.BindJSON(&object)
+	err := context.BindJSON(object)
 
 	if err == nil {
 		return
@@ -43,7 +44,7 @@ func CultivateBody(
 
 	context.JSON(
 		http.StatusBadRequest,
-		gin.H{"error": errParam.Error()},
+		gin.H{"error": err.Error()},
 	)
 	context.Abort()
 }
@@ -51,9 +52,9 @@ func CultivateBody(
 func CultivateServiceError(
 	context *gin.Context,
 	err error,
-) {
+) bool {
 	if err == nil {
-		return
+		return false
 	}
 
 	context.JSON(
@@ -61,6 +62,7 @@ func CultivateServiceError(
 		gin.H{"error": err.Error()},
 	)
 	context.Abort()
+	return true
 }
 
 func CultivateServiceData(
@@ -68,7 +70,11 @@ func CultivateServiceData(
 	data any,
 	err error,
 ) {
-	CultivateServiceError(context, err)
+	isServiceError := CultivateServiceError(context, err)
+	if isServiceError {
+		return
+	}
+
 	context.JSON(http.StatusOK, data)
 	context.Abort()
 }
@@ -77,13 +83,13 @@ func CultivateParamsError(
 	context *gin.Context,
 	err error,
 ) {
-	if errParam == nil {
+	if err == nil {
 		return
 	}
 
 	context.JSON(
 		http.StatusBadRequest,
-		gin.H{"error": errParam.Error()},
+		gin.H{"error": err.Error()},
 	)
 	context.Abort()
 }
