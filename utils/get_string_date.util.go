@@ -1,9 +1,15 @@
 package utils
 
-import "time"
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
 func GetStringDate(timestamp int) string {
-	t := time.Unix(int64(timestamp), 0)
-	stringDate := t.Format(time.UnixDate)
-	return stringDate
+	unixTime := time.Unix(int64(timestamp), 0)
+	stringDate := unixTime.Format("01/02/2006")
+	splitedDate := strings.Split(stringDate, "/")
+	formatDate := fmt.Sprintf("%s.%s.%s", splitedDate[1], splitedDate[0], splitedDate[2])
+	return formatDate
 }
