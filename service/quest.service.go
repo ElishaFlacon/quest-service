@@ -38,11 +38,14 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 		quest.EndAt,
 	)
 
+	startAt := utils.GetStringDate(quest.StartAt)
+	endAt := utils.GetStringDate(quest.EndAt)
+
 	newQuest := &models.QuestResponse{
 		IdQuest: quest.IdQuest,
 		Name:    quest.Name,
-		StartAt: quest.StartAt,
-		EndAt:   quest.EndAt,
+		StartAt: startAt,
+		EndAt:   endAt,
 		Percent: percent,
 		Status:  status,
 	}
@@ -84,11 +87,14 @@ func (*TQuest) GetWithIndicators(
 		quest.EndAt,
 	)
 
+	startAt := utils.GetStringDate(quest.StartAt)
+	endAt := utils.GetStringDate(quest.EndAt)
+
 	newQuest := &models.QuestWithIndicators{
 		IdQuest:    quest.IdQuest,
 		Name:       quest.Name,
-		StartAt:    quest.StartAt,
-		EndAt:      quest.EndAt,
+		StartAt:    startAt,
+		EndAt:      endAt,
 		Percent:    percent,
 		Status:     status,
 		Indicators: indicators,
@@ -123,11 +129,14 @@ func (*TQuest) GetWithUsers(
 
 	users := utils.MapToPrimitiveArray(questTeamUsers, mapQuestTeamUserToString)
 
+	startAt := utils.GetStringDate(quest.StartAt)
+	endAt := utils.GetStringDate(quest.EndAt)
+
 	questWithUsers := &models.QuestWithUsers{
 		IdQuest: quest.IdQuest,
 		Name:    quest.Name,
-		StartAt: quest.StartAt,
-		EndAt:   quest.EndAt,
+		StartAt: startAt,
+		EndAt:   endAt,
 		Status:  status,
 		Percent: percent,
 		Users:   users,
@@ -167,11 +176,14 @@ func (*TQuest) GetWithUsersAndIndicators(
 
 	users := utils.MapToPrimitiveArray(questTeamUsers, mapQuestTeamUserToString)
 
+	startAt := utils.GetStringDate(quest.StartAt)
+	endAt := utils.GetStringDate(quest.EndAt)
+
 	questWithUsersAndIndicators := &models.QuestWithUsersAndIndicators{
 		IdQuest:    quest.IdQuest,
 		Name:       quest.Name,
-		StartAt:    quest.StartAt,
-		EndAt:      quest.EndAt,
+		StartAt:    startAt,
+		EndAt:      endAt,
 		Status:     status,
 		Percent:    percent,
 		Users:      users,
@@ -200,11 +212,14 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 			quest.EndAt,
 		)
 
+		startAt := utils.GetStringDate(quest.StartAt)
+		endAt := utils.GetStringDate(quest.EndAt)
+
 		newQuest := &models.QuestResponse{
 			IdQuest: quest.IdQuest,
 			Name:    quest.Name,
-			StartAt: quest.StartAt,
-			EndAt:   quest.EndAt,
+			StartAt: startAt,
+			EndAt:   endAt,
 			Percent: percent,
 			Status:  status,
 		}

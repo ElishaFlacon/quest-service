@@ -25,13 +25,15 @@ definitions:
     properties:
       description:
         type: string
+      fromRole:
+        type: string
       id:
         type: integer
       idСategory:
         type: integer
       name:
         type: string
-      role:
+      toRole:
         type: string
       visible:
         type: boolean
@@ -40,11 +42,32 @@ definitions:
     properties:
       description:
         type: string
+      fromRole:
+        type: string
       idCategory:
         type: integer
       name:
         type: string
-      role:
+      toRole:
+        type: string
+      visible:
+        type: boolean
+    type: object
+  models.IndicatorWithCategoryName:
+    properties:
+      categoryName:
+        type: string
+      description:
+        type: string
+      fromRole:
+        type: string
+      id:
+        type: integer
+      idСategory:
+        type: integer
+      name:
+        type: string
+      toRole:
         type: string
       visible:
         type: boolean
@@ -82,8 +105,10 @@ definitions:
     type: object
   models.QuestResponse:
     properties:
+      available:
+        type: boolean
       endAt:
-        type: integer
+        type: string
       id:
         type: integer
       name:
@@ -91,33 +116,37 @@ definitions:
       percent:
         type: number
       startAt:
-        type: integer
+        type: string
       status:
         type: string
     type: object
   models.QuestWithIndicators:
     properties:
+      available:
+        type: boolean
       endAt:
-        type: integer
+        type: string
       id:
         type: integer
       indicators:
         items:
-          $ref: '#/definitions/models.Indicator'
+          $ref: '#/definitions/models.IndicatorWithCategoryName'
         type: array
       name:
         type: string
       percent:
         type: number
       startAt:
-        type: integer
+        type: string
       status:
         type: string
     type: object
   models.QuestWithUsers:
     properties:
+      available:
+        type: boolean
       endAt:
-        type: integer
+        type: string
       id:
         type: integer
       name:
@@ -125,7 +154,7 @@ definitions:
       percent:
         type: number
       startAt:
-        type: integer
+        type: string
       status:
         type: string
       users:
@@ -135,20 +164,22 @@ definitions:
     type: object
   models.QuestWithUsersAndIndicators:
     properties:
+      available:
+        type: boolean
       endAt:
-        type: integer
+        type: string
       id:
         type: integer
       indicators:
         items:
-          $ref: '#/definitions/models.Indicator'
+          $ref: '#/definitions/models.IndicatorWithCategoryName'
         type: array
       name:
         type: string
       percent:
         type: number
       startAt:
-        type: integer
+        type: string
       status:
         type: string
       users:
@@ -237,7 +268,7 @@ definitions:
         type: integer
       indicators:
         items:
-          $ref: '#/definitions/models.Indicator'
+          $ref: '#/definitions/models.IndicatorWithCategoryName'
         type: array
       name:
         type: string
@@ -373,7 +404,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Indicator'
+            $ref: '#/definitions/models.IndicatorWithCategoryName'
         "400":
           description: Bad Request
           schema:
@@ -396,7 +427,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Indicator'
+              $ref: '#/definitions/models.IndicatorWithCategoryName'
             type: array
         "400":
           description: Bad Request
@@ -426,7 +457,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Indicator'
+              $ref: '#/definitions/models.IndicatorWithCategoryName'
             type: array
         "400":
           description: Bad Request
@@ -456,7 +487,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Indicator'
+              $ref: '#/definitions/models.IndicatorWithCategoryName'
             type: array
         "400":
           description: Bad Request

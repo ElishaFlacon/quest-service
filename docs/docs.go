@@ -201,7 +201,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Indicator"
+                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
                             }
                         }
                     },
@@ -247,7 +247,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Indicator"
+                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
                             }
                         }
                     },
@@ -293,7 +293,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Indicator"
+                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
                             }
                         }
                     },
@@ -468,7 +468,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Indicator"
+                            "$ref": "#/definitions/models.IndicatorWithCategoryName"
                         }
                     },
                     "400": {
@@ -1311,6 +1311,9 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "fromRole": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -1320,7 +1323,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "role": {
+                "toRole": {
                     "type": "string"
                 },
                 "visible": {
@@ -1334,13 +1337,45 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "fromRole": {
+                    "type": "string"
+                },
                 "idCategory": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
-                "role": {
+                "toRole": {
+                    "type": "string"
+                },
+                "visible": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.IndicatorWithCategoryName": {
+            "type": "object",
+            "properties": {
+                "categoryName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fromRole": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "idСategory": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "toRole": {
                     "type": "string"
                 },
                 "visible": {
@@ -1399,8 +1434,11 @@ const docTemplate = `{
         "models.QuestResponse": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1412,7 +1450,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1422,8 +1460,11 @@ const docTemplate = `{
         "models.QuestWithIndicators": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1431,7 +1472,7 @@ const docTemplate = `{
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Indicator"
+                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
                     }
                 },
                 "name": {
@@ -1441,7 +1482,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1451,8 +1492,11 @@ const docTemplate = `{
         "models.QuestWithUsers": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1464,7 +1508,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1480,8 +1524,11 @@ const docTemplate = `{
         "models.QuestWithUsersAndIndicators": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1489,7 +1536,7 @@ const docTemplate = `{
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Indicator"
+                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
                     }
                 },
                 "name": {
@@ -1499,7 +1546,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1637,7 +1684,7 @@ const docTemplate = `{
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Indicator"
+                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
                     }
                 },
                 "name": {

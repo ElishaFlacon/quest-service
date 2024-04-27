@@ -10,7 +10,7 @@ type Result struct {
 }
 
 type GetByUsersIdRequest struct {
-	Users []struct{ Id string } `json:"users"`
+	Users []Id[string] `json:"users"`
 }
 
 type ResultCreateRequest struct {

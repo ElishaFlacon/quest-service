@@ -116,7 +116,7 @@ func (*TQuest) GetAll(context *gin.Context) {
 // @Failure	500	{string} 	string
 // @Router	/quest-service/quest/create [post]
 func (*TQuest) Create(context *gin.Context) {
-	body := models.QuestCreateRequest{}
+	body := &models.QuestCreateRequest{}
 	utils.CultivateBody(context, body)
 
 	teams := utils.GetBodyIds(body.Teams)

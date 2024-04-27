@@ -70,23 +70,29 @@ func (*TTemplate) GetAll(context *gin.Context) {
 // @Failure	500	{string} 	string
 // @Router	/quest-service/template/create [post]
 func (*TTemplate) Create(context *gin.Context) {
-	body := models.TemplateCreateRequest{}
+	body := &models.TemplateCreateRequest{}
 	utils.CultivateBody(context, body)
 
 	indicators := utils.GetBodyIds(body.Indicators)
-	utils.CultivateCondition(
+	isCondition := utils.CultivateCondition(
 		context,
 		len(indicators) == 0,
 		http.StatusBadRequest,
 		"Indicators zero array",
 	)
+	if isCondition {
+		return
+	}
 
 	data, count, errData := service.Template.Create(
 		body.Name,
 		body.Description,
 		indicators,
 	)
-	utils.CultivateServiceError(context, errData)
+	isServiceError := utils.CultivateServiceError(context, errData)
+	if isServiceError {
+		return
+	}
 
 	returningData := models.TemplateWithCountIndicators{
 		IdTemplate:      data.IdTemplate,

@@ -193,7 +193,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Indicator"
+                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
                             }
                         }
                     },
@@ -239,7 +239,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Indicator"
+                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
                             }
                         }
                     },
@@ -285,7 +285,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Indicator"
+                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
                             }
                         }
                     },
@@ -460,7 +460,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Indicator"
+                            "$ref": "#/definitions/models.IndicatorWithCategoryName"
                         }
                     },
                     "400": {
@@ -1303,6 +1303,9 @@
                 "description": {
                     "type": "string"
                 },
+                "fromRole": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -1312,7 +1315,7 @@
                 "name": {
                     "type": "string"
                 },
-                "role": {
+                "toRole": {
                     "type": "string"
                 },
                 "visible": {
@@ -1326,13 +1329,45 @@
                 "description": {
                     "type": "string"
                 },
+                "fromRole": {
+                    "type": "string"
+                },
                 "idCategory": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
-                "role": {
+                "toRole": {
+                    "type": "string"
+                },
+                "visible": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.IndicatorWithCategoryName": {
+            "type": "object",
+            "properties": {
+                "categoryName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fromRole": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "idСategory": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "toRole": {
                     "type": "string"
                 },
                 "visible": {
@@ -1391,8 +1426,11 @@
         "models.QuestResponse": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1404,7 +1442,7 @@
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1414,8 +1452,11 @@
         "models.QuestWithIndicators": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1423,7 +1464,7 @@
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Indicator"
+                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
                     }
                 },
                 "name": {
@@ -1433,7 +1474,7 @@
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1443,8 +1484,11 @@
         "models.QuestWithUsers": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1456,7 +1500,7 @@
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1472,8 +1516,11 @@
         "models.QuestWithUsersAndIndicators": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "endAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1481,7 +1528,7 @@
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Indicator"
+                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
                     }
                 },
                 "name": {
@@ -1491,7 +1538,7 @@
                     "type": "number"
                 },
                 "startAt": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -1629,7 +1676,7 @@
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Indicator"
+                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
                     }
                 },
                 "name": {

@@ -14,28 +14,48 @@ var Indicator = &TIndicator{
 	table: "indicator",
 }
 
-func (*TIndicator) Get(id int) (*models.Indicator, error) {
-	sqlString := `SELECT * FROM "indicator" WHERE id_indicator = $1;`
+func (*TIndicator) Get(id int) (*models.IndicatorWithCategoryName, error) {
+	sqlString := `
+	SELECT
+	"indicator".id_indicator, 
+	"indicator".name, 
+	"indicator".description,
+	"indicator".id_category,
+	"indicator".visible,
+	CASE 
+		WHEN 
+			"indicator".from_role = '' 
+				OR 
+			"indicator".from_role IS NULL 
+				THEN 'ALL' 
+		ELSE "indicator".from_role END, 
+	CASE 
+		WHEN 
+			"indicator".to_role = '' 
+				OR 
+			"indicator".to_role IS NULL 
+				THEN 'ALL' 
+		ELSE "indicator".to_role END, 
+	"category".name as category_name
+	FROM "indicator"
+	INNER JOIN "category" ON 
+		"indicator".id_category = "category".id_category
+	WHERE "indicator".id_indicator = $1;
+`
 
-	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
 
 	return utils.CultivateFirstDataElemet(data, err)
 }
 
-func (*TIndicator) GetAll() ([]*models.Indicator, error) {
-	sqlString := `SELECT * FROM "indicator";`
-
-	data, err := database.BaseQuery[models.Indicator](sqlString)
-
-	return data, err
-}
-
-func (*TIndicator) GetByTemplateId(id int) ([]*models.Indicator, error) {
+func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategoryName, error) {
 	sqlString := `
 		SELECT 
 			"indicator".id_indicator, 
 			"indicator".name, 
-			"indicator".description, 
+			"indicator".description,
+			"indicator".id_category,
+			"indicator".visible,
 			CASE 
 				WHEN 
 					"indicator".from_role = '' 
@@ -50,8 +70,7 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.Indicator, error) {
 					"indicator".to_role IS NULL 
 						THEN 'ALL' 
 				ELSE "indicator".to_role END, 
-			"category".name as category_name, 
-			"indicator".visible
+			"category".name as category_name
 		FROM "indicator"
 		INNER JOIN "category" 
 			ON "indicator".id_category = "category".id_category
@@ -62,19 +81,34 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.Indicator, error) {
 		WHERE "template".id_template = $1;
 	`
 
-	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
 
 	return data, err
 }
 
-func (*TIndicator) GetByQuestId(id int) ([]*models.Indicator, error) {
+func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategoryName, error) {
 	sqlString := `
 		SELECT 
 			"indicator".id_indicator, 
 			"indicator".name, 
-			"indicator".description, 
-			"indicator".role, 
-			"indicator".visible
+			"indicator".description,
+			"indicator".id_category,
+			"indicator".visible,
+			CASE 
+				WHEN 
+					"indicator".from_role = '' 
+						OR 
+					"indicator".from_role IS NULL 
+						THEN 'ALL' 
+				ELSE "indicator".from_role END, 
+			CASE 
+				WHEN 
+					"indicator".to_role = '' 
+						OR 
+					"indicator".to_role IS NULL 
+						THEN 'ALL' 
+				ELSE "indicator".to_role END, 
+			"category".name as category_name
 		FROM "indicator"
 		INNER JOIN "template_indicator" ON 
 			"indicator".id_indicator = "template_indicator".id_indicator
@@ -85,7 +119,40 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.Indicator, error) {
 		WHERE "quest".id_quest = $1;
 	`
 
-	data, err := database.BaseQuery[models.Indicator](sqlString, id)
+	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
+
+	return data, err
+}
+
+func (*TIndicator) GetAll() ([]*models.IndicatorWithCategoryName, error) {
+	sqlString := `
+		SELECT
+		"indicator".id_indicator, 
+		"indicator".name, 
+		"indicator".description,
+		"indicator".id_category,
+		"indicator".visible,
+		CASE 
+			WHEN 
+				"indicator".from_role = '' 
+					OR 
+				"indicator".from_role IS NULL 
+					THEN 'ALL' 
+			ELSE "indicator".from_role END, 
+		CASE 
+			WHEN 
+				"indicator".to_role = '' 
+					OR 
+				"indicator".to_role IS NULL 
+					THEN 'ALL' 
+			ELSE "indicator".to_role END, 
+		"category".name as category_name
+		FROM "indicator"
+		INNER JOIN "category" ON 
+			"indicator".id_category = "category".id_category;
+	`
+
+	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString)
 
 	return data, err
 }
@@ -93,17 +160,18 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.Indicator, error) {
 func (*TIndicator) Create(
 	name string,
 	description string,
-	role string,
+	fromRole string,
+	toRole string,
 	visible bool,
 	idCategory int,
 ) (*models.Indicator, error) {
 	sqlString := `
 		INSERT INTO "indicator" 
-		(name, description, role, visible, id_category) 
+		(name, description, from_role, to_role, visible, id_category) 
 		VALUES ($1, $2, $3, $4, $5) 
 		RETURNING *;
 	`
-	args := []any{name, description, role, true, idCategory}
+	args := []any{name, description, fromRole, toRole, true, idCategory}
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
