@@ -3,6 +3,7 @@ package service
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -25,9 +26,11 @@ func (*TTeam) GetAllMembersOfTeams(
 	jsonIdTeams, _ := json.Marshal(idTeams)
 	teamsData := []byte(`{"idTeams":` + string(jsonIdTeams))
 
+	requestUrl := fmt.Sprintf("%s/get-all-members", TeamServiceUrl)
+
 	request, err := http.NewRequest(
 		"GET",
-		TeamServiceUrl,
+		requestUrl,
 		bytes.NewBuffer(teamsData),
 	)
 	if err != nil {
