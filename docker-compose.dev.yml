@@ -1,0 +1,37 @@
+version: "3.8"
+name: questionnaire-service-dev
+services:
+  quest-service:
+    build:
+      context: .
+      dockerfile: dockerfile-dev
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env-dev
+    depends_on:
+      - quest-service-db
+      - pgadmin
+  quest-service-db:
+    image: postgres
+    container_name: db-dev
+    env_file:
+      - .env-dev
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    ports:
+      - "5435:5432"
+  pgadmin:
+    container_name: pgadmin-dev
+    image: dpage/pgadmin4
+    env_file:
+      - .env-dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    depends_on:
+      - quest-service-db
