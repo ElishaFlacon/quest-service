@@ -1,6 +1,7 @@
 FROM golang:1.22-alpine
 
 COPY . /app
+COPY .docker.env /app/.env
 
 WORKDIR /app
 
