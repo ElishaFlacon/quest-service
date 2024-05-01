@@ -1,6 +1,36 @@
 version: "3.8"
 
 services:
+  quest-postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - .docker.env
+    networks:
+      - quest-network
+
+  quest-pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - 5050:5050
+    env_file:
+      - .docker.env
+    networks:
+      - quest-network
+  
+  migrations:
+    image: ghcr.io/kukymbr/goose-docker:3.15.1
+    env_file:
+      - .docker.env
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      - quest-postgres
+      - quest-pgadmin
+    networks:
+      - quest-network
+
   quest-service:
     image: quest
     build:
@@ -9,4 +39,20 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - .env
+      - .docker.env
+    depends_on:
+      - quest-postgres
+      - quest-pgadmin
+    networks:
+      - quest-network
+
+networks:
+  quest-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.2.0/24
+          gateway: 192.168.2.1
