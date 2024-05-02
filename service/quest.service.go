@@ -231,17 +231,20 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 }
 
 func (*TQuest) Create(
+	idTemaplte int,
 	name string,
 	description string,
+	startAt int,
+	endAt int,
 	teams []string,
 ) (*models.Quest, error) {
 	sqlString := `
 		INSERT INTO "quest" 
-		(name, description) 
-		VALUES ($1, $2) 
+		(id_template, name, description, start_at, end_at) 
+		VALUES ($1, $2, $3, $4, $5) 
 		RETURNING *;
 	`
-	args := []any{name, description}
+	args := []any{idTemaplte, name, description, startAt, endAt}
 
 	data, errData := database.BaseQuery[models.Quest](
 		sqlString,
@@ -258,6 +261,9 @@ func (*TQuest) Create(
 		return nil, errMembers
 	}
 
+	// TODO позже удалить
+	// members := []models.TeamMembers{{IdTeam: "300", IdUsers: []string{"12", "13"}}}
+
 	questTeamData, errQuestTeam := QuestTeam.CreateWithBatch(
 		idQuest,
 		teams,
@@ -269,7 +275,7 @@ func (*TQuest) Create(
 	teamUserArgs := []*models.QuestTeamUsers{}
 
 	for index := range questTeamData {
-		idQuestTeamUser := questTeamData[index].IdQuestTeamUser
+		idQuestTeamUser := questTeamData[index].IdQuestTeam
 		idTeamFromQuestTeam := questTeamData[index].IdTeam
 
 		for indexTeam := range members {

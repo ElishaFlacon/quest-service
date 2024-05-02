@@ -64,18 +64,23 @@ func (init *TQuestTeamUser) CreateWithCopy(
 
 func (*TQuestTeamUser) CreateWithBatch(
 	questTeams []*models.QuestTeamUsers,
-) ([]*models.QuestTeam, error) {
+) ([]*models.QuestTeamUser, error) {
 	sqlString := `
 		INSERT INTO "quest_team_user"
 		(id_quest_team, id_user)
 		VALUES ($1, $2)
 		RETURNING *;
 	`
+	println("asddddd0")
+	println(questTeams)
+	println(len(questTeams))
 
 	batch := &pgx.Batch{}
 
 	for index := range questTeams {
+		println("asddddd1")
 		questTeam := questTeams[index]
+		println("asddddd2")
 		for userIndex := range questTeam.Users {
 			user := questTeam.Users[userIndex]
 			batch.Queue(
@@ -86,7 +91,7 @@ func (*TQuestTeamUser) CreateWithBatch(
 		}
 	}
 
-	data, err := database.SendBatch[models.QuestTeam](batch)
+	data, err := database.SendBatch[models.QuestTeamUser](batch)
 
 	return data, err
 }

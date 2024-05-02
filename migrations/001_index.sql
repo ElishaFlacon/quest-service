@@ -1,6 +1,6 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
 -- FULL DATABASE CODE IN ONE FILE
--- LAST UPDATE: 21.04.2024
+-- LAST UPDATE: 03.05.2024
 
 
 
@@ -90,6 +90,7 @@ ALTER TABLE quest ADD CONSTRAINT quest_fk1 FOREIGN KEY (id_template) REFERENCES 
 ALTER TABLE quest_team ADD CONSTRAINT team_quest_fk1 FOREIGN KEY (id_quest) REFERENCES quest(id_quest);
 ALTER TABLE quest_team_user ADD CONSTRAINT quest_team_user_fk1 FOREIGN KEY (id_quest_team) REFERENCES quest_team(id_quest_team);
 ALTER TABLE result ADD CONSTRAINT result_fk1 FOREIGN KEY (id_quest) REFERENCES quest(id_quest);
+ALTER TABLE result ADD CONSTRAINT result_fk2 FOREIGN KEY (id_indicator) REFERENCES indicator(id_indicator);
 -- +goose StatementEnd
 
 -- +goose StatementBegin

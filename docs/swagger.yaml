@@ -11,6 +11,11 @@ definitions:
       name:
         type: string
     type: object
+  models.Error:
+    properties:
+      error:
+        type: string
+    type: object
   models.GetByUsersIdRequest:
     properties:
       users:
@@ -50,8 +55,6 @@ definitions:
         type: string
       toRole:
         type: string
-      visible:
-        type: boolean
     type: object
   models.IndicatorWithCategoryName:
     properties:
@@ -93,8 +96,14 @@ definitions:
     properties:
       description:
         type: string
+      endAt:
+        type: integer
+      idTemplate:
+        type: integer
       name:
         type: string
+      startAt:
+        type: integer
       teams:
         items:
           properties:
@@ -220,6 +229,11 @@ definitions:
           type: object
         type: array
     type: object
+  models.ResultResponse:
+    properties:
+      createdResults:
+        type: integer
+    type: object
   models.Template:
     properties:
       available:
@@ -299,11 +313,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение категории по ID
       tags:
       - category
@@ -327,7 +341,7 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение всех категорий
       tags:
       - category
@@ -352,11 +366,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Создание категории
       tags:
       - category
@@ -380,12 +394,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Удаление категории по ID
+            $ref: '#/definitions/models.Error'
+      summary: Удаление категории по ID (нельзя удалить, если категория используется)
       tags:
       - category
   /quest-service/indicator/{id}:
@@ -408,11 +422,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение вопроса по ID
       tags:
       - indicator
@@ -432,11 +446,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение всех вопросов
       tags:
       - indicator
@@ -462,11 +476,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение вопросов по ID опроса
       tags:
       - indicator
@@ -492,11 +506,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение вопросов по ID шаблона
       tags:
       - indicator
@@ -521,11 +535,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Создание вопроса
       tags:
       - indicator
@@ -549,12 +563,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Удаление вопроса по ID
+            $ref: '#/definitions/models.Error'
+      summary: Удаление вопроса по ID (нельзя удалить, если вопрос используется)
       tags:
       - indicator
   /quest-service/indicator/hide/{id}:
@@ -577,11 +591,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Скрытие вопроса по ID
       tags:
       - indicator
@@ -605,12 +619,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение опроса по ID *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса по ID
       tags:
       - quest
   /quest-service/quest/all:
@@ -629,11 +643,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение всех опросов
       tags:
       - quest
@@ -659,12 +673,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение опросов по ID пользователя *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение опросов по ID пользователя
       tags:
       - quest
   /quest-service/quest/create:
@@ -688,11 +702,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Создание опроса
       tags:
       - quest
@@ -716,11 +730,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Удаление опроса по ID
       tags:
       - quest
@@ -744,11 +758,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Скрытие опроса по ID
       tags:
       - quest
@@ -772,12 +786,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение опроса c его вопросами по ID *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса c его вопросами по ID
       tags:
       - quest
   /quest-service/quest/with-users-and-indicators/{id}:
@@ -800,12 +814,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение опроса c его вопросами и пользователями по ID *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса c его вопросами и пользователями по ID
       tags:
       - quest
   /quest-service/quest/with-users/{id}:
@@ -828,12 +842,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение опроса c его пользователями по ID *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса c его пользователями по ID
       tags:
       - quest
   /quest-service/result/by-user/{id}:
@@ -858,11 +872,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение результатов по ID пользователя
       tags:
       - result
@@ -889,11 +903,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Получение результатов по ID пользователей
       tags:
       - result
@@ -914,21 +928,19 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.Result'
-            type: array
+            $ref: '#/definitions/models.ResultResponse'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Создание результатов
       tags:
       - result
-  /quest-service/template/:id:
+  /quest-service/template/{id}:
     get:
       consumes:
       - application/json
@@ -948,12 +960,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение шаблона по ID *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение шаблона по ID
       tags:
       - template
   /quest-service/template/all:
@@ -972,12 +984,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение всех шаблонов *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение всех шаблонов
       tags:
       - template
   /quest-service/template/create:
@@ -1001,11 +1013,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Создание шаблона
       tags:
       - template
@@ -1029,12 +1041,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Удаление шаблона по ID
+            $ref: '#/definitions/models.Error'
+      summary: Удаление шаблона по ID (не работает, см. todo main.go)
       tags:
       - template
   /quest-service/template/hide/{id}:
@@ -1057,15 +1069,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
       summary: Скрытие шаблона по ID
       tags:
       - template
-  /quest-service/template/with-indicators/:id:
+  /quest-service/template/with-indicators/{id}:
     get:
       consumes:
       - application/json
@@ -1085,12 +1097,12 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/models.Error'
         "500":
           description: Internal Server Error
           schema:
-            type: string
-      summary: Получение шаблона с вопросами по ID *В РАБОТЕ
+            $ref: '#/definitions/models.Error'
+      summary: Получение шаблона с вопросами по ID
       tags:
       - template
 swagger: "2.0"

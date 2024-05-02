@@ -18,11 +18,15 @@ var Result *TResult
 // @Produce	json
 // @Param	id path string true "ID пользователя"
 // @Success	200	{array}	models.Result
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/result/by-user/{id} [get]
 func (*TResult) GetByUserId(context *gin.Context) {
-	id := utils.CultivateStringParam(context, "id")
+	id, errParam := utils.CultivateStringParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
 	data, errData := service.Result.GetByUserId(id)
 	utils.CultivateServiceData(context, data, errData)
 }
@@ -34,12 +38,16 @@ func (*TResult) GetByUserId(context *gin.Context) {
 // @Produce	json
 // @Param request body models.GetByUsersIdRequest true "Body для получения результатов по ID пользователей"
 // @Success	200	{array}	models.Result
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/result/by-users [get]
 func (*TResult) GetByUsersId(context *gin.Context) {
 	body := &models.GetByUsersIdRequest{}
-	utils.CultivateBody(context, body)
+
+	errBody := utils.CultivateBody(context, body)
+	if errBody != nil {
+		return
+	}
 
 	users := utils.GetBodyIds(body.Users)
 
@@ -53,13 +61,17 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param request body models.ResultCreateRequest true "Body для создания результатов"
-// @Success	200	{array}	models.Result
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Success	200	{object}	models.ResultResponse
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/result/create [post]
 func (*TResult) Create(context *gin.Context) {
 	body := &models.ResultCreateRequest{}
-	utils.CultivateBody(context, body)
+
+	errBody := utils.CultivateBody(context, body)
+	if errBody != nil {
+		return
+	}
 
 	rows := [][]any{}
 	for index := range body.Results {
@@ -76,8 +88,6 @@ func (*TResult) Create(context *gin.Context) {
 	}
 
 	count, errData := service.Result.CreateWithCopy(rows)
-	data := struct {
-		CreatedResults int64 `json:"createdResults"`
-	}{CreatedResults: count}
+	data := models.ResultResponse{CreatedResults: count}
 	utils.CultivateServiceData(context, data, errData)
 }

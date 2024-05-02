@@ -110,6 +110,8 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategoryName, er
 				ELSE "indicator".to_role END, 
 			"category".name as category_name
 		FROM "indicator"
+		INNER JOIN "category" 
+			ON "indicator".id_category = "category".id_category
 		INNER JOIN "template_indicator" ON 
 			"indicator".id_indicator = "template_indicator".id_indicator
 		INNER JOIN "template" ON 
@@ -158,20 +160,19 @@ func (*TIndicator) GetAll() ([]*models.IndicatorWithCategoryName, error) {
 }
 
 func (*TIndicator) Create(
+	idCategory int,
 	name string,
 	description string,
 	fromRole string,
 	toRole string,
-	visible bool,
-	idCategory int,
 ) (*models.Indicator, error) {
 	sqlString := `
 		INSERT INTO "indicator" 
-		(name, description, from_role, to_role, visible, id_category) 
+		(name, description, from_role, to_role, id_category) 
 		VALUES ($1, $2, $3, $4, $5) 
 		RETURNING *;
 	`
-	args := []any{name, description, fromRole, toRole, true, idCategory}
+	args := []any{name, description, fromRole, toRole, idCategory}
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
