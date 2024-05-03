@@ -14,45 +14,53 @@ type TTemplate struct{}
 var Template *TTemplate
 
 // Template Get	godoc
-// @Summary	Получение шаблона по ID *В РАБОТЕ
+// @Summary	Получение шаблона по ID
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.Template
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
-// @Router	/quest-service/template/:id [get]
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
+// @Router	/quest-service/template/{id} [get]
 func (*TTemplate) Get(context *gin.Context) {
-	id := utils.CultivateNumberParam(context, "id")
+	id, errParam := utils.CultivateNumberParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
 	data, errData := service.Template.Get(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
 // Template GetWithIndicators	godoc
-// @Summary	Получение шаблона с вопросами по ID *В РАБОТЕ
+// @Summary	Получение шаблона с вопросами по ID
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.TemplateWithIndicators
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
-// @Router	/quest-service/template/with-indicators/:id [get]
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
+// @Router	/quest-service/template/with-indicators/{id} [get]
 func (*TTemplate) GetWithIndicators(context *gin.Context) {
-	id := utils.CultivateNumberParam(context, "id")
+	id, errParam := utils.CultivateNumberParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
 	data, errData := service.Template.GetWithIndicators(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
 // Template GetAll	godoc
-// @Summary	Получение всех шаблонов *В РАБОТЕ
+// @Summary	Получение всех шаблонов
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Success	200	{array}	models.Template
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/template/all [get]
 func (*TTemplate) GetAll(context *gin.Context) {
 	data, errData := service.Template.GetAll()
@@ -66,12 +74,16 @@ func (*TTemplate) GetAll(context *gin.Context) {
 // @Produce	json
 // @Param request body models.TemplateCreateRequest true "Body для создания шаблона"
 // @Success	200	{object}	models.TemplateWithCountIndicators
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/template/create [post]
 func (*TTemplate) Create(context *gin.Context) {
 	body := &models.TemplateCreateRequest{}
-	utils.CultivateBody(context, body)
+
+	errBody := utils.CultivateBody(context, body)
+	if errBody != nil {
+		return
+	}
 
 	indicators := utils.GetBodyIds(body.Indicators)
 	isCondition := utils.CultivateCondition(
@@ -89,8 +101,8 @@ func (*TTemplate) Create(context *gin.Context) {
 		body.Description,
 		indicators,
 	)
-	isServiceError := utils.CultivateServiceError(context, errData)
-	if isServiceError {
+	errService := utils.CultivateServiceError(context, errData)
+	if errService != nil {
 		return
 	}
 
@@ -112,27 +124,35 @@ func (*TTemplate) Create(context *gin.Context) {
 // @Produce	json
 // @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.Template
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/template/hide/{id} [put]
 func (*TTemplate) Hide(context *gin.Context) {
-	id := utils.CultivateNumberParam(context, "id")
-	data, errData := service.Quest.Hide(id)
+	id, errParam := utils.CultivateNumberParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
+	data, errData := service.Template.Hide(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
 // Template Delete	godoc
-// @Summary	Удаление шаблона по ID
+// @Summary	Удаление шаблона по ID (не работает, см. todo main.go)
 // @Tags	template
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID шаблона"
 // @Success	200	{object}	models.Template
-// @Failure	400	{string} 	string
-// @Failure	500	{string} 	string
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
 // @Router	/quest-service/template/delete/{id} [delete]
 func (*TTemplate) Delete(context *gin.Context) {
-	id := utils.CultivateNumberParam(context, "id")
-	data, errData := service.Quest.Delete(id)
+	id, errParam := utils.CultivateNumberParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
+	data, errData := service.Template.Delete(id)
 	utils.CultivateServiceData(context, data, errData)
 }

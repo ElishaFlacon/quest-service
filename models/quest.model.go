@@ -55,7 +55,10 @@ type QuestWithUsersAndIndicators struct {
 }
 
 type QuestCreateRequest struct {
+	IdTemplate  int          `json:"idTemplate"`
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
 	Teams       []Id[string] `json:"teams"`
+	StartAt     int          `json:"startAt"`
+	EndAt       int          `json:"endAt"`
 }

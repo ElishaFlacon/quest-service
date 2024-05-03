@@ -13,6 +13,10 @@ type GetByUsersIdRequest struct {
 	Users []Id[string] `json:"users"`
 }
 
+type ResultResponse struct {
+	CreatedResults int64 `json:"createdResults"`
+}
+
 type ResultCreateRequest struct {
 	Results []struct {
 		IdQuest     int    `json:"id_quest"`

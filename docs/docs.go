@@ -46,7 +46,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -85,13 +85,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -108,7 +108,7 @@ const docTemplate = `{
                 "tags": [
                     "category"
                 ],
-                "summary": "Удаление категории по ID",
+                "summary": "Удаление категории по ID (нельзя удалить, если категория используется)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -128,13 +128,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -171,13 +171,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -208,13 +208,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -254,13 +254,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -300,13 +300,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -345,13 +345,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -368,7 +368,7 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Удаление вопроса по ID",
+                "summary": "Удаление вопроса по ID (нельзя удалить, если вопрос используется)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -388,13 +388,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -431,13 +431,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -474,13 +474,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -511,13 +511,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -534,7 +534,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Получение опросов по ID пользователя *В РАБОТЕ",
+                "summary": "Получение опросов по ID пользователя",
                 "parameters": [
                     {
                         "type": "integer",
@@ -557,13 +557,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -602,13 +602,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -645,13 +645,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -688,13 +688,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -711,7 +711,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Получение опроса c его вопросами по ID *В РАБОТЕ",
+                "summary": "Получение опроса c его вопросами по ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -731,13 +731,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -754,7 +754,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Получение опроса c его вопросами и пользователями по ID *В РАБОТЕ",
+                "summary": "Получение опроса c его вопросами и пользователями по ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -774,13 +774,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -797,7 +797,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Получение опроса c его пользователями по ID *В РАБОТЕ",
+                "summary": "Получение опроса c его пользователями по ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -817,13 +817,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -840,7 +840,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Получение опроса по ID *В РАБОТЕ",
+                "summary": "Получение опроса по ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -860,13 +860,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -906,13 +906,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -954,13 +954,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -993,65 +993,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Result"
-                            }
+                            "$ref": "#/definitions/models.ResultResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/template/:id": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "template"
-                ],
-                "summary": "Получение шаблона по ID *В РАБОТЕ",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID шаблона",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Template"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -1068,7 +1022,7 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Получение всех шаблонов *В РАБОТЕ",
+                "summary": "Получение всех шаблонов",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1082,13 +1036,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -1127,13 +1081,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -1150,7 +1104,7 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Удаление шаблона по ID",
+                "summary": "Удаление шаблона по ID (не работает, см. todo main.go)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1170,13 +1124,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -1213,19 +1167,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
             }
         },
-        "/quest-service/template/with-indicators/:id": {
+        "/quest-service/template/with-indicators/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -1236,7 +1190,7 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Получение шаблона с вопросами по ID *В РАБОТЕ",
+                "summary": "Получение шаблона с вопросами по ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1256,13 +1210,56 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/template/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "template"
+                ],
+                "summary": "Получение шаблона по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Template"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -1285,6 +1282,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Error": {
+            "type": "object",
+            "properties": {
+                "error": {
                     "type": "string"
                 }
             }
@@ -1348,9 +1353,6 @@ const docTemplate = `{
                 },
                 "toRole": {
                     "type": "string"
-                },
-                "visible": {
-                    "type": "boolean"
                 }
             }
         },
@@ -1415,8 +1417,17 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "endAt": {
+                    "type": "integer"
+                },
+                "idTemplate": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
+                },
+                "startAt": {
+                    "type": "integer"
                 },
                 "teams": {
                     "type": "array",
@@ -1607,6 +1618,14 @@ const docTemplate = `{
                             }
                         }
                     }
+                }
+            }
+        },
+        "models.ResultResponse": {
+            "type": "object",
+            "properties": {
+                "createdResults": {
+                    "type": "integer"
                 }
             }
         },

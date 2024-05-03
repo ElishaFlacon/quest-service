@@ -35,11 +35,11 @@ func CultivateCondition(
 func CultivateBody[T comparable](
 	context *gin.Context,
 	object T,
-) {
+) error {
 	err := context.BindJSON(object)
 
 	if err == nil {
-		return
+		return nil
 	}
 
 	context.JSON(
@@ -47,14 +47,16 @@ func CultivateBody[T comparable](
 		gin.H{"error": err.Error()},
 	)
 	context.Abort()
+
+	return err
 }
 
 func CultivateServiceError(
 	context *gin.Context,
 	err error,
-) bool {
+) error {
 	if err == nil {
-		return false
+		return nil
 	}
 
 	context.JSON(
@@ -62,29 +64,32 @@ func CultivateServiceError(
 		gin.H{"error": err.Error()},
 	)
 	context.Abort()
-	return true
+
+	return err
 }
 
 func CultivateServiceData(
 	context *gin.Context,
 	data any,
 	err error,
-) {
-	isServiceError := CultivateServiceError(context, err)
-	if isServiceError {
-		return
+) error {
+	errCultivate := CultivateServiceError(context, err)
+	if errCultivate != nil {
+		return errCultivate
 	}
 
 	context.JSON(http.StatusOK, data)
 	context.Abort()
+
+	return nil
 }
 
 func CultivateParamsError(
 	context *gin.Context,
 	err error,
-) {
+) error {
 	if err == nil {
-		return
+		return nil
 	}
 
 	context.JSON(
@@ -92,44 +97,46 @@ func CultivateParamsError(
 		gin.H{"error": err.Error()},
 	)
 	context.Abort()
+
+	return err
 }
 
 func CultivateStringParam(
 	context *gin.Context,
 	name string,
-) string {
+) (string, error) {
 	param, errParam := GetStringParam(context.Params, name)
 	CultivateParamsError(context, errParam)
 
-	return param
+	return param, errParam
 }
 
 func CultivateStringParams(
 	context *gin.Context,
 	names []string,
-) []string {
+) ([]string, error) {
 	params, errParam := GetStringParams(context.Params, names)
 	CultivateParamsError(context, errParam)
 
-	return params
+	return params, errParam
 }
 
 func CultivateNumberParam(
 	context *gin.Context,
 	name string,
-) int {
+) (int, error) {
 	param, errParam := GetNumberParam(context.Params, name)
 	CultivateParamsError(context, errParam)
 
-	return param
+	return param, errParam
 }
 
 func CultivateNumberParams(
 	context *gin.Context,
 	names []string,
-) []int {
+) ([]int, error) {
 	params, errParam := GetNumberParams(context.Params, names)
 	CultivateParamsError(context, errParam)
 
-	return params
+	return params, errParam
 }

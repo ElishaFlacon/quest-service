@@ -11,12 +11,11 @@ type Indicator struct {
 }
 
 type IndicatorCreateRequest struct {
+	IdCategory  int    `json:"idCategory"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	FromRole    string `json:"fromRole"`
 	ToRole      string `json:"toRole"`
-	Visible     bool   `json:"visible"`
-	IdCategory  int    `json:"idCategory"`
 }
 
 type IndicatorWithCategoryName struct {
