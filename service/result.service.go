@@ -31,6 +31,14 @@ func (*TResult) GetByUsersId(id []string) ([]*models.Result, error) {
 	return nil, nil
 }
 
+func (*TResult) GetByQuestId(id int) ([]*models.Result, error) {
+	sqlString := `SELECT * FROM "result" WHERE id_quest = $1;`
+
+	data, err := database.BaseQuery[models.Result](sqlString, id)
+
+	return data, err
+}
+
 func (*TResult) GetAll() ([]*models.Result, error) {
 	sqlString := `SELECT * FROM "result";`
 
