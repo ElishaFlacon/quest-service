@@ -33,10 +33,11 @@ func (*TCsv) GetCsvTableByQuestId(IdQuest int) ([]byte, error) {
 	var csvBuffer bytes.Buffer
 
 	for _, result := range results {
-		var userFromAndToByResultId models.UsersFromAndToByResultId
+		var userFromAndToByResultId *models.UsersFromAndToByResultId
 		userFromAndToByResultId.IdToUser = result.IdToUser
 		userFromAndToByResultId.IdFromUser = result.IdFromUser
 		userFromAndToByResultId.IdResult = result.IdResult
+		_ = append(usersFromAndToByResultId, userFromAndToByResultId)
 	}
 
 	usersInfo, err := User.GetToAndFromUsers(usersFromAndToByResultId)
