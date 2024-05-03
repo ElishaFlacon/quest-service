@@ -26,6 +26,23 @@ func (*TQuestTeam) Get(id int) (*models.QuestTeam, error) {
 	return utils.CultivateFirstDataElemet(data, err)
 }
 
+func (*TQuestTeam) GetByQuestId(id int) ([]*models.QuestTeam, error) {
+	sqlString := `
+		SELECT 
+			"quest_team".id_quest_team,
+			"quest_team".id_quest,
+			"quest_team".id_team
+		FROM "quest_team"
+		INNER JOIN "quest"
+			ON "quest_team".id_quest = "quest".id_quest
+		WHERE "quest".id_quest = $1;
+	`
+
+	data, err := database.BaseQuery[models.QuestTeam](sqlString, id)
+
+	return data, err
+}
+
 func (*TQuestTeam) GetAll() ([]*models.QuestTeam, error) {
 	sqlString := `SELECT * FROM "quest_team";`
 

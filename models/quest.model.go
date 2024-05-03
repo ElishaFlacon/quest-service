@@ -1,8 +1,8 @@
 package models
 
 type Quest struct {
-	IdQuest     int    `json:"id"`
-	IdTemplate  int    `json:"idTemplate"`
+	IdQuest     int    `json:"idQuest"`
+	IdTemplate  int    `json:"idQuestTemplate"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Available   bool   `json:"available"`
@@ -11,43 +11,43 @@ type Quest struct {
 }
 
 type QuestResponse struct {
-	IdQuest   int     `json:"id"`
-	Name      string  `json:"name"`
-	StartAt   string  `json:"startAt"`
-	EndAt     string  `json:"endAt"`
-	Percent   float32 `json:"percent"`
-	Status    string  `json:"status"`
-	Available bool    `json:"available"`
+	IdQuest   int    `json:"idQuest"`
+	Name      string `json:"name"`
+	StartAt   string `json:"startAt"`
+	EndAt     string `json:"endAt"`
+	Percent   int    `json:"percent"`
+	Status    string `json:"status"`
+	Available bool   `json:"available"`
 }
 
 type QuestWithIndicators struct {
-	IdQuest    int                          `json:"id"`
+	IdQuest    int                          `json:"idQuest"`
 	Name       string                       `json:"name"`
 	StartAt    string                       `json:"startAt"`
 	EndAt      string                       `json:"endAt"`
-	Percent    float32                      `json:"percent"`
+	Percent    int                          `json:"percent"`
 	Status     string                       `json:"status"`
 	Available  bool                         `json:"available"`
 	Indicators []*IndicatorWithCategoryName `json:"indicators"`
 }
 
 type QuestWithUsers struct {
-	IdQuest   int      `json:"id"`
+	IdQuest   int      `json:"idQuest"`
 	Name      string   `json:"name"`
 	StartAt   string   `json:"startAt"`
 	EndAt     string   `json:"endAt"`
-	Percent   float32  `json:"percent"`
+	Percent   int      `json:"percent"`
 	Status    string   `json:"status"`
 	Available bool     `json:"available"`
 	Users     []string `json:"users"`
 }
 
 type QuestWithUsersAndIndicators struct {
-	IdQuest    int                          `json:"id"`
+	IdQuest    int                          `json:"idQuest"`
 	Name       string                       `json:"name"`
 	StartAt    string                       `json:"startAt"`
 	EndAt      string                       `json:"endAt"`
-	Percent    float32                      `json:"percent"`
+	Percent    int                          `json:"percent"`
 	Status     string                       `json:"status"`
 	Available  bool                         `json:"available"`
 	Indicators []*IndicatorWithCategoryName `json:"indicators"`
@@ -55,7 +55,7 @@ type QuestWithUsersAndIndicators struct {
 }
 
 type QuestCreateRequest struct {
-	IdTemplate  int          `json:"idTemplate"`
+	IdTemplate  int          `json:"idQuestTemplate"`
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
 	Teams       []Id[string] `json:"teams"`

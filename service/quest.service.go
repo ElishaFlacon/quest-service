@@ -18,6 +18,25 @@ func mapQuestTeamUserToString(questTeamUser *models.QuestTeamUser) string {
 	return questTeamUser.IdUser
 }
 
+func getQuestPercent(id int) (int, error) {
+	_, errTeams := QuestTeam.GetByQuestId(id)
+	if errTeams != nil {
+		return 0, errTeams
+	}
+
+	// TODO тут запрос на участников команд, получаем их количество
+
+	users, errUsers := QuestTeamUser.GetByQuestId(id)
+	if errUsers != nil {
+		return 0, errUsers
+	}
+
+	// TODO тут делим на количество участников команд
+	percent := len(users) / 1
+
+	return percent, nil
+}
+
 func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 	sqlString := `
 		SELECT * FROM "quest" 
@@ -30,14 +49,8 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 	}
 
 	quest := data[0]
-	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
-	percent := float32(0)
-
-	status := utils.GetQuestTimeStatus(
-		quest.StartAt,
-		quest.EndAt,
-	)
-
+	percent, _ := getQuestPercent(id)
+	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
 
@@ -73,20 +86,11 @@ func (*TQuest) GetWithIndicators(
 		return nil, errData
 	}
 
-	indicators, errIndicators := Indicator.GetByQuestId(id)
-	if errIndicators != nil {
-		return nil, errIndicators
-	}
+	indicatorsDats, _ := Indicator.GetByQuestId(id)
 
 	quest := data[0]
-	// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
-	percent := float32(0)
-
-	status := utils.GetQuestTimeStatus(
-		quest.StartAt,
-		quest.EndAt,
-	)
-
+	percent, _ := getQuestPercent(id)
+	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
 
@@ -97,7 +101,7 @@ func (*TQuest) GetWithIndicators(
 		EndAt:      endAt,
 		Percent:    percent,
 		Status:     status,
-		Indicators: indicators,
+		Indicators: indicatorsDats,
 	}
 
 	return newQuest, nil
@@ -116,21 +120,14 @@ func (*TQuest) GetWithUsers(
 		return nil, errData
 	}
 
-	questTeamUsers, errQuestTeamUsers := QuestTeamUser.GetByQuestId(id)
-	if errQuestTeamUsers != nil {
-		return nil, errQuestTeamUsers
-	}
+	usersData, _ := QuestTeamUser.GetByQuestId(id)
 
 	quest := data[0]
-
-	percent := float32(0)
-
+	percent, _ := getQuestPercent(id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
-
-	users := utils.MapToPrimitiveArray(questTeamUsers, mapQuestTeamUserToString)
-
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
+	users := utils.MapToPrimitiveArray(usersData, mapQuestTeamUserToString)
 
 	questWithUsers := &models.QuestWithUsers{
 		IdQuest: quest.IdQuest,
@@ -158,26 +155,15 @@ func (*TQuest) GetWithUsersAndIndicators(
 		return nil, errData
 	}
 
-	questTeamUsers, errQuestTeamUsers := QuestTeamUser.GetByQuestId(id)
-	if errQuestTeamUsers != nil {
-		return nil, errQuestTeamUsers
-	}
-
-	indicators, errIndicators := Indicator.GetByQuestId(id)
-	if errIndicators != nil {
-		return nil, errIndicators
-	}
+	indicatorsData, _ := Indicator.GetByQuestId(id)
+	usersData, _ := QuestTeamUser.GetByQuestId(id)
 
 	quest := data[0]
-
-	percent := float32(0)
-
+	percent, _ := getQuestPercent(id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
-
-	users := utils.MapToPrimitiveArray(questTeamUsers, mapQuestTeamUserToString)
-
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
+	users := utils.MapToPrimitiveArray(usersData, mapQuestTeamUserToString)
 
 	questWithUsersAndIndicators := &models.QuestWithUsersAndIndicators{
 		IdQuest:    quest.IdQuest,
@@ -187,7 +173,7 @@ func (*TQuest) GetWithUsersAndIndicators(
 		Status:     status,
 		Percent:    percent,
 		Users:      users,
-		Indicators: indicators,
+		Indicators: indicatorsData,
 	}
 
 	return questWithUsersAndIndicators, nil
@@ -205,13 +191,9 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 	for index := range data {
 		quest := data[index]
 
-		// TODO доделать percent когда будет готова quest_team_user.service GetByQuestId
-		percent := float32(0)
-		status := utils.GetQuestTimeStatus(
-			quest.StartAt,
-			quest.EndAt,
-		)
-
+		// TODO FIXME оптимизировать
+		percent, _ := getQuestPercent(quest.IdQuest)
+		status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 		startAt := utils.GetStringDate(quest.StartAt)
 		endAt := utils.GetStringDate(quest.EndAt)
 
