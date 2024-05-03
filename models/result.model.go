@@ -1,7 +1,7 @@
 package models
 
 type Result struct {
-	IdResult    int    `json:"id"`
+	IdResult    int    `json:"idResult"`
 	IdIndicator int    `json:"idIndicator"`
 	IdQuest     int    `json:"idQuest"`
 	IdFromUser  string `json:"idFromUser"`
@@ -19,10 +19,10 @@ type ResultResponse struct {
 
 type ResultCreateRequest struct {
 	Results []struct {
-		IdQuest     int    `json:"id_quest"`
-		IdIndicator int    `json:"id_indicator"`
-		IdFromUser  string `json:"id_from_user"`
-		IdToUser    string `json:"id_to_user"`
+		IdQuest     int    `json:"idQuest"`
+		IdIndicator int    `json:"idIndicator"`
+		IdFromUser  string `json:"idFromUser"`
+		IdToUser    string `json:"idToUser"`
 		Value       string `json:"value"`
 	} `json:"results"`
 }
