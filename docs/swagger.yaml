@@ -1,0 +1,1108 @@
+definitions:
+  models.Category:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.CategoryCreateRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  models.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  models.GetByUsersIdRequest:
+    properties:
+      users:
+        items:
+          properties:
+            id:
+              type: string
+          type: object
+        type: array
+    type: object
+  models.Indicator:
+    properties:
+      description:
+        type: string
+      fromRole:
+        type: string
+      id:
+        type: integer
+      idСategory:
+        type: integer
+      name:
+        type: string
+      toRole:
+        type: string
+      visible:
+        type: boolean
+    type: object
+  models.IndicatorCreateRequest:
+    properties:
+      description:
+        type: string
+      fromRole:
+        type: string
+      idCategory:
+        type: integer
+      name:
+        type: string
+      toRole:
+        type: string
+    type: object
+  models.IndicatorWithCategoryName:
+    properties:
+      categoryName:
+        type: string
+      description:
+        type: string
+      fromRole:
+        type: string
+      id:
+        type: integer
+      idСategory:
+        type: integer
+      name:
+        type: string
+      toRole:
+        type: string
+      visible:
+        type: boolean
+    type: object
+  models.Quest:
+    properties:
+      available:
+        type: boolean
+      description:
+        type: string
+      endAt:
+        type: integer
+      id:
+        type: integer
+      idTemplate:
+        type: integer
+      name:
+        type: string
+      startAt:
+        type: integer
+    type: object
+  models.QuestCreateRequest:
+    properties:
+      description:
+        type: string
+      endAt:
+        type: integer
+      idTemplate:
+        type: integer
+      name:
+        type: string
+      startAt:
+        type: integer
+      teams:
+        items:
+          properties:
+            id:
+              type: string
+          type: object
+        type: array
+    type: object
+  models.QuestResponse:
+    properties:
+      available:
+        type: boolean
+      endAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      percent:
+        type: number
+      startAt:
+        type: string
+      status:
+        type: string
+    type: object
+  models.QuestWithIndicators:
+    properties:
+      available:
+        type: boolean
+      endAt:
+        type: string
+      id:
+        type: integer
+      indicators:
+        items:
+          $ref: '#/definitions/models.IndicatorWithCategoryName'
+        type: array
+      name:
+        type: string
+      percent:
+        type: number
+      startAt:
+        type: string
+      status:
+        type: string
+    type: object
+  models.QuestWithUsers:
+    properties:
+      available:
+        type: boolean
+      endAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      percent:
+        type: number
+      startAt:
+        type: string
+      status:
+        type: string
+      users:
+        items:
+          type: string
+        type: array
+    type: object
+  models.QuestWithUsersAndIndicators:
+    properties:
+      available:
+        type: boolean
+      endAt:
+        type: string
+      id:
+        type: integer
+      indicators:
+        items:
+          $ref: '#/definitions/models.IndicatorWithCategoryName'
+        type: array
+      name:
+        type: string
+      percent:
+        type: number
+      startAt:
+        type: string
+      status:
+        type: string
+      users:
+        items:
+          type: string
+        type: array
+    type: object
+  models.Result:
+    properties:
+      id:
+        type: integer
+      idFromUser:
+        type: string
+      idIndicator:
+        type: integer
+      idQuest:
+        type: integer
+      idToUser:
+        type: string
+      value:
+        type: string
+    type: object
+  models.ResultCreateRequest:
+    properties:
+      results:
+        items:
+          properties:
+            id_from_user:
+              type: string
+            id_indicator:
+              type: integer
+            id_quest:
+              type: integer
+            id_to_user:
+              type: string
+            value:
+              type: string
+          type: object
+        type: array
+    type: object
+  models.ResultResponse:
+    properties:
+      createdResults:
+        type: integer
+    type: object
+  models.Template:
+    properties:
+      available:
+        type: boolean
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.TemplateCreateRequest:
+    properties:
+      description:
+        type: string
+      indicators:
+        items:
+          properties:
+            id:
+              type: integer
+          type: object
+        type: array
+      name:
+        type: string
+    type: object
+  models.TemplateWithCountIndicators:
+    properties:
+      addedIndicators:
+        type: integer
+      available:
+        type: boolean
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.TemplateWithIndicators:
+    properties:
+      available:
+        type: boolean
+      description:
+        type: string
+      id:
+        type: integer
+      indicators:
+        items:
+          $ref: '#/definitions/models.IndicatorWithCategoryName'
+        type: array
+      name:
+        type: string
+    type: object
+host: localhost:5000
+info:
+  contact: {}
+  description: Зашли почитать документацию? жаль.
+  title: Quest Service API
+paths:
+  /quest-service/category/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID категории
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение категории по ID
+      tags:
+      - category
+  /quest-service/category/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Category'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение всех категорий
+      tags:
+      - category
+  /quest-service/category/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body для создания категории
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoryCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Создание категории
+      tags:
+      - category
+  /quest-service/category/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID категории
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Удаление категории по ID (нельзя удалить, если категория используется)
+      tags:
+      - category
+  /quest-service/indicator/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID вопроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.IndicatorWithCategoryName'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение вопроса по ID
+      tags:
+      - indicator
+  /quest-service/indicator/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.IndicatorWithCategoryName'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение всех вопросов
+      tags:
+      - indicator
+  /quest-service/indicator/by-quest/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.IndicatorWithCategoryName'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение вопросов по ID опроса
+      tags:
+      - indicator
+  /quest-service/indicator/by-template/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID шаблона
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.IndicatorWithCategoryName'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение вопросов по ID шаблона
+      tags:
+      - indicator
+  /quest-service/indicator/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body для создания вопроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.IndicatorCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Indicator'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Создание вопроса
+      tags:
+      - indicator
+  /quest-service/indicator/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID вопроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Indicator'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Удаление вопроса по ID (нельзя удалить, если вопрос используется)
+      tags:
+      - indicator
+  /quest-service/indicator/hide/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID вопроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Indicator'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Скрытие вопроса по ID
+      tags:
+      - indicator
+  /quest-service/quest/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса по ID
+      tags:
+      - quest
+  /quest-service/quest/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.QuestResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение всех опросов
+      tags:
+      - quest
+  /quest-service/quest/by-user/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.QuestWithIndicators'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение опросов по ID пользователя
+      tags:
+      - quest
+  /quest-service/quest/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body для создания опроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.QuestCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Quest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Создание опроса
+      tags:
+      - quest
+  /quest-service/quest/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Quest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Удаление опроса по ID
+      tags:
+      - quest
+  /quest-service/quest/hide/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Quest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Скрытие опроса по ID
+      tags:
+      - quest
+  /quest-service/quest/with-indicators/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestWithIndicators'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса c его вопросами по ID
+      tags:
+      - quest
+  /quest-service/quest/with-users-and-indicators/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestWithUsersAndIndicators'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса c его вопросами и пользователями по ID
+      tags:
+      - quest
+  /quest-service/quest/with-users/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuestWithUsers'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение опроса c его пользователями по ID
+      tags:
+      - quest
+  /quest-service/result/by-user/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Result'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение результатов по ID пользователя
+      tags:
+      - result
+  /quest-service/result/by-users:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body для получения результатов по ID пользователей
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.GetByUsersIdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Result'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение результатов по ID пользователей
+      tags:
+      - result
+  /quest-service/result/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body для создания результатов
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ResultCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResultResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Создание результатов
+      tags:
+      - result
+  /quest-service/template/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID шаблона
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Template'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение шаблона по ID
+      tags:
+      - template
+  /quest-service/template/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Template'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение всех шаблонов
+      tags:
+      - template
+  /quest-service/template/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body для создания шаблона
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.TemplateCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TemplateWithCountIndicators'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Создание шаблона
+      tags:
+      - template
+  /quest-service/template/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID шаблона
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Template'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Удаление шаблона по ID (не работает, см. todo main.go)
+      tags:
+      - template
+  /quest-service/template/hide/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID шаблона
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Template'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Скрытие шаблона по ID
+      tags:
+      - template
+  /quest-service/template/with-indicators/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID шаблона
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TemplateWithIndicators'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение шаблона с вопросами по ID
+      tags:
+      - template
+swagger: "2.0"
