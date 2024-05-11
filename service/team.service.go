@@ -1,7 +1,6 @@
 package service
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -17,22 +16,13 @@ var Team *TTeam
 
 var TeamServiceUrl = utils.GetTeamServiceUrl()
 
-func (*TTeam) GetAllMembersOfTeams(
-	idTeams []string,
-) ([]*models.TeamMembers, error) {
+func (*TTeam) GetAllTeams() ([]*models.IdeaServiceTeam, error) {
 	client := &http.Client{}
-	teams := models.TeamsResponse{}
+	teams := &models.IdeaServiceTeams{}
 
-	jsonIdTeams, _ := json.Marshal(idTeams)
-	teamsData := []byte(`{"idTeams":` + string(jsonIdTeams))
+	requestUrl := fmt.Sprintf("%s/all", TeamServiceUrl)
 
-	requestUrl := fmt.Sprintf("%s/get-all-members", TeamServiceUrl)
-
-	request, err := http.NewRequest(
-		"GET",
-		requestUrl,
-		bytes.NewBuffer(teamsData),
-	)
+	request, err := http.NewRequest("GET", requestUrl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -48,16 +38,36 @@ func (*TTeam) GetAllMembersOfTeams(
 	}
 	defer response.Body.Close()
 
-	responseBody, err := io.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	err = json.Unmarshal(responseBody, &teams)
+	err = json.Unmarshal(body, &teams)
 	if err != nil {
 		return nil, err
 	}
 
-	return teams.TeamMembers, nil
+	return teams.Teams, nil
+}
 
+func (*TTeam) GetTeams(
+	idTeams []string,
+) ([]*models.IdeaServiceTeam, error) {
+	allTeams, errAllTeams := Team.GetAllTeams()
+	if errAllTeams != nil {
+		return nil, errAllTeams
+	}
+
+	teams := []*models.IdeaServiceTeam{}
+
+	for _, team := range allTeams {
+		for _, idTeam := range idTeams {
+			if team.IdTeam == idTeam {
+				teams = append(teams, team)
+			}
+		}
+	}
+
+	return teams, nil
 }

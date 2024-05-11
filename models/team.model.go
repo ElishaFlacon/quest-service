@@ -5,11 +5,11 @@ type Team struct {
 	Users  []User `json:"users"`
 }
 
-type TeamMembers struct {
+type IdeaServiceTeam struct {
 	IdTeam  string
 	IdUsers []string
 }
 
-type TeamsResponse struct {
-	TeamMembers []*TeamMembers `json:"teams"`
+type IdeaServiceTeams struct {
+	Teams []*IdeaServiceTeam `json:"teams"`
 }

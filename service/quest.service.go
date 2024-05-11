@@ -238,7 +238,7 @@ func (*TQuest) Create(
 
 	idQuest := data[0].IdQuest
 
-	members, errMembers := Team.GetAllMembersOfTeams(teams)
+	members, errMembers := Team.GetTeams(teams)
 	if errMembers != nil {
 		return nil, errMembers
 	}
