@@ -18,26 +18,36 @@ func mapQuestTeamUserToString(questTeamUser *models.QuestTeamUser) string {
 	return questTeamUser.IdUser
 }
 
-func getQuestPercent(id int) (int, error) {
-	_, errTeams := QuestTeam.GetByQuestId(id)
+func getQuestPercent(bearer string, id int) (int, error) {
+	teams, errTeams := QuestTeam.GetByQuestId(id)
 	if errTeams != nil {
 		return 0, errTeams
 	}
 
-	// TODO тут запрос на участников команд, получаем их количество
+	idTeams := []string{}
+	for _, team := range teams {
+		idTeams = append(idTeams, team.IdTeam)
+	}
+
+	count, errCount := Team.GetUsersCount(bearer, idTeams)
+	if errCount != nil {
+		return 0, errTeams
+	}
 
 	users, errUsers := QuestTeamUser.GetByQuestId(id)
 	if errUsers != nil {
 		return 0, errUsers
 	}
 
-	// TODO тут делим на количество участников команд
-	percent := len(users) / 1
+	percent := len(users) / count
 
 	return percent, nil
 }
 
-func (*TQuest) Get(id int) (*models.QuestResponse, error) {
+func (*TQuest) Get(
+	bearer string,
+	id int,
+) (*models.QuestResponse, error) {
 	sqlString := `
 		SELECT * FROM "quest" 
 		WHERE id_quest = $1;
@@ -49,7 +59,7 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 	}
 
 	quest := data[0]
-	percent, _ := getQuestPercent(id)
+	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -67,13 +77,56 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 }
 
 func (*TQuest) GetByUserId(
+	bearer string,
 	id int,
 ) ([]*models.QuestWithIndicators, error) {
-	// TODO будет похож на GetWithIndicators, только под конкретного пользователя
-	return nil, nil
+	sqlString := `
+		SELECT
+			"quest".id_quest,
+			"quest".name,
+			"quest".start_at,
+			"quest".end_at
+		FROM "quest" 
+		INNER JOIN "quest_team" ON
+			"quest".id_quest = "quest_team".id_quest
+		INNER JOIN "quest_team_user" ON
+			"quest_team_user".id_quest_team = "quest_team_user".id_quest_team
+		WHERE "quest_team_user".id_user = $1;
+	`
+
+	data, errData := database.BaseQuery[models.Quest](sqlString, id)
+	if errData != nil {
+		return nil, errData
+	}
+
+	result := []*models.QuestWithIndicators{}
+
+	for _, quest := range data {
+		// да, это супер не оптимизированно
+		indicatorsData, _ := Indicator.GetByQuestId(id)
+		percent, _ := getQuestPercent(bearer, id)
+		status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
+		startAt := utils.GetStringDate(quest.StartAt)
+		endAt := utils.GetStringDate(quest.EndAt)
+
+		element := &models.QuestWithIndicators{
+			IdQuest:    quest.IdQuest,
+			Name:       quest.Name,
+			StartAt:    startAt,
+			EndAt:      endAt,
+			Percent:    percent,
+			Status:     status,
+			Indicators: indicatorsData,
+		}
+
+		result = append(result, element)
+	}
+
+	return result, nil
 }
 
 func (*TQuest) GetWithIndicators(
+	bearer string,
 	id int,
 ) (*models.QuestWithIndicators, error) {
 	sqlString := `
@@ -86,10 +139,10 @@ func (*TQuest) GetWithIndicators(
 		return nil, errData
 	}
 
-	indicatorsDats, _ := Indicator.GetByQuestId(id)
+	indicatorsData, _ := Indicator.GetByQuestId(id)
 
 	quest := data[0]
-	percent, _ := getQuestPercent(id)
+	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -101,13 +154,14 @@ func (*TQuest) GetWithIndicators(
 		EndAt:      endAt,
 		Percent:    percent,
 		Status:     status,
-		Indicators: indicatorsDats,
+		Indicators: indicatorsData,
 	}
 
 	return newQuest, nil
 }
 
 func (*TQuest) GetWithUsers(
+	bearer string,
 	id int,
 ) (*models.QuestWithUsers, error) {
 	sqlString := `
@@ -123,7 +177,7 @@ func (*TQuest) GetWithUsers(
 	usersData, _ := QuestTeamUser.GetByQuestId(id)
 
 	quest := data[0]
-	percent, _ := getQuestPercent(id)
+	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -143,6 +197,7 @@ func (*TQuest) GetWithUsers(
 }
 
 func (*TQuest) GetWithUsersAndIndicators(
+	bearer string,
 	id int,
 ) (*models.QuestWithUsersAndIndicators, error) {
 	sqlString := `
@@ -159,7 +214,7 @@ func (*TQuest) GetWithUsersAndIndicators(
 	usersData, _ := QuestTeamUser.GetByQuestId(id)
 
 	quest := data[0]
-	percent, _ := getQuestPercent(id)
+	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -179,7 +234,7 @@ func (*TQuest) GetWithUsersAndIndicators(
 	return questWithUsersAndIndicators, nil
 }
 
-func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
+func (*TQuest) GetAll(bearer string) ([]*models.QuestResponse, error) {
 	sqlString := `SELECT * FROM "quest";`
 
 	data, errData := database.BaseQuery[models.Quest](sqlString)
@@ -191,8 +246,8 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 	for index := range data {
 		quest := data[index]
 
-		// TODO FIXME оптимизировать
-		percent, _ := getQuestPercent(quest.IdQuest)
+		// да, я знаю, это супер не оптимизировано
+		percent, _ := getQuestPercent(bearer, quest.IdQuest)
 		status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 		startAt := utils.GetStringDate(quest.StartAt)
 		endAt := utils.GetStringDate(quest.EndAt)
@@ -213,12 +268,13 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 }
 
 func (*TQuest) Create(
+	bearer string,
 	idTemaplte int,
+	idTeams []string,
 	name string,
 	description string,
 	startAt int,
 	endAt int,
-	teams []string,
 ) (*models.Quest, error) {
 	sqlString := `
 		INSERT INTO "quest" 
@@ -238,17 +294,14 @@ func (*TQuest) Create(
 
 	idQuest := data[0].IdQuest
 
-	members, errMembers := Team.GetTeams(teams)
-	if errMembers != nil {
-		return nil, errMembers
+	teams, errTeams := Team.GetTeams(bearer, idTeams)
+	if errTeams != nil {
+		return nil, errTeams
 	}
-
-	// TODO позже удалить
-	// members := []models.TeamMembers{{IdTeam: "300", IdUsers: []string{"12", "13"}}}
 
 	questTeamData, errQuestTeam := QuestTeam.CreateWithBatch(
 		idQuest,
-		teams,
+		idTeams,
 	)
 	if errQuestTeam != nil {
 		return nil, errQuestTeam
@@ -260,9 +313,9 @@ func (*TQuest) Create(
 		idQuestTeamUser := questTeamData[index].IdQuestTeam
 		idTeamFromQuestTeam := questTeamData[index].IdTeam
 
-		for indexTeam := range members {
-			idTeamFromMembers := members[indexTeam].IdTeam
-			users := members[indexTeam].IdUsers
+		for indexTeam := range teams {
+			idTeamFromMembers := teams[indexTeam].IdTeam
+			users := teams[indexTeam].IdUsers
 
 			if idTeamFromMembers != idTeamFromQuestTeam {
 				continue
@@ -284,7 +337,7 @@ func (*TQuest) Create(
 		return nil, errTeamUser
 	}
 
-	// TODO вызов notification service добавить когда-нибудь
+	// в идеале тут должен был быть вызов notification service
 
 	return data[0], nil
 }
