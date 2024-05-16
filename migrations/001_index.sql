@@ -1,6 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- FULL DATABASE CODE IN ONE FILE
--- LAST UPDATE: 03.05.2024
+-- FULL DATABASE 
 
 
 
