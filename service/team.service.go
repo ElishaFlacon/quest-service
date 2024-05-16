@@ -16,7 +16,9 @@ var Team *TTeam
 
 var TeamServiceUrl = utils.GetTeamServiceUrl()
 
-func (*TTeam) GetAllTeams() ([]*models.IdeaServiceTeam, error) {
+func (*TTeam) GetAllTeams(
+	bearer string,
+) ([]*models.IdeaServiceTeam, error) {
 	client := &http.Client{}
 	teams := &models.IdeaServiceTeams{}
 
@@ -27,10 +29,8 @@ func (*TTeam) GetAllTeams() ([]*models.IdeaServiceTeam, error) {
 		return nil, err
 	}
 
-	request.Header.Set(
-		"Content-Type",
-		"application/json; charset=utf-8",
-	)
+	request.Header.Set("Content-Type", "application/json; charset=utf-8")
+	request.Header.Set("Authorization", bearer)
 
 	response, err := client.Do(request)
 	if err != nil {
@@ -52,15 +52,17 @@ func (*TTeam) GetAllTeams() ([]*models.IdeaServiceTeam, error) {
 }
 
 func (*TTeam) GetTeams(
+	token string,
 	idTeams []string,
 ) ([]*models.IdeaServiceTeam, error) {
-	allTeams, errAllTeams := Team.GetAllTeams()
+	allTeams, errAllTeams := Team.GetAllTeams(token)
 	if errAllTeams != nil {
 		return nil, errAllTeams
 	}
 
 	teams := []*models.IdeaServiceTeam{}
 
+	// O(n^2) я плакал
 	for _, team := range allTeams {
 		for _, idTeam := range idTeams {
 			if team.IdTeam == idTeam {
@@ -70,4 +72,22 @@ func (*TTeam) GetTeams(
 	}
 
 	return teams, nil
+}
+
+func (*TTeam) GetUsersCount(
+	token string,
+	idTeams []string,
+) (int, error) {
+	teams, errTeams := Team.GetTeams(token, idTeams)
+	if errTeams != nil {
+		return 0, errTeams
+	}
+
+	count := 0
+
+	for _, team := range teams {
+		count += len(team.IdUsers)
+	}
+
+	return count, nil
 }

@@ -17,6 +17,7 @@ var Quest *TQuest
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -27,7 +28,9 @@ func (*TQuest) Get(context *gin.Context) {
 		return
 	}
 
-	data, errData := service.Quest.Get(id)
+	bearer := utils.GetBearer(context)
+
+	data, errData := service.Quest.Get(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -37,6 +40,7 @@ func (*TQuest) Get(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID пользователя"
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -47,7 +51,9 @@ func (*TQuest) GetByUserId(context *gin.Context) {
 		return
 	}
 
-	data, errData := service.Quest.GetByUserId(id)
+	bearer := utils.GetBearer(context)
+
+	data, errData := service.Quest.GetByUserId(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -57,6 +63,7 @@ func (*TQuest) GetByUserId(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -67,7 +74,9 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 		return
 	}
 
-	data, errData := service.Quest.GetWithIndicators(id)
+	bearer := utils.GetBearer(context)
+
+	data, errData := service.Quest.GetWithIndicators(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -77,6 +86,7 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithUsers
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -87,7 +97,9 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 		return
 	}
 
-	data, errData := service.Quest.GetWithUsers(id)
+	bearer := utils.GetBearer(context)
+
+	data, errData := service.Quest.GetWithUsers(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -97,6 +109,7 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithUsersAndIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -107,7 +120,9 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 		return
 	}
 
-	data, errData := service.Quest.GetWithUsersAndIndicators(id)
+	bearer := utils.GetBearer(context)
+
+	data, errData := service.Quest.GetWithUsersAndIndicators(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -116,12 +131,14 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/all [get]
 func (*TQuest) GetAll(context *gin.Context) {
-	data, errData := service.Quest.GetAll()
+	bearer := utils.GetBearer(context)
+	data, errData := service.Quest.GetAll(bearer)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -131,6 +148,7 @@ func (*TQuest) GetAll(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param request body models.QuestCreateRequest true "Body для создания опроса"
+// @Param	bearer-token header string true "Access token (с биркой)"
 // @Success	200	{object}	models.Quest
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -143,15 +161,17 @@ func (*TQuest) Create(context *gin.Context) {
 		return
 	}
 
-	teams := utils.GetBodyIds(body.Teams)
+	bearer := utils.GetBearer(context)
+	IdTeams := utils.GetBodyIds(body.Teams)
 
 	data, errData := service.Quest.Create(
+		bearer,
 		body.IdTemplate,
+		IdTeams,
 		body.Name,
 		body.Description,
 		body.StartAt,
 		body.EndAt,
-		teams,
 	)
 	utils.CultivateServiceData(context, data, errData)
 }
