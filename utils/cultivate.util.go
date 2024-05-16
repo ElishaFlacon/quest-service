@@ -6,6 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// тут много всяких полезных обрабатывалок для controllers
+// но лучше не залазьте сюда, душный файл
+
 func CultivateFirstDataElemet[T comparable](
 	data []*T,
 	err error,
