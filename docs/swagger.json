@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Зашли почитать документацию? жаль.",
+        "description": "Зашли почитать документацию? Жаль",
         "title": "Quest Service API",
         "contact": {}
     },
@@ -490,6 +490,15 @@
                     "quest"
                 ],
                 "summary": "Получение всех опросов",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -533,6 +542,13 @@
                         "description": "ID пользователя",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -582,6 +598,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.QuestCreateRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -711,6 +734,13 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -753,6 +783,13 @@
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -797,6 +834,13 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -839,6 +883,13 @@
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -1262,7 +1313,7 @@
         "models.Category": {
             "type": "object",
             "properties": {
-                "id": {
+                "idCategory": {
                     "type": "integer"
                 },
                 "name": {
@@ -1311,7 +1362,7 @@
                 "fromRole": {
                     "type": "string"
                 },
-                "id": {
+                "idIndicator": {
                     "type": "integer"
                 },
                 "idСategory": {
@@ -1360,7 +1411,7 @@
                 "fromRole": {
                     "type": "string"
                 },
-                "id": {
+                "idIndicator": {
                     "type": "integer"
                 },
                 "idСategory": {
@@ -1389,10 +1440,10 @@
                 "endAt": {
                     "type": "integer"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
-                "idTemplate": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1412,7 +1463,7 @@
                 "endAt": {
                     "type": "integer"
                 },
-                "idTemplate": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1443,14 +1494,14 @@
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1469,7 +1520,7 @@
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "indicators": {
@@ -1482,7 +1533,7 @@
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1501,14 +1552,14 @@
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1533,7 +1584,7 @@
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "indicators": {
@@ -1546,7 +1597,7 @@
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1565,9 +1616,6 @@
         "models.Result": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "idFromUser": {
                     "type": "string"
                 },
@@ -1575,6 +1623,9 @@
                     "type": "integer"
                 },
                 "idQuest": {
+                    "type": "integer"
+                },
+                "idResult": {
                     "type": "integer"
                 },
                 "idToUser": {
@@ -1593,16 +1644,16 @@
                     "items": {
                         "type": "object",
                         "properties": {
-                            "id_from_user": {
+                            "idFromUser": {
                                 "type": "string"
                             },
-                            "id_indicator": {
+                            "idIndicator": {
                                 "type": "integer"
                             },
-                            "id_quest": {
+                            "idQuest": {
                                 "type": "integer"
                             },
-                            "id_to_user": {
+                            "idToUser": {
                                 "type": "string"
                             },
                             "value": {
@@ -1630,7 +1681,7 @@
                 "description": {
                     "type": "string"
                 },
-                "id": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1672,7 +1723,7 @@
                 "description": {
                     "type": "string"
                 },
-                "id": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1689,7 +1740,7 @@
                 "description": {
                     "type": "string"
                 },
-                "id": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "indicators": {

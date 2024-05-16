@@ -498,6 +498,15 @@ const docTemplate = `{
                     "quest"
                 ],
                 "summary": "Получение всех опросов",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -541,6 +550,13 @@ const docTemplate = `{
                         "description": "ID пользователя",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -590,6 +606,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.QuestCreateRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -719,6 +742,13 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -761,6 +791,13 @@ const docTemplate = `{
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -805,6 +842,13 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -847,6 +891,13 @@ const docTemplate = `{
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "bearer-token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -1270,7 +1321,7 @@ const docTemplate = `{
         "models.Category": {
             "type": "object",
             "properties": {
-                "id": {
+                "idCategory": {
                     "type": "integer"
                 },
                 "name": {
@@ -1319,7 +1370,7 @@ const docTemplate = `{
                 "fromRole": {
                     "type": "string"
                 },
-                "id": {
+                "idIndicator": {
                     "type": "integer"
                 },
                 "idСategory": {
@@ -1368,7 +1419,7 @@ const docTemplate = `{
                 "fromRole": {
                     "type": "string"
                 },
-                "id": {
+                "idIndicator": {
                     "type": "integer"
                 },
                 "idСategory": {
@@ -1397,10 +1448,10 @@ const docTemplate = `{
                 "endAt": {
                     "type": "integer"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
-                "idTemplate": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1420,7 +1471,7 @@ const docTemplate = `{
                 "endAt": {
                     "type": "integer"
                 },
-                "idTemplate": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1451,14 +1502,14 @@ const docTemplate = `{
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1477,7 +1528,7 @@ const docTemplate = `{
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "indicators": {
@@ -1490,7 +1541,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1509,14 +1560,14 @@ const docTemplate = `{
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1541,7 +1592,7 @@ const docTemplate = `{
                 "endAt": {
                     "type": "string"
                 },
-                "id": {
+                "idQuest": {
                     "type": "integer"
                 },
                 "indicators": {
@@ -1554,7 +1605,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "percent": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "startAt": {
                     "type": "string"
@@ -1573,9 +1624,6 @@ const docTemplate = `{
         "models.Result": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "idFromUser": {
                     "type": "string"
                 },
@@ -1583,6 +1631,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "idQuest": {
+                    "type": "integer"
+                },
+                "idResult": {
                     "type": "integer"
                 },
                 "idToUser": {
@@ -1601,16 +1652,16 @@ const docTemplate = `{
                     "items": {
                         "type": "object",
                         "properties": {
-                            "id_from_user": {
+                            "idFromUser": {
                                 "type": "string"
                             },
-                            "id_indicator": {
+                            "idIndicator": {
                                 "type": "integer"
                             },
-                            "id_quest": {
+                            "idQuest": {
                                 "type": "integer"
                             },
-                            "id_to_user": {
+                            "idToUser": {
                                 "type": "string"
                             },
                             "value": {
@@ -1638,7 +1689,7 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "id": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1680,7 +1731,7 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "id": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "name": {
@@ -1697,7 +1748,7 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "id": {
+                "idQuestTemplate": {
                     "type": "integer"
                 },
                 "indicators": {
@@ -1721,7 +1772,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Quest Service API",
-	Description:      "Зашли почитать документацию? жаль.",
+	Description:      "Зашли почитать документацию? Жаль",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

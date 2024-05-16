@@ -1,7 +1,7 @@
 definitions:
   models.Category:
     properties:
-      id:
+      idCategory:
         type: integer
       name:
         type: string
@@ -32,7 +32,7 @@ definitions:
         type: string
       fromRole:
         type: string
-      id:
+      idIndicator:
         type: integer
       idСategory:
         type: integer
@@ -64,7 +64,7 @@ definitions:
         type: string
       fromRole:
         type: string
-      id:
+      idIndicator:
         type: integer
       idСategory:
         type: integer
@@ -83,9 +83,9 @@ definitions:
         type: string
       endAt:
         type: integer
-      id:
+      idQuest:
         type: integer
-      idTemplate:
+      idQuestTemplate:
         type: integer
       name:
         type: string
@@ -98,7 +98,7 @@ definitions:
         type: string
       endAt:
         type: integer
-      idTemplate:
+      idQuestTemplate:
         type: integer
       name:
         type: string
@@ -118,12 +118,12 @@ definitions:
         type: boolean
       endAt:
         type: string
-      id:
+      idQuest:
         type: integer
       name:
         type: string
       percent:
-        type: number
+        type: integer
       startAt:
         type: string
       status:
@@ -135,7 +135,7 @@ definitions:
         type: boolean
       endAt:
         type: string
-      id:
+      idQuest:
         type: integer
       indicators:
         items:
@@ -144,7 +144,7 @@ definitions:
       name:
         type: string
       percent:
-        type: number
+        type: integer
       startAt:
         type: string
       status:
@@ -156,12 +156,12 @@ definitions:
         type: boolean
       endAt:
         type: string
-      id:
+      idQuest:
         type: integer
       name:
         type: string
       percent:
-        type: number
+        type: integer
       startAt:
         type: string
       status:
@@ -177,7 +177,7 @@ definitions:
         type: boolean
       endAt:
         type: string
-      id:
+      idQuest:
         type: integer
       indicators:
         items:
@@ -186,7 +186,7 @@ definitions:
       name:
         type: string
       percent:
-        type: number
+        type: integer
       startAt:
         type: string
       status:
@@ -198,13 +198,13 @@ definitions:
     type: object
   models.Result:
     properties:
-      id:
-        type: integer
       idFromUser:
         type: string
       idIndicator:
         type: integer
       idQuest:
+        type: integer
+      idResult:
         type: integer
       idToUser:
         type: string
@@ -216,13 +216,13 @@ definitions:
       results:
         items:
           properties:
-            id_from_user:
+            idFromUser:
               type: string
-            id_indicator:
+            idIndicator:
               type: integer
-            id_quest:
+            idQuest:
               type: integer
-            id_to_user:
+            idToUser:
               type: string
             value:
               type: string
@@ -240,7 +240,7 @@ definitions:
         type: boolean
       description:
         type: string
-      id:
+      idQuestTemplate:
         type: integer
       name:
         type: string
@@ -267,7 +267,7 @@ definitions:
         type: boolean
       description:
         type: string
-      id:
+      idQuestTemplate:
         type: integer
       name:
         type: string
@@ -278,7 +278,7 @@ definitions:
         type: boolean
       description:
         type: string
-      id:
+      idQuestTemplate:
         type: integer
       indicators:
         items:
@@ -290,7 +290,7 @@ definitions:
 host: localhost:5000
 info:
   contact: {}
-  description: Зашли почитать документацию? жаль.
+  description: Зашли почитать документацию? Жаль
   title: Quest Service API
 paths:
   /quest-service/category/{id}:
@@ -609,6 +609,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -631,6 +636,12 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -661,6 +672,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -692,6 +708,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.QuestCreateRequest'
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -776,6 +797,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -804,6 +830,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -832,6 +863,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Access token (с биркой)
+        in: header
+        name: bearer-token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
