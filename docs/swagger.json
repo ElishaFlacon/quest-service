@@ -1356,6 +1356,15 @@
         "models.Indicator": {
             "type": "object",
             "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "available": {
+                    "type": "boolean"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1373,15 +1382,18 @@
                 },
                 "toRole": {
                     "type": "string"
-                },
-                "visible": {
-                    "type": "boolean"
                 }
             }
         },
         "models.IndicatorCreateRequest": {
             "type": "object",
             "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1402,6 +1414,15 @@
         "models.IndicatorWithCategoryName": {
             "type": "object",
             "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "available": {
+                    "type": "boolean"
+                },
                 "categoryName": {
                     "type": "string"
                 },
@@ -1422,9 +1443,6 @@
                 },
                 "toRole": {
                     "type": "string"
-                },
-                "visible": {
-                    "type": "boolean"
                 }
             }
         },

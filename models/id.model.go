@@ -1,5 +1,5 @@
 package models
 
-type Id[T comparable] struct {
+type Id[T any] struct {
 	Id T `json:"id"`
 }

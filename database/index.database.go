@@ -31,7 +31,7 @@ func Init(databaseUrl string) {
 	Database = &TDatabase{db}
 }
 
-func SendBatch[T comparable](batch *pgx.Batch) ([]*T, error) {
+func SendBatch[T any](batch *pgx.Batch) ([]*T, error) {
 	batchResult := Database.SendBatch(
 		context.Background(),
 		batch,
@@ -53,7 +53,7 @@ func SendBatch[T comparable](batch *pgx.Batch) ([]*T, error) {
 	return data, nil
 }
 
-func BaseQuery[T comparable](
+func BaseQuery[T any](
 	sqlString string,
 	args ...any,
 ) (

@@ -1364,6 +1364,15 @@ const docTemplate = `{
         "models.Indicator": {
             "type": "object",
             "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "available": {
+                    "type": "boolean"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1381,15 +1390,18 @@ const docTemplate = `{
                 },
                 "toRole": {
                     "type": "string"
-                },
-                "visible": {
-                    "type": "boolean"
                 }
             }
         },
         "models.IndicatorCreateRequest": {
             "type": "object",
             "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1410,6 +1422,15 @@ const docTemplate = `{
         "models.IndicatorWithCategoryName": {
             "type": "object",
             "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "available": {
+                    "type": "boolean"
+                },
                 "categoryName": {
                     "type": "string"
                 },
@@ -1430,9 +1451,6 @@ const docTemplate = `{
                 },
                 "toRole": {
                     "type": "string"
-                },
-                "visible": {
-                    "type": "boolean"
                 }
             }
         },

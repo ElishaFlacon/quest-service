@@ -20,8 +20,9 @@ func (*TIndicator) Get(id int) (*models.IndicatorWithCategoryName, error) {
 	"indicator".id_indicator, 
 	"indicator".name, 
 	"indicator".description,
+	"indicator".answers,
 	"indicator".id_category,
-	"indicator".visible,
+	"indicator".available,
 	CASE 
 		WHEN 
 			"indicator".from_role = '' 
@@ -54,8 +55,9 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategoryName,
 			"indicator".id_indicator, 
 			"indicator".name, 
 			"indicator".description,
+			"indicator".answers,
 			"indicator".id_category,
-			"indicator".visible,
+			"indicator".available,
 			CASE 
 				WHEN 
 					"indicator".from_role = '' 
@@ -92,8 +94,9 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategoryName, er
 			"indicator".id_indicator, 
 			"indicator".name, 
 			"indicator".description,
+			"indicator".answers,
 			"indicator".id_category,
-			"indicator".visible,
+			"indicator".available,
 			CASE 
 				WHEN 
 					"indicator".from_role = '' 
@@ -132,8 +135,9 @@ func (*TIndicator) GetAll() ([]*models.IndicatorWithCategoryName, error) {
 		"indicator".id_indicator, 
 		"indicator".name, 
 		"indicator".description,
+		"indicator".answers,
 		"indicator".id_category,
-		"indicator".visible,
+		"indicator".available,
 		CASE 
 			WHEN 
 				"indicator".from_role = '' 
@@ -163,16 +167,17 @@ func (*TIndicator) Create(
 	idCategory int,
 	name string,
 	description string,
+	answers []string,
 	fromRole string,
 	toRole string,
 ) (*models.Indicator, error) {
 	sqlString := `
 		INSERT INTO "indicator" 
-		(name, description, from_role, to_role, id_category) 
-		VALUES ($1, $2, $3, $4, $5) 
+		(name, description, answers, from_role, to_role, id_category) 
+		VALUES ($1, $2, $3, $4, $5, $6) 
 		RETURNING *;
 	`
-	args := []any{name, description, fromRole, toRole, idCategory}
+	args := []any{name, description, answers, fromRole, toRole, idCategory}
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
@@ -182,7 +187,7 @@ func (*TIndicator) Create(
 func (*TIndicator) Hide(id int) (*models.Indicator, error) {
 	sqlString := `
 		UPDATE "indicator" 
-		SET visible = false
+		SET available = false
 		WHERE id_indicator = $1 
 		RETURNING *;
 	`

@@ -107,6 +107,7 @@ func (*TIndicator) Create(context *gin.Context) {
 		body.IdCategory,
 		body.Name,
 		body.Description,
+		body.Answers,
 		body.FromRole,
 		body.ToRole,
 	)

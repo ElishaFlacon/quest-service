@@ -9,7 +9,7 @@ import (
 // тут много всяких полезных обрабатывалок для controllers
 // но лучше не залазьте сюда, душный файл
 
-func CultivateFirstDataElemet[T comparable](
+func CultivateFirstDataElemet[T any](
 	data []*T,
 	err error,
 ) (*T, error) {
@@ -35,7 +35,7 @@ func CultivateCondition(
 	return true
 }
 
-func CultivateBody[T comparable](
+func CultivateBody[T any](
 	context *gin.Context,
 	object T,
 ) error {

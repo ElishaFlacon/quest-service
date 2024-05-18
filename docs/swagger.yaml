@@ -28,6 +28,12 @@ definitions:
     type: object
   models.Indicator:
     properties:
+      answers:
+        items:
+          type: string
+        type: array
+      available:
+        type: boolean
       description:
         type: string
       fromRole:
@@ -40,11 +46,13 @@ definitions:
         type: string
       toRole:
         type: string
-      visible:
-        type: boolean
     type: object
   models.IndicatorCreateRequest:
     properties:
+      answers:
+        items:
+          type: string
+        type: array
       description:
         type: string
       fromRole:
@@ -58,6 +66,12 @@ definitions:
     type: object
   models.IndicatorWithCategoryName:
     properties:
+      answers:
+        items:
+          type: string
+        type: array
+      available:
+        type: boolean
       categoryName:
         type: string
       description:
@@ -72,8 +86,6 @@ definitions:
         type: string
       toRole:
         type: string
-      visible:
-        type: boolean
     type: object
   models.Quest:
     properties:
