@@ -898,6 +898,71 @@ paths:
       summary: Получение опроса c его пользователями по ID
       tags:
       - quest
+  /quest-service/result/by-quest/{id_quest}/by-team/{id_team}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id_quest
+        required: true
+        type: string
+      - description: ID команды
+        in: path
+        name: id_team
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Result'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение результатов по ID опроса и ID команды
+      tags:
+      - result
+  /quest-service/result/by-quest/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Result'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение результатов по ID опроса
+      tags:
+      - result
   /quest-service/result/by-user/{id}:
     get:
       consumes:
@@ -988,6 +1053,36 @@ paths:
       summary: Создание результатов
       tags:
       - result
+  /quest-service/statistic/quest/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID опроса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение статистики опроса по ID опроса
+      tags:
+      - statistic
   /quest-service/template/{id}:
     get:
       consumes:
@@ -1094,7 +1189,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Удаление шаблона по ID (не работает, см. todo main.go)
+      summary: Удаление шаблона по ID (не работает, используйте hide :3)
       tags:
       - template
   /quest-service/template/hide/{id}:

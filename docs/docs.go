@@ -923,6 +923,105 @@ const docTemplate = `{
                 }
             }
         },
+        "/quest-service/result/by-quest/{id_quest}/by-team/{id_team}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "result"
+                ],
+                "summary": "Получение результатов по ID опроса и ID команды",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID опроса",
+                        "name": "id_quest",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID команды",
+                        "name": "id_team",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Result"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/result/by-quest/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "result"
+                ],
+                "summary": "Получение результатов по ID опроса",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Result"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/quest-service/result/by-user/{id}": {
             "get": {
                 "consumes": [
@@ -1062,6 +1161,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/quest-service/statistic/quest/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Получение статистики опроса по ID опроса",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID опроса",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/quest-service/template/all": {
             "get": {
                 "consumes": [
@@ -1155,7 +1300,7 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Удаление шаблона по ID (не работает, см. todo main.go)",
+                "summary": "Удаление шаблона по ID (не работает, используйте hide :3)",
                 "parameters": [
                     {
                         "type": "integer",
