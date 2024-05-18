@@ -923,7 +923,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/result/by-quest/{id_quest}/by-team/{id_team}": {
+        "/quest-service/result/by-quest-and-team/{id_quest}/{id_team}": {
             "get": {
                 "consumes": [
                     "application/json"

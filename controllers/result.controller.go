@@ -85,7 +85,7 @@ func (*TResult) GetByQuestId(context *gin.Context) {
 // @Success	200	{array}	models.Result
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/result/by-quest/{id_quest}/by-team/{id_team} [get]
+// @Router	/quest-service/result/by-quest-and-team/{id_quest}/{id_team} [get]
 func (*TResult) GetByQuestIdAndTeamId(context *gin.Context) {
 	idQuest, errQuestParam := utils.CultivateNumberParam(context, "id_quest")
 	idTeam, errTeamParam := utils.CultivateNumberParam(context, "id_team")
