@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/jackc/pgx/v5"
 )
 
 type TResult struct {
@@ -21,20 +22,60 @@ func (*TResult) Get(id int) ([]*models.Result, error) {
 	return data, err
 }
 
-func (*TResult) GetByUserId(id string) (*models.Result, error) {
-	// TODO
-	return nil, nil
+func (*TResult) GetByUserId(id string) ([]*models.Result, error) {
+	sqlString := `SELECT * FROM "result" WHERE id_from_user = $1;`
+
+	data, err := database.BaseQuery[models.Result](sqlString, id)
+
+	return data, err
 }
 
-func (*TResult) GetByUsersId(id []string) ([]*models.Result, error) {
-	// TODO
-	return nil, nil
+func (*TResult) GetByUsersId(ids []string) ([]*models.Result, error) {
+	sqlString := `SELECT * FROM "result" WHERE id_result = $1;`
+
+	batch := &pgx.Batch{}
+
+	for _, id := range ids {
+		batch.Queue(sqlString, id)
+	}
+
+	data, err := database.SendBatch[models.Result](batch)
+
+	return data, err
 }
 
 func (*TResult) GetByQuestId(id int) ([]*models.Result, error) {
-	sqlString := `SELECT * FROM "result" WHERE id_quest = $1;`
+	// TODO получение презультатов по айди опроса {команда, прогресс, + участники}
+
+	sqlString := `
+		SELECT
+			"result".,
+			"result".,
+			"result".
+		FROM "result"
+		INNER JOIN "" ON
+			"result". = "".
+		WHERE id_result = $1;
+	`
 
 	data, err := database.BaseQuery[models.Result](sqlString, id)
+
+	return data, err
+}
+
+func (*TResult) GetByQuestIdAndTeamId(
+	idQuest int,
+	idTeam int,
+) ([]*models.Result, error) {
+	// TODO получение результатов членов команды по айди команды и опроса
+
+	sqlString := `
+		SELECT * FROM "result" 
+		WHERE id_quest = $1 AND id_team = $2;
+	`
+	args := []any{idQuest, idTeam}
+
+	data, err := database.BaseQuery[models.Result](sqlString, args...)
 
 	return data, err
 }

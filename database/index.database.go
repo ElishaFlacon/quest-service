@@ -31,28 +31,7 @@ func Init(databaseUrl string) {
 	Database = &TDatabase{db}
 }
 
-func SendBatch[T any](batch *pgx.Batch) ([]*T, error) {
-	batchResult := Database.SendBatch(
-		context.Background(),
-		batch,
-	)
-
-	rows, err := batchResult.Query()
-	if err != nil {
-		return nil, err
-	}
-
-	data, err := pgx.CollectRows(
-		rows,
-		pgx.RowToAddrOfStructByName[T],
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	return data, nil
-}
-
+// Обычный запрос в базу
 func BaseQuery[T any](
 	sqlString string,
 	args ...any,
@@ -80,7 +59,30 @@ func BaseQuery[T any](
 	return data, err
 }
 
-// using for big inserts
+// Используйте для запросов в цикле
+func SendBatch[T any](batch *pgx.Batch) ([]*T, error) {
+	batchResult := Database.SendBatch(
+		context.Background(),
+		batch,
+	)
+
+	rows, err := batchResult.Query()
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := pgx.CollectRows(
+		rows,
+		pgx.RowToAddrOfStructByName[T],
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+// Используйте для больших вставок данных (insert)
 func CopyFromQuery(
 	tableName string,
 	columnNames []string,

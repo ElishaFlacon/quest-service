@@ -4,7 +4,8 @@ import "github.com/gin-gonic/gin"
 
 func AuthGuard() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// TODO тут будет отправка запроса на проверку токена
+		// тут будет отправка запроса на проверку токена
+		// не будет :3
 		c.Next()
 	}
 }

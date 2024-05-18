@@ -38,13 +38,13 @@ func (*TQuestTeamUser) GetByQuestId(
 ) ([]*models.QuestTeamUser, error) {
 	sqlString := `
 		SELECT 
-		"quest_team_user".id_quest_team,
-		"quest_team_user".id_user   
+			"quest_team_user".id_quest_team,
+			"quest_team_user".id_user   
 		FROM "quest"
-		INNER JOIN "quest_team"
-		ON "quest".id_quest = "quest_team".id_quest
-		INNER JOIN "quest_team_user"
-		ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+		INNER JOIN "quest_team" ON 
+			"quest".id_quest = "quest_team".id_quest
+		INNER JOIN "quest_team_user" ON 
+			"quest_team".id_quest_team = "quest_team_user".id_quest_team
 		WHERE "quest".id_quest = $1;
 	`
 
@@ -71,16 +71,11 @@ func (*TQuestTeamUser) CreateWithBatch(
 		VALUES ($1, $2)
 		RETURNING *;
 	`
-	println("asddddd0")
-	println(questTeams)
-	println(len(questTeams))
 
 	batch := &pgx.Batch{}
 
 	for index := range questTeams {
-		println("asddddd1")
 		questTeam := questTeams[index]
-		println("asddddd2")
 		for userIndex := range questTeam.Users {
 			user := questTeam.Users[userIndex]
 			batch.Queue(

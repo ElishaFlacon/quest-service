@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/ElishaFlacon/quest-service/models"
-	"github.com/ElishaFlacon/quest-service/utils"
 	"io"
 	"net/http"
+
+	"github.com/ElishaFlacon/quest-service/models"
+	"github.com/ElishaFlacon/quest-service/utils"
 )
 
 type TUser struct{}
@@ -16,7 +17,9 @@ var User TUser
 
 var UserServiceUrl = utils.GetUserServiceUrl()
 
-func (*TUser) GetToAndFromUsers(IdUsers []*models.UsersFromAndToByResultId) ([]*models.UsersInfo, error) {
+func (*TUser) GetToAndFromUsers(
+	IdUsers []*models.UsersFromAndToByResultId,
+) ([]*models.UsersInfo, error) {
 	client := &http.Client{}
 	users := models.UsersInfoResponse{}
 

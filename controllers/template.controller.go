@@ -138,7 +138,7 @@ func (*TTemplate) Hide(context *gin.Context) {
 }
 
 // Template Delete	godoc
-// @Summary	Удаление шаблона по ID (не работает, см. todo main.go)
+// @Summary	Удаление шаблона по ID (не работает, используйте hide :3)
 // @Tags	template
 // @Accept	json
 // @Produce	json

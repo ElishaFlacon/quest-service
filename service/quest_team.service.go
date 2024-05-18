@@ -33,8 +33,8 @@ func (*TQuestTeam) GetByQuestId(id int) ([]*models.QuestTeam, error) {
 			"quest_team".id_quest,
 			"quest_team".id_team
 		FROM "quest_team"
-		INNER JOIN "quest"
-			ON "quest_team".id_quest = "quest".id_quest
+		INNER JOIN "quest" ON 
+			"quest_team".id_quest = "quest".id_quest
 		WHERE "quest".id_quest = $1;
 	`
 

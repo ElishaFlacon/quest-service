@@ -29,7 +29,10 @@ func (*TTeam) GetAllTeams(
 		return nil, err
 	}
 
-	request.Header.Set("Content-Type", "application/json; charset=utf-8")
+	request.Header.Set(
+		"Content-Type",
+		"application/json; charset=utf-8",
+	)
 	request.Header.Set("Authorization", bearer)
 
 	response, err := client.Do(request)

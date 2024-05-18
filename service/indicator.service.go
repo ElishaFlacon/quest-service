@@ -16,33 +16,33 @@ var Indicator = &TIndicator{
 
 func (*TIndicator) Get(id int) (*models.IndicatorWithCategoryName, error) {
 	sqlString := `
-	SELECT
-	"indicator".id_indicator, 
-	"indicator".name, 
-	"indicator".description,
-	"indicator".answers,
-	"indicator".id_category,
-	"indicator".available,
-	CASE 
-		WHEN 
-			"indicator".from_role = '' 
-				OR 
-			"indicator".from_role IS NULL 
-				THEN 'ALL' 
-		ELSE "indicator".from_role END, 
-	CASE 
-		WHEN 
-			"indicator".to_role = '' 
-				OR 
-			"indicator".to_role IS NULL 
-				THEN 'ALL' 
-		ELSE "indicator".to_role END, 
-	"category".name as category_name
-	FROM "indicator"
-	INNER JOIN "category" ON 
-		"indicator".id_category = "category".id_category
-	WHERE "indicator".id_indicator = $1;
-`
+		SELECT
+			"indicator".id_indicator, 
+			"indicator".name, 
+			"indicator".description,
+			"indicator".answers,
+			"indicator".id_category,
+			"indicator".available,
+			CASE 
+				WHEN 
+					"indicator".from_role = '' 
+						OR 
+					"indicator".from_role IS NULL 
+						THEN 'ALL' 
+				ELSE "indicator".from_role END, 
+			CASE 
+				WHEN 
+					"indicator".to_role = '' 
+						OR 
+					"indicator".to_role IS NULL 
+						THEN 'ALL' 
+				ELSE "indicator".to_role END, 
+			"category".name as category_name
+		FROM "indicator"
+		INNER JOIN "category" ON 
+			"indicator".id_category = "category".id_category
+		WHERE "indicator".id_indicator = $1;
+	`
 
 	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
 
@@ -132,27 +132,27 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategoryName, er
 func (*TIndicator) GetAll() ([]*models.IndicatorWithCategoryName, error) {
 	sqlString := `
 		SELECT
-		"indicator".id_indicator, 
-		"indicator".name, 
-		"indicator".description,
-		"indicator".answers,
-		"indicator".id_category,
-		"indicator".available,
-		CASE 
-			WHEN 
-				"indicator".from_role = '' 
-					OR 
-				"indicator".from_role IS NULL 
-					THEN 'ALL' 
-			ELSE "indicator".from_role END, 
-		CASE 
-			WHEN 
-				"indicator".to_role = '' 
-					OR 
-				"indicator".to_role IS NULL 
-					THEN 'ALL' 
-			ELSE "indicator".to_role END, 
-		"category".name as category_name
+			"indicator".id_indicator, 
+			"indicator".name, 
+			"indicator".description,
+			"indicator".answers,
+			"indicator".id_category,
+			"indicator".available,
+			CASE 
+				WHEN 
+					"indicator".from_role = '' 
+						OR 
+					"indicator".from_role IS NULL 
+						THEN 'ALL' 
+				ELSE "indicator".from_role END, 
+			CASE 
+				WHEN 
+					"indicator".to_role = '' 
+						OR 
+					"indicator".to_role IS NULL 
+						THEN 'ALL' 
+				ELSE "indicator".to_role END, 
+			"category".name as category_name
 		FROM "indicator"
 		INNER JOIN "category" ON 
 			"indicator".id_category = "category".id_category;

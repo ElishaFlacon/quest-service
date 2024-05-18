@@ -1,7 +1,5 @@
 package service
 
-// TODO check for refactoring
-
 import (
 	"context"
 	"encoding/json"

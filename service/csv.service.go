@@ -53,7 +53,9 @@ func (*TCsv) GetCsvTableByQuestId(
 		)
 	}
 
-	usersInfo, errUsersInfo := User.GetToAndFromUsers(usersFromAndToByResultId)
+	usersInfo, errUsersInfo := User.GetToAndFromUsers(
+		usersFromAndToByResultId,
+	)
 	if errUsersInfo != nil {
 		return nil, errUsersInfo
 	}
@@ -82,7 +84,10 @@ func (*TCsv) GetCsvTableByQuestId(
 			return nil, errIndicator
 		}
 
-		userInfo, errUserInfo := findUsersInfoByIdResult(result.IdResult, usersInfo)
+		userInfo, errUserInfo := findUsersInfoByIdResult(
+			result.IdResult,
+			usersInfo,
+		)
 		if errUserInfo != nil {
 			return nil, errUserInfo
 		}
