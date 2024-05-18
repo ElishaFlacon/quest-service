@@ -23,12 +23,12 @@ var Quest *TQuest
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/{id} [get]
 func (*TQuest) Get(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
-
-	bearer := utils.GetBearer(context)
 
 	data, errData := service.Quest.Get(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
@@ -46,12 +46,12 @@ func (*TQuest) Get(context *gin.Context) {
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/by-user/{id} [get]
 func (*TQuest) GetByUserId(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
-
-	bearer := utils.GetBearer(context)
 
 	data, errData := service.Quest.GetByUserId(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
@@ -69,12 +69,12 @@ func (*TQuest) GetByUserId(context *gin.Context) {
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/with-indicators/{id} [get]
 func (*TQuest) GetWithIndicators(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
-
-	bearer := utils.GetBearer(context)
 
 	data, errData := service.Quest.GetWithIndicators(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
@@ -92,12 +92,12 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/with-users/{id} [get]
 func (*TQuest) GetWithUsers(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
-
-	bearer := utils.GetBearer(context)
 
 	data, errData := service.Quest.GetWithUsers(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
@@ -115,12 +115,12 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/with-users-and-indicators/{id} [get]
 func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
-
-	bearer := utils.GetBearer(context)
 
 	data, errData := service.Quest.GetWithUsersAndIndicators(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
@@ -154,14 +154,14 @@ func (*TQuest) GetAll(context *gin.Context) {
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/create [post]
 func (*TQuest) Create(context *gin.Context) {
-	body := &models.QuestCreateRequest{}
+	bearer := utils.GetBearer(context)
 
+	body := &models.QuestCreateRequest{}
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {
 		return
 	}
 
-	bearer := utils.GetBearer(context)
 	IdTeams := utils.GetBodyIds(body.Teams)
 
 	data, errData := service.Quest.Create(
