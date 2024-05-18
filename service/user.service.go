@@ -15,8 +15,6 @@ type TUser struct{}
 
 var User TUser
 
-var UserServiceUrl = utils.GetUserServiceUrl()
-
 func (*TUser) GetToAndFromUsers(
 	IdUsers []*models.UsersFromAndToByResultId,
 ) ([]*models.UsersInfo, error) {
@@ -26,7 +24,8 @@ func (*TUser) GetToAndFromUsers(
 	jsonIdUsers, _ := json.Marshal(IdUsers)
 	usersData := []byte(`{"usersFromAndToByResultId":` + string(jsonIdUsers))
 
-	requestUrl := fmt.Sprintf("%s/get-all-info", UserServiceUrl)
+	userServiceUrl := utils.GetUserServiceUrl()
+	requestUrl := fmt.Sprintf("%s/get-all-info", userServiceUrl)
 
 	request, err := http.NewRequest(
 		"GET",

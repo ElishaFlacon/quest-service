@@ -14,15 +14,14 @@ type TTeam struct{}
 
 var Team *TTeam
 
-var TeamServiceUrl = utils.GetTeamServiceUrl()
-
 func (*TTeam) GetAllTeams(
 	bearer string,
 ) ([]*models.IdeaServiceTeam, error) {
 	client := &http.Client{}
 	teams := &models.IdeaServiceTeams{}
 
-	requestUrl := fmt.Sprintf("%s/all", TeamServiceUrl)
+	teamServiceUrl := utils.GetTeamServiceUrl()
+	requestUrl := fmt.Sprintf("%s/all", teamServiceUrl)
 
 	request, err := http.NewRequest("GET", requestUrl, nil)
 	if err != nil {
