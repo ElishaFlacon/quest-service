@@ -1063,6 +1063,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Access token (с биркой)
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
