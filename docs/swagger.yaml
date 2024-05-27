@@ -623,7 +623,7 @@ paths:
         type: integer
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -651,7 +651,7 @@ paths:
       parameters:
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -686,7 +686,7 @@ paths:
         type: integer
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -722,7 +722,7 @@ paths:
           $ref: '#/definitions/models.QuestCreateRequest'
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -811,7 +811,7 @@ paths:
         type: integer
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -844,7 +844,7 @@ paths:
         type: integer
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -877,7 +877,7 @@ paths:
         type: integer
       - description: Access token (с биркой)
         in: header
-        name: bearer-token
+        name: Authorization
         required: true
         type: string
       produces:

@@ -502,7 +502,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -555,7 +555,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -610,7 +610,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -746,7 +746,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -796,7 +796,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -846,7 +846,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -896,7 +896,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Access token (с биркой)",
-                        "name": "bearer-token",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
