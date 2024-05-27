@@ -39,7 +39,7 @@ func (*TQuest) Get(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
-// @Param	id path int true "ID пользователя"
+// @Param	id path string true "ID пользователя"
 // @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
@@ -48,7 +48,7 @@ func (*TQuest) Get(context *gin.Context) {
 func (*TQuest) GetByUserId(context *gin.Context) {
 	bearer := utils.GetBearer(context)
 
-	id, errParam := utils.CultivateNumberParam(context, "id")
+	id, errParam := utils.CultivateStringParam(context, "id")
 	if errParam != nil {
 		return
 	}
