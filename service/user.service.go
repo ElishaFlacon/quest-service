@@ -15,6 +15,7 @@ type TUser struct{}
 
 var User TUser
 
+// Не работает, не реализована логика в другом микросервисе
 func (*TUser) GetToAndFromUsers(
 	IdUsers []*models.UsersFromAndToByResultId,
 ) ([]*models.UsersInfo, error) {
