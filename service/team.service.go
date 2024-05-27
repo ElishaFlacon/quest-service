@@ -14,14 +14,15 @@ type TTeam struct{}
 
 var Team *TTeam
 
-func (*TTeam) GetAllTeams(
+func GetTeam(
 	bearer string,
-) ([]*models.IdeaServiceTeam, error) {
+	id string,
+) (*models.TeamWithStringUsers, error) {
 	client := &http.Client{}
-	teams := &models.IdeaServiceTeams{}
+	team := models.Team{}
 
 	teamServiceUrl := utils.GetTeamServiceUrl()
-	requestUrl := fmt.Sprintf("%s/all", teamServiceUrl)
+	requestUrl := fmt.Sprintf("%s/%s", teamServiceUrl, id)
 
 	request, err := http.NewRequest("GET", requestUrl, nil)
 	if err != nil {
@@ -45,31 +46,95 @@ func (*TTeam) GetAllTeams(
 		return nil, err
 	}
 
-	err = json.Unmarshal(body, &teams)
+	err = json.Unmarshal(body, &team)
 	if err != nil {
 		return nil, err
 	}
 
-	return teams.Teams, nil
+	users := []string{}
+	for _, user := range team.Users {
+		users = append(users, user.IdUser)
+	}
+
+	returnTeam := &models.TeamWithStringUsers{
+		IdTeam: team.IdTeam,
+		Users:  users,
+	}
+
+	return returnTeam, nil
+}
+
+func (*TTeam) GetAllTeams(
+	bearer string,
+) ([]models.Id[string], error) {
+	client := &http.Client{}
+	teams := []models.Id[string]{}
+
+	teamServiceUrl := utils.GetTeamServiceUrl()
+	requestUrl := fmt.Sprintf("%s/all", teamServiceUrl)
+
+	request, errRequest := http.NewRequest("GET", requestUrl, nil)
+	if errRequest != nil {
+		return nil, errRequest
+	}
+
+	request.Header.Set(
+		"Accept",
+		"application/json, text/plain, */*",
+	)
+	request.Header.Set(
+		"Accept-Encoding",
+		"gzip, deflate, br, zstd",
+	)
+	request.Header.Set(
+		"User-Agent",
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+	)
+	request.Header.Set("Authorization", bearer)
+
+	response, errResponse := client.Do(request)
+	if errResponse != nil {
+		return nil, errResponse
+	}
+	defer response.Body.Close()
+
+	body, errBody := io.ReadAll(response.Body)
+	if errBody != nil {
+		return nil, errBody
+	}
+
+	errUnmarshal := json.Unmarshal(body, &teams)
+	if errUnmarshal != nil {
+		return nil, errUnmarshal
+	}
+
+	return teams, nil
 }
 
 func (*TTeam) GetTeams(
-	token string,
+	bearer string,
 	idTeams []string,
-) ([]*models.IdeaServiceTeam, error) {
-	allTeams, errAllTeams := Team.GetAllTeams(token)
+) ([]*models.TeamWithStringUsers, error) {
+	allTeams, errAllTeams := Team.GetAllTeams(bearer)
 	if errAllTeams != nil {
 		return nil, errAllTeams
 	}
 
-	teams := []*models.IdeaServiceTeam{}
+	teams := []*models.TeamWithStringUsers{}
 
 	// O(n^2) я плакал
 	for _, team := range allTeams {
 		for _, idTeam := range idTeams {
-			if team.IdTeam == idTeam {
-				teams = append(teams, team)
+			if team.Id != idTeam {
+				continue
 			}
+
+			teamRequest, errTeamRequest := GetTeam(bearer, team.Id)
+			if errTeamRequest != nil {
+				return nil, errTeamRequest
+			}
+
+			teams = append(teams, teamRequest)
 		}
 	}
 
@@ -77,10 +142,10 @@ func (*TTeam) GetTeams(
 }
 
 func (*TTeam) GetUsersCount(
-	token string,
+	bearer string,
 	idTeams []string,
 ) (int, error) {
-	teams, errTeams := Team.GetTeams(token, idTeams)
+	teams, errTeams := Team.GetTeams(bearer, idTeams)
 	if errTeams != nil {
 		return 0, errTeams
 	}
@@ -88,7 +153,7 @@ func (*TTeam) GetUsersCount(
 	count := 0
 
 	for _, team := range teams {
-		count += len(team.IdUsers)
+		count += len(team.Users)
 	}
 
 	return count, nil
