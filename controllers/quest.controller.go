@@ -17,7 +17,7 @@ var Quest *TQuest
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -40,7 +40,7 @@ func (*TQuest) Get(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID пользователя"
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -63,7 +63,7 @@ func (*TQuest) GetByUserId(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -86,7 +86,7 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithUsers
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -109,7 +109,7 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithUsersAndIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -131,7 +131,7 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -148,7 +148,7 @@ func (*TQuest) GetAll(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param request body models.QuestCreateRequest true "Body для создания опроса"
-// @Param	bearer-token header string true "Access token (с биркой)"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.Quest
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
