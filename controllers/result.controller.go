@@ -60,7 +60,7 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 // @Tags	result
 // @Accept	json
 // @Produce	json
-// @Param	id path string true "ID опроса"
+// @Param	id path int true "ID опроса"
 // @Success	200	{array}	models.Result
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
@@ -80,7 +80,7 @@ func (*TResult) GetByQuestId(context *gin.Context) {
 // @Tags	result
 // @Accept	json
 // @Produce	json
-// @Param	id_quest path string true "ID опроса"
+// @Param	id_quest path int true "ID опроса"
 // @Param	id_team path string true "ID команды"
 // @Success	200	{array}	models.Result
 // @Failure	400	{object} 	models.Error
@@ -88,7 +88,7 @@ func (*TResult) GetByQuestId(context *gin.Context) {
 // @Router	/quest-service/result/by-quest-and-team/{id_quest}/{id_team} [get]
 func (*TResult) GetByQuestIdAndTeamId(context *gin.Context) {
 	idQuest, errQuestParam := utils.CultivateNumberParam(context, "id_quest")
-	idTeam, errTeamParam := utils.CultivateNumberParam(context, "id_team")
+	idTeam, errTeamParam := utils.CultivateStringParam(context, "id_team")
 	if errQuestParam != nil || errTeamParam != nil {
 		return
 	}
