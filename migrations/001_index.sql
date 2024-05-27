@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 18.05.2024
+-- Last Update - 19.05.2024
 
 
 
@@ -8,7 +8,7 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS category (
     id_category SERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL
+    name VARCHAR(128) NOT NULL
 );
 -- +goose StatementEnd
 
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS category (
 CREATE TABLE IF NOT EXISTS indicator (
     id_indicator SERIAL PRIMARY KEY,
     id_category INT NOT NULL,
-    name VARCHAR(64) NOT NULL,
+    name VARCHAR(128) NOT NULL,
     description VARCHAR(256),
-    answers VARCHAR(64)[],
+    answers VARCHAR(128)[],
     from_role VARCHAR(32),
     to_role VARCHAR(32),
     available BOOLEAN DEFAULT true
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS template_indicator (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS template (
     id_template SERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL,
+    name VARCHAR(128) NOT NULL,
     description VARCHAR(256),
     available BOOLEAN DEFAULT true
 );
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS template (
 CREATE TABLE IF NOT EXISTS quest (
     id_quest SERIAL PRIMARY KEY,
     id_template INT NOT NULL,
-    name VARCHAR(64) NOT NULL,
+    name VARCHAR(128) NOT NULL,
     description VARCHAR(256),
     available BOOLEAN DEFAULT true,
     start_at INT NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS quest (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS quest_team (
     id_quest_team SERIAL PRIMARY KEY,
-    id_team VARCHAR(32) NOT NULL,
+    id_team VARCHAR(64) NOT NULL,
     id_quest INT NOT NULL
 );
 -- +goose StatementEnd
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS quest_team (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS quest_team_user (
     id_quest_team INT NOT NULL,
-    id_user VARCHAR(32) NOT NULL
+    id_user VARCHAR(64) NOT NULL
 );
 -- +goose StatementEnd
 
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS result (
     id_result SERIAL PRIMARY KEY,
     id_indicator INT NOT NULL,
     id_quest INT NOT NULL,
-    id_from_user VARCHAR(32) NOT NULL,
-    id_to_user VARCHAR(32) NOT NULL,
-    value VARCHAR(64) NOT NULL
+    id_from_user VARCHAR(64) NOT NULL,
+    id_to_user VARCHAR(64) NOT NULL,
+    value VARCHAR(128) NOT NULL
 );
 -- +goose StatementEnd
 
