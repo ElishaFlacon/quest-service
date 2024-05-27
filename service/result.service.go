@@ -45,17 +45,12 @@ func (*TResult) GetByUsersId(ids []string) ([]*models.Result, error) {
 }
 
 func (*TResult) GetByQuestId(id int) ([]*models.Result, error) {
-	// TODO получение презультатов по айди опроса {команда, прогресс, + участники}
+	// TODO получение результатов по айди опроса {команда, прогресс, + участники}
 
 	sqlString := `
-		SELECT
-			"result".,
-			"result".,
-			"result".
+		SELECT *
 		FROM "result"
-		INNER JOIN "" ON
-			"result". = "".
-		WHERE id_result = $1;
+		WHERE id_quest = $1;
 	`
 
 	data, err := database.BaseQuery[models.Result](sqlString, id)

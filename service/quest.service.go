@@ -39,9 +39,6 @@ func getQuestPercent(bearer string, id int) (int, error) {
 		return 0, errPassCount
 	}
 
-	println(len(passCount))
-	println(allCount)
-
 	percent := (len(passCount) / allCount) * 100
 
 	return percent, nil
