@@ -546,7 +546,7 @@ const docTemplate = `{
                 "summary": "Получение опросов по ID пользователя",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID пользователя",
                         "name": "id",
                         "in": "path",
@@ -937,7 +937,7 @@ const docTemplate = `{
                 "summary": "Получение результатов по ID опроса и ID команды",
                 "parameters": [
                     {
-                        "type": "string",
+                        "type": "integer",
                         "description": "ID опроса",
                         "name": "id_quest",
                         "in": "path",
@@ -990,7 +990,7 @@ const docTemplate = `{
                 "summary": "Получение результатов по ID опроса",
                 "parameters": [
                     {
-                        "type": "string",
+                        "type": "integer",
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
