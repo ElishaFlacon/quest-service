@@ -29,17 +29,20 @@ func getQuestPercent(bearer string, id int) (int, error) {
 		idTeams = append(idTeams, team.IdTeam)
 	}
 
-	count, errCount := Team.GetUsersCount(bearer, idTeams)
-	if errCount != nil {
+	allCount, errAllCount := Team.GetUsersCount(bearer, idTeams)
+	if errAllCount != nil {
 		return 0, errTeams
 	}
 
-	users, errUsers := QuestTeamUser.GetByQuestId(id)
-	if errUsers != nil {
-		return 0, errUsers
+	passCount, errPassCount := Result.GetUsersCountByQuestId(id)
+	if errPassCount != nil {
+		return 0, errPassCount
 	}
 
-	percent := len(users) / count
+	println(len(passCount))
+	println(allCount)
+
+	percent := (len(passCount) / allCount) * 100
 
 	return percent, nil
 }
