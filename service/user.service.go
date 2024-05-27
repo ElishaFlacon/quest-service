@@ -16,7 +16,7 @@ type TUser struct{}
 var User TUser
 
 // Не работает, не реализована логика в другом микросервисе
-func (*TUser) GetToAndFromUsers(
+func (*TUser) GetUsersInfo(
 	IdUsers []*models.UsersFromAndToByResultId,
 ) ([]*models.UsersInfo, error) {
 	client := &http.Client{}
@@ -25,8 +25,8 @@ func (*TUser) GetToAndFromUsers(
 	jsonIdUsers, _ := json.Marshal(IdUsers)
 	usersData := []byte(`{"usersFromAndToByResultId":` + string(jsonIdUsers))
 
-	userServiceUrl := utils.GetUserServiceUrl()
-	requestUrl := fmt.Sprintf("%s/get-all-info", userServiceUrl)
+	profileServiceUrl := utils.GetProfileServiceUrl()
+	requestUrl := fmt.Sprintf("%s/users/all", profileServiceUrl)
 
 	request, err := http.NewRequest(
 		"GET",

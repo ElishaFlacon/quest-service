@@ -53,9 +53,8 @@ func (*TCsv) GetCsvTableByQuestId(
 		)
 	}
 
-	usersInfo, errUsersInfo := User.GetToAndFromUsers(
-		usersFromAndToByResultId,
-	)
+	// в этом месте проблема, метод на другом микросервисе не был реализован
+	usersInfo, errUsersInfo := User.GetUsersInfo(usersFromAndToByResultId)
 	if errUsersInfo != nil {
 		return nil, errUsersInfo
 	}
