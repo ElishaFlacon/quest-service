@@ -768,7 +768,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Удаление опроса по ID
+      summary: Удаление опроса по ID (нельзя удалить, используйте hide :3)
       tags:
       - quest
   /quest-service/quest/hide/{id}:
@@ -1189,7 +1189,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Удаление шаблона по ID (не работает, используйте hide :3)
+      summary: Удаление шаблона по ID (нельзя удалить, используйте hide :3)
       tags:
       - template
   /quest-service/template/hide/{id}:

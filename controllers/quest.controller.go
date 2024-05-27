@@ -197,7 +197,7 @@ func (*TQuest) Hide(context *gin.Context) {
 }
 
 // Quest Delete	godoc
-// @Summary	Удаление опроса по ID
+// @Summary	Удаление опроса по ID (нельзя удалить, используйте hide :3)
 // @Tags	quest
 // @Accept	json
 // @Produce	json

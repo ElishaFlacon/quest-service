@@ -648,7 +648,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Удаление опроса по ID",
+                "summary": "Удаление опроса по ID (нельзя удалить, используйте hide :3)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1300,7 +1300,7 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Удаление шаблона по ID (не работает, используйте hide :3)",
+                "summary": "Удаление шаблона по ID (нельзя удалить, используйте hide :3)",
                 "parameters": [
                     {
                         "type": "integer",
