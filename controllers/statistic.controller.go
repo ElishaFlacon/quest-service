@@ -16,6 +16,7 @@ var Statistic *TStatistic
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
+// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	[]byte
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
