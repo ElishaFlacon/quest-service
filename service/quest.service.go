@@ -78,12 +78,15 @@ func (*TQuest) Get(
 
 func (*TQuest) GetByUserId(
 	bearer string,
-	id int,
+	id string,
 ) ([]*models.QuestWithIndicators, error) {
 	sqlString := `
 		SELECT
 			"quest".id_quest,
+			"quest".id_template,
 			"quest".name,
+			"quest".description,
+			"quest".available,
 			"quest".start_at,
 			"quest".end_at
 		FROM "quest" 
@@ -103,8 +106,8 @@ func (*TQuest) GetByUserId(
 
 	for _, quest := range data {
 		// да, это супер не оптимизированно
-		indicatorsData, _ := Indicator.GetByQuestId(id)
-		percent, _ := getQuestPercent(bearer, id)
+		indicatorsData, _ := Indicator.GetByQuestId(quest.IdQuest)
+		percent, _ := getQuestPercent(bearer, quest.IdQuest)
 		status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 		startAt := utils.GetStringDate(quest.StartAt)
 		endAt := utils.GetStringDate(quest.EndAt)
@@ -315,7 +318,7 @@ func (*TQuest) Create(
 
 		for indexTeam := range teams {
 			idTeamFromMembers := teams[indexTeam].IdTeam
-			users := teams[indexTeam].IdUsers
+			users := teams[indexTeam].Users
 
 			if idTeamFromMembers != idTeamFromQuestTeam {
 				continue
