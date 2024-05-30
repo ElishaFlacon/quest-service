@@ -1,16 +1,12 @@
 package models
 
-type Member struct {
-	IdUser string `json:"id"`
-	Email  string `json:"email"`
+type User struct {
+	IdUser     string `json:"id"`
+	Name       string `json:"name"`
+	SecondName string `json:"secondName"`
 }
 
 type Team struct {
-	IdTeam string    `json:"id"`
-	Users  []*Member `json:"members"`
-}
-
-type TeamWithStringUsers struct {
-	IdTeam string   `json:"id"`
-	Users  []string `json:"users"`
+	IdTeam string  `json:"id"`
+	Users  []*User `json:"members"`
 }
