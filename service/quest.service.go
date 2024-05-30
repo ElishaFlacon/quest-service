@@ -18,32 +18,6 @@ func mapQuestTeamUserToString(questTeamUser *models.QuestTeamUser) string {
 	return questTeamUser.IdUser
 }
 
-func getQuestPercent(bearer string, id int) (int, error) {
-	teams, errTeams := QuestTeam.GetByQuestId(id)
-	if errTeams != nil {
-		return 0, errTeams
-	}
-
-	idTeams := []string{}
-	for _, team := range teams {
-		idTeams = append(idTeams, team.IdTeam)
-	}
-
-	allCount, errAllCount := Team.GetUsersCount(bearer, idTeams)
-	if errAllCount != nil {
-		return 0, errTeams
-	}
-
-	passCount, errPassCount := Result.GetUsersCountByQuestId(id)
-	if errPassCount != nil {
-		return 0, errPassCount
-	}
-
-	percent := (len(passCount) / allCount) * 100
-
-	return percent, nil
-}
-
 func (*TQuest) Get(
 	bearer string,
 	id int,
@@ -59,7 +33,6 @@ func (*TQuest) Get(
 	}
 
 	quest := data[0]
-	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -69,7 +42,7 @@ func (*TQuest) Get(
 		Name:    quest.Name,
 		StartAt: startAt,
 		EndAt:   endAt,
-		Percent: percent,
+		Percent: 0,
 		Status:  status,
 	}
 
@@ -107,7 +80,6 @@ func (*TQuest) GetByUserId(
 	for _, quest := range data {
 		// да, это супер не оптимизированно
 		indicatorsData, _ := Indicator.GetByQuestId(quest.IdQuest)
-		percent, _ := getQuestPercent(bearer, quest.IdQuest)
 		status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 		startAt := utils.GetStringDate(quest.StartAt)
 		endAt := utils.GetStringDate(quest.EndAt)
@@ -117,7 +89,7 @@ func (*TQuest) GetByUserId(
 			Name:       quest.Name,
 			StartAt:    startAt,
 			EndAt:      endAt,
-			Percent:    percent,
+			Percent:    0,
 			Status:     status,
 			Indicators: indicatorsData,
 		}
@@ -145,7 +117,6 @@ func (*TQuest) GetWithIndicators(
 	indicatorsData, _ := Indicator.GetByQuestId(id)
 
 	quest := data[0]
-	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -155,7 +126,7 @@ func (*TQuest) GetWithIndicators(
 		Name:       quest.Name,
 		StartAt:    startAt,
 		EndAt:      endAt,
-		Percent:    percent,
+		Percent:    0,
 		Status:     status,
 		Indicators: indicatorsData,
 	}
@@ -180,7 +151,6 @@ func (*TQuest) GetWithUsers(
 	usersData, _ := QuestTeamUser.GetByQuestId(id)
 
 	quest := data[0]
-	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -192,7 +162,7 @@ func (*TQuest) GetWithUsers(
 		StartAt: startAt,
 		EndAt:   endAt,
 		Status:  status,
-		Percent: percent,
+		Percent: 0,
 		Users:   users,
 	}
 
@@ -217,7 +187,6 @@ func (*TQuest) GetWithUsersAndIndicators(
 	usersData, _ := QuestTeamUser.GetByQuestId(id)
 
 	quest := data[0]
-	percent, _ := getQuestPercent(bearer, id)
 	status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 	startAt := utils.GetStringDate(quest.StartAt)
 	endAt := utils.GetStringDate(quest.EndAt)
@@ -229,7 +198,7 @@ func (*TQuest) GetWithUsersAndIndicators(
 		StartAt:    startAt,
 		EndAt:      endAt,
 		Status:     status,
-		Percent:    percent,
+		Percent:    0,
 		Users:      users,
 		Indicators: indicatorsData,
 	}
@@ -250,7 +219,6 @@ func (*TQuest) GetAll(bearer string) ([]*models.QuestResponse, error) {
 		quest := data[index]
 
 		// да, я знаю, это супер не оптимизировано
-		percent, _ := getQuestPercent(bearer, quest.IdQuest)
 		status := utils.GetQuestTimeStatus(quest.StartAt, quest.EndAt)
 		startAt := utils.GetStringDate(quest.StartAt)
 		endAt := utils.GetStringDate(quest.EndAt)
@@ -260,14 +228,14 @@ func (*TQuest) GetAll(bearer string) ([]*models.QuestResponse, error) {
 			Name:    quest.Name,
 			StartAt: startAt,
 			EndAt:   endAt,
-			Percent: percent,
+			Percent: 0,
 			Status:  status,
 		}
 
 		quests = append(quests, newQuest)
 	}
 
-	return quests, errData
+	return quests, nil
 }
 
 func (*TQuest) Create(
@@ -297,39 +265,34 @@ func (*TQuest) Create(
 
 	idQuest := data[0].IdQuest
 
-	teams, errTeams := Team.GetTeams(bearer, idTeams)
-	if errTeams != nil {
-		return nil, errTeams
+	serviceTeams, errServiceTeams := Team.GetTeams(bearer, idTeams)
+	if errServiceTeams != nil {
+		Quest.Delete(idQuest)
+		return nil, errServiceTeams
 	}
 
-	questTeamData, errQuestTeam := QuestTeam.CreateWithBatch(
+	questTeams, errQuestTeams := QuestTeam.CreateWithBatch(
 		idQuest,
-		idTeams,
+		serviceTeams,
 	)
-	if errQuestTeam != nil {
-		return nil, errQuestTeam
+	if errQuestTeams != nil {
+		Quest.Delete(idQuest)
+		return nil, errQuestTeams
 	}
 
 	teamUserArgs := []*models.QuestTeamUsers{}
-
-	for index := range questTeamData {
-		idQuestTeamUser := questTeamData[index].IdQuestTeam
-		idTeamFromQuestTeam := questTeamData[index].IdTeam
-
-		for indexTeam := range teams {
-			idTeamFromMembers := teams[indexTeam].IdTeam
-			users := teams[indexTeam].Users
-
-			if idTeamFromMembers != idTeamFromQuestTeam {
+	for _, questTeam := range questTeams {
+		for _, serviceTeam := range serviceTeams {
+			if questTeam.IdTeam != serviceTeam.IdTeam {
 				continue
 			}
 
-			element := &models.QuestTeamUsers{
-				IdQuestTeam: idQuestTeamUser,
-				Users:       users,
+			teamUserArg := &models.QuestTeamUsers{
+				IdQuestTeam: questTeam.IdQuestTeam,
+				Users:       serviceTeam.Users,
 			}
 
-			teamUserArgs = append(teamUserArgs, element)
+			teamUserArgs = append(teamUserArgs, teamUserArg)
 		}
 	}
 
@@ -340,7 +303,19 @@ func (*TQuest) Create(
 		return nil, errTeamUser
 	}
 
-	// в идеале тут должен был быть вызов notification service
+	// receivers := []*models.Notification{}
+	// questLink := fmt.Sprintf("https://any-link/quest/%d", idQuest)
+	// for _, serviceTeam := range serviceTeams {
+	// 	for _, user := range serviceTeam.Users {
+	// 		receiver := &models.Notification{
+	// 			Email: user.Email,
+	// 			Link:  questLink,
+	// 		}
+
+	// 		receivers = append(receivers, receiver)
+	// 	}
+	// }
+	// Notification.SendNotification(receivers)
 
 	return data[0], nil
 }

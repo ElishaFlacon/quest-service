@@ -29,6 +29,6 @@ func (*TStatistic) Quest(context *gin.Context) {
 		return
 	}
 
-	data, errData := service.Csv.GetCsvTableByQuestId(bearer, id)
+	data, errData := service.Csv.GetCsvByQuestId(bearer, id)
 	utils.CultivateServiceData(context, data, errData)
 }

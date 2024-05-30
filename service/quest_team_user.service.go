@@ -49,6 +49,7 @@ func (*TQuestTeamUser) GetByQuestId(
 	`
 
 	data, err := database.BaseQuery[models.QuestTeamUser](sqlString, id)
+
 	return data, err
 }
 
@@ -67,8 +68,8 @@ func (*TQuestTeamUser) CreateWithBatch(
 ) ([]*models.QuestTeamUser, error) {
 	sqlString := `
 		INSERT INTO "quest_team_user"
-		(id_quest_team, id_user)
-		VALUES ($1, $2)
+		(id_quest_team, id_user, name, email)
+		VALUES ($1, $2, $3, $4)
 		RETURNING *;
 	`
 
@@ -81,7 +82,9 @@ func (*TQuestTeamUser) CreateWithBatch(
 			batch.Queue(
 				sqlString,
 				questTeam.IdQuestTeam,
-				user,
+				user.IdUser,
+				user.Name,
+				user.Email,
 			)
 		}
 	}

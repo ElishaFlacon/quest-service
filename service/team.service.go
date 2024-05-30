@@ -19,7 +19,7 @@ func GetTeam(
 	id string,
 ) (*models.Team, error) {
 	client := &http.Client{}
-	team := &models.Team{}
+	team := &models.TeamWithFullUser{}
 
 	teamServiceUrl := utils.GetTeamServiceUrl()
 	requestUrl := fmt.Sprintf("%s/%s", teamServiceUrl, id)
@@ -51,7 +51,29 @@ func GetTeam(
 		return nil, err
 	}
 
-	return team, nil
+	users := []*models.User{}
+	for _, user := range team.Users {
+		name := fmt.Sprintf(
+			"%s %s",
+			user.FirstName,
+			user.LastName,
+		)
+		element := &models.User{
+			IdUser: user.IdUser,
+			Email:  user.Email,
+			Name:   name,
+		}
+
+		users = append(users, element)
+	}
+
+	resultTeam := &models.Team{
+		IdTeam: team.IdTeam,
+		Name:   team.Name,
+		Users:  users,
+	}
+
+	return resultTeam, nil
 }
 
 func (*TTeam) GetTeams(
@@ -63,8 +85,7 @@ func (*TTeam) GetTeams(
 	for _, id := range ids {
 		team, errTeam := GetTeam(bearer, id)
 		if errTeam != nil {
-			teams = append(teams, nil)
-			continue
+			return nil, errTeam
 		}
 
 		teams = append(teams, team)

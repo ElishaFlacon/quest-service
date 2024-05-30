@@ -15,7 +15,7 @@ type TNotification struct{}
 
 var Notification *TNotification
 
-func convertToNotificationJSON(receiver models.Notification) []byte {
+func convertToNotificationJSON(receiver *models.Notification) []byte {
 	notification := models.NotificationQueue{
 		ConsumerEmail: receiver.Email,
 		Title:         "Анонимный опрос",
@@ -28,7 +28,7 @@ func convertToNotificationJSON(receiver models.Notification) []byte {
 	return jsonMessage
 }
 
-func (*TNotification) SendNotification(receivers []models.Notification) {
+func (*TNotification) SendNotification(receivers []*models.Notification) {
 	amqpServerURL := utils.GetAMQPUrl()
 
 	connectRabbitMQ, err := amqp091.Dial(amqpServerURL)
@@ -40,7 +40,7 @@ func (*TNotification) SendNotification(receivers []models.Notification) {
 	defer channelRabbitMQ.Close()
 
 	q, err := channelRabbitMQ.QueueDeclare(
-		utils.GetAMQPQueue(), // queue name
+		utils.GetAMQPQueue(),
 		true,
 		false,
 		false,
@@ -52,11 +52,11 @@ func (*TNotification) SendNotification(receivers []models.Notification) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	for i := range receivers {
-		notification := convertToNotificationJSON(receivers[i])
+	for _, receiver := range receivers {
+		notification := convertToNotificationJSON(receiver)
 		err = channelRabbitMQ.PublishWithContext(ctx,
-			utils.GetAMQPExchange(), // exchange
-			q.Name,                  // routing key
+			utils.GetAMQPExchange(),
+			q.Name,
 			false,
 			false,
 			amqp091.Publishing{

@@ -67,7 +67,8 @@ CREATE TABLE IF NOT EXISTS quest_team (
 CREATE TABLE IF NOT EXISTS quest_team_user (
     id_quest_team INT NOT NULL,
     id_user VARCHAR(64) NOT NULL,
-    name VARCHAR(128) NOT NULL
+    name VARCHAR(128) NOT NULL,
+    email VARCHAR(128) NOT NULL
 );
 -- +goose StatementEnd
 

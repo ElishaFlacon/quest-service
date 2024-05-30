@@ -54,6 +54,27 @@ type QuestWithUsersAndIndicators struct {
 	Users      []string                     `json:"users"`
 }
 
+type QuestWithTeam struct {
+	IdQuest   int    `json:"id"`
+	Name      string `json:"name"`
+	StartAt   string `json:"startAt"`
+	EndAt     string `json:"endAt"`
+	Percent   int    `json:"progress"`
+	Status    string `json:"status"`
+	Available bool   `json:"available"`
+
+	Teams []struct {
+		IdTeam  string `json:"idTeam"`
+		Name    string `json:"name"`
+		Percent int    `json:"progress"`
+		Users   []struct {
+			IdUser string `json:"id"`
+			Name   int    `json:"name"`
+			IsPass bool   `json:"progress"`
+		} `json:"users"`
+	} `json:"teams"`
+}
+
 type QuestCreateRequest struct {
 	IdTemplate  int          `json:"idQuestTemplate"`
 	Name        string       `json:"name"`

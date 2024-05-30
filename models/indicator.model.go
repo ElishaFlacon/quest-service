@@ -1,7 +1,7 @@
 package models
 
 type Indicator struct {
-	IdIndicator int      `json:"idIndicator"`
+	IdIndicator int      `json:"id"`
 	Name        string   `json:"name"`
 	IdCategory  int      `json:"idСategory"`
 	Description string   `json:"description"`
@@ -21,7 +21,7 @@ type IndicatorCreateRequest struct {
 }
 
 type IndicatorWithCategoryName struct {
-	IdIndicator  int      `json:"idIndicator"`
+	IdIndicator  int      `json:"id"`
 	IdCategory   int      `json:"idСategory"`
 	Name         string   `json:"name"`
 	Description  string   `json:"description"`
