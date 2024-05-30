@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 19.05.2024
+-- Last Update - 30.05.2024
 
 
 
@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS quest (
 CREATE TABLE IF NOT EXISTS quest_team (
     id_quest_team SERIAL PRIMARY KEY,
     id_team VARCHAR(64) NOT NULL,
+    name VARCHAR(128) NOT NULL,
     id_quest INT NOT NULL
 );
 -- +goose StatementEnd
@@ -65,7 +66,8 @@ CREATE TABLE IF NOT EXISTS quest_team (
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS quest_team_user (
     id_quest_team INT NOT NULL,
-    id_user VARCHAR(64) NOT NULL
+    id_user VARCHAR(64) NOT NULL,
+    name VARCHAR(128) NOT NULL
 );
 -- +goose StatementEnd
 
