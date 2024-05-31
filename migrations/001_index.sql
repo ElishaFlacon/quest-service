@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 30.05.2024
+-- Last Update - 31.05.2024
 
 
 
@@ -92,4 +92,59 @@ ALTER TABLE quest_team ADD CONSTRAINT team_quest_fk1 FOREIGN KEY (id_quest) REFE
 ALTER TABLE quest_team_user ADD CONSTRAINT quest_team_user_fk1 FOREIGN KEY (id_quest_team) REFERENCES quest_team(id_quest_team);
 ALTER TABLE result ADD CONSTRAINT result_fk1 FOREIGN KEY (id_quest) REFERENCES quest(id_quest);
 ALTER TABLE result ADD CONSTRAINT result_fk2 FOREIGN KEY (id_indicator) REFERENCES indicator(id_indicator);
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_results_count_by_quest_id;
+CREATE OR REPLACE FUNCTION get_results_count_by_quest_id(qid INT) 
+	RETURNS INT AS $$
+    BEGIN
+        RETURN (SELECT COUNT(*) FROM (
+            SELECT COUNT(DISTINCT "result".id_from_user)
+            FROM "quest_team"
+            INNER JOIN "quest_team_user" 
+                ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+            INNER JOIN "result"
+                ON qid = "result".id_quest
+            WHERE qid = "quest_team".id_quest
+            GROUP BY "result".id_from_user
+        ) results_count);
+    END; $$
+    LANGUAGE plpgsql;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_users_count_by_quest_id;
+CREATE OR REPLACE FUNCTION get_users_count_by_quest_id(qid INT) 
+	RETURNS INT AS $$
+    BEGIN
+        RETURN (SELECT COUNT("quest_team_user".id_quest_team)
+            FROM "quest_team"
+            INNER JOIN "quest_team_user" 
+                ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+            WHERE qid = "quest_team".id_quest
+        );
+    END; $$
+    LANGUAGE plpgsql;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_qeust_pass_percent;
+CREATE OR REPLACE FUNCTION get_qeust_pass_percent(qid INT) 
+	RETURNS INT AS $$
+	DECLARE res INT = (
+		100 
+			/ 
+		NULLIF((SELECT get_users_count_by_quest_id(qid)), 0)
+			* 
+		NULLIF((SELECT get_results_count_by_quest_id(qid)), 0)
+	); 
+    BEGIN
+		IF res IS NULL THEN
+			RETURN 0;
+		ELSE
+			RETURN res;
+        END IF;
+    END; $$
+    LANGUAGE plpgsql;
 -- +goose StatementEnd
