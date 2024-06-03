@@ -47,6 +47,7 @@ func BaseQuery[T any](
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	data, err := pgx.CollectRows(
 		rows,
@@ -66,17 +67,24 @@ func SendBatch[T any](batch *pgx.Batch) ([]*T, error) {
 		batch,
 	)
 
-	rows, err := batchResult.Query()
-	if err != nil {
-		return nil, err
-	}
+	data := []*T{}
 
-	data, err := pgx.CollectRows(
-		rows,
-		pgx.RowToAddrOfStructByName[T],
-	)
-	if err != nil {
-		return nil, err
+	for index := 0; index < batch.Len(); index++ {
+		rows, err := batchResult.Query()
+		if err != nil {
+			return nil, err
+		}
+		defer rows.Close()
+
+		collect, err := pgx.CollectRows(
+			rows,
+			pgx.RowToAddrOfStructByName[T],
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		data = append(data, collect...)
 	}
 
 	return data, nil
