@@ -162,12 +162,12 @@ func (*TQuest) Create(context *gin.Context) {
 		return
 	}
 
-	IdTeams := utils.GetBodyIds(body.Teams)
+	idTeams := utils.GetBodyIds(body.Teams)
 
 	data, errData := service.Quest.Create(
 		bearer,
 		body.IdTemplate,
-		IdTeams,
+		idTeams,
 		body.Name,
 		body.Description,
 		body.StartAt,
