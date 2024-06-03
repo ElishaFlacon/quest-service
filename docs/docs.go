@@ -532,6 +532,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/quest-service/quest/all/with-statuses": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quest"
+                ],
+                "summary": "Получение всех опросов со статусами",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access token (с биркой)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.QuestWithStatuses"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/quest-service/quest/by-user/{id}": {
             "get": {
                 "consumes": [
@@ -1531,7 +1577,7 @@ const docTemplate = `{
                 "fromRole": {
                     "type": "string"
                 },
-                "idIndicator": {
+                "id": {
                     "type": "integer"
                 },
                 "idСategory": {
@@ -1592,7 +1638,7 @@ const docTemplate = `{
                 "fromRole": {
                     "type": "string"
                 },
-                "idIndicator": {
+                "id": {
                     "type": "integer"
                 },
                 "idСategory": {
@@ -1718,6 +1764,38 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "models.QuestWithStatuses": {
+            "type": "object",
+            "properties": {
+                "available": {
+                    "type": "boolean"
+                },
+                "endAt": {
+                    "type": "string"
+                },
+                "idQuest": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "percent": {
+                    "type": "integer"
+                },
+                "startAt": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "teams": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.TeamWithStatus"
+                    }
                 }
             }
         },
@@ -1850,6 +1928,26 @@ const docTemplate = `{
                 }
             }
         },
+        "models.TeamWithStatus": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "progress": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.UserWithStatus"
+                    }
+                }
+            }
+        },
         "models.Template": {
             "type": "object",
             "properties": {
@@ -1929,6 +2027,23 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "models.UserWithStatus": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
                 }
             }
         }

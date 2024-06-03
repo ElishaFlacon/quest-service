@@ -38,7 +38,7 @@ definitions:
         type: string
       fromRole:
         type: string
-      idIndicator:
+      id:
         type: integer
       idСategory:
         type: integer
@@ -78,7 +78,7 @@ definitions:
         type: string
       fromRole:
         type: string
-      idIndicator:
+      id:
         type: integer
       idСategory:
         type: integer
@@ -161,6 +161,27 @@ definitions:
         type: string
       status:
         type: string
+    type: object
+  models.QuestWithStatuses:
+    properties:
+      available:
+        type: boolean
+      endAt:
+        type: string
+      idQuest:
+        type: integer
+      name:
+        type: string
+      percent:
+        type: integer
+      startAt:
+        type: string
+      status:
+        type: string
+      teams:
+        items:
+          $ref: '#/definitions/models.TeamWithStatus'
+        type: array
     type: object
   models.QuestWithUsers:
     properties:
@@ -246,6 +267,19 @@ definitions:
       createdResults:
         type: integer
     type: object
+  models.TeamWithStatus:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      progress:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/models.UserWithStatus'
+        type: array
+    type: object
   models.Template:
     properties:
       available:
@@ -298,6 +332,17 @@ definitions:
         type: array
       name:
         type: string
+    type: object
+  models.UserWithStatus:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
     type: object
 host: localhost:5000
 info:
@@ -672,6 +717,36 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Получение всех опросов
+      tags:
+      - quest
+  /quest-service/quest/all/with-statuses:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Access token (с биркой)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.QuestWithStatuses'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение всех опросов со статусами
       tags:
       - quest
   /quest-service/quest/by-user/{id}:

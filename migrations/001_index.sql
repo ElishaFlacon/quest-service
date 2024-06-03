@@ -102,10 +102,8 @@ CREATE OR REPLACE FUNCTION get_results_count_by_quest_id(qid INT)
         RETURN (SELECT COUNT(*) FROM (
             SELECT COUNT(DISTINCT "result".id_from_user)
             FROM "quest_team"
-            INNER JOIN "quest_team_user" 
-                ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
-            INNER JOIN "result"
-                ON qid = "result".id_quest
+            INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+            INNER JOIN "result" ON qid = "result".id_quest
             WHERE qid = "quest_team".id_quest
             GROUP BY "result".id_from_user
         ) results_count);
@@ -120,8 +118,7 @@ CREATE OR REPLACE FUNCTION get_users_count_by_quest_id(qid INT)
     BEGIN
         RETURN (SELECT COUNT("quest_team_user".id_quest_team)
             FROM "quest_team"
-            INNER JOIN "quest_team_user" 
-                ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+            INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
             WHERE qid = "quest_team".id_quest
         );
     END; $$
@@ -129,8 +126,8 @@ CREATE OR REPLACE FUNCTION get_users_count_by_quest_id(qid INT)
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-DROP FUNCTION IF EXISTS get_qeust_pass_percent;
-CREATE OR REPLACE FUNCTION get_qeust_pass_percent(qid INT) 
+DROP FUNCTION IF EXISTS get_quest_pass_percent;
+CREATE OR REPLACE FUNCTION get_quest_pass_percent(qid INT) 
 	RETURNS INT AS $$
 	DECLARE res INT = (
 		100 
@@ -147,4 +144,78 @@ CREATE OR REPLACE FUNCTION get_qeust_pass_percent(qid INT)
         END IF;
     END; $$
     LANGUAGE plpgsql;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_results_count_by_team_id;
+CREATE OR REPLACE FUNCTION get_results_count_by_team_id(tid VARCHAR(64)) 
+	RETURNS INT AS $$
+    BEGIN
+        RETURN (SELECT COUNT(*) FROM (
+            SELECT COUNT(DISTINCT "result".id_from_user)
+            FROM "quest_team"
+            INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+            INNER JOIN "result" ON "quest_team".id_quest = "result".id_quest
+            WHERE tid = "quest_team".id_team
+            GROUP BY "result".id_from_user
+        ) results_count);
+    END; $$
+    LANGUAGE plpgsql;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_users_count_by_team_and_quest_id;
+CREATE OR REPLACE FUNCTION get_users_count_by_team_and_quest_id(tid VARCHAR(64), qid INT) 
+	RETURNS INT AS $$
+    BEGIN
+        RETURN (SELECT COUNT("quest_team_user".id_quest_team)
+            FROM "quest_team"
+            INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
+            WHERE tid = "quest_team".id_team AND qid = "quest_team".id_quest
+        );
+    END; $$
+    LANGUAGE plpgsql;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_team_pass_percent;
+CREATE OR REPLACE FUNCTION get_team_pass_percent(tid VARCHAR(64), qid INT)
+	RETURNS INT AS $$
+	DECLARE res INT = (
+		100 
+			/ 
+		NULLIF((SELECT get_users_count_by_team_and_quest_id(tid, qid)), 0)
+			* 
+		NULLIF((SELECT get_results_count_by_team_id(tid)), 0)
+	); 
+    BEGIN
+		IF res IS NULL THEN
+			RETURN 0;
+		ELSE
+			RETURN res;
+        END IF;
+    END; $$
+    LANGUAGE plpgsql;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS get_user_status;
+CREATE OR REPLACE FUNCTION get_user_status(qid INT, uid VARCHAR(64)) 
+	RETURNS BOOL AS $$
+    BEGIN
+        RETURN (
+			SELECT
+				CASE 
+					WHEN COUNT("result".id_from_user) > 0
+					THEN TRUE
+					ELSE FALSE
+				END AS status
+			FROM "quest"
+			INNER JOIN "quest_team" ON "quest".id_quest = "quest_team".id_quest
+			INNER JOIN "result" ON "quest".id_quest = "result".id_quest
+            WHERE "result".id_from_user = uid AND "quest".id_quest = qid 
+        );
+    END; $$
+    LANGUAGE plpgsql;
+
 -- +goose StatementEnd

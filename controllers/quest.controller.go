@@ -34,29 +34,6 @@ func (*TQuest) Get(context *gin.Context) {
 	utils.CultivateServiceData(context, data, errData)
 }
 
-// Quest GetByUserId	godoc
-// @Summary	Получение опросов по ID пользователя
-// @Tags	quest
-// @Accept	json
-// @Produce	json
-// @Param	id path string true "ID пользователя"
-// @Param	Authorization header string true "Access token (с биркой)"
-// @Success	200	{array}	models.QuestWithIndicators
-// @Failure	400	{object} 	models.Error
-// @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/by-user/{id} [get]
-func (*TQuest) GetByUserId(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
-	id, errParam := utils.CultivateStringParam(context, "id")
-	if errParam != nil {
-		return
-	}
-
-	data, errData := service.Quest.GetByUserId(bearer, id)
-	utils.CultivateServiceData(context, data, errData)
-}
-
 // Quest GetWithIndicators	godoc
 // @Summary	Получение опроса c его вопросами по ID
 // @Tags	quest
@@ -126,6 +103,29 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 	utils.CultivateServiceData(context, data, errData)
 }
 
+// Quest GetByUserId	godoc
+// @Summary	Получение опросов по ID пользователя
+// @Tags	quest
+// @Accept	json
+// @Produce	json
+// @Param	id path string true "ID пользователя"
+// @Param	Authorization header string true "Access token (с биркой)"
+// @Success	200	{array}	models.QuestWithIndicators
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
+// @Router	/quest-service/quest/by-user/{id} [get]
+func (*TQuest) GetByUserIdWithIndicators(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+
+	id, errParam := utils.CultivateStringParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
+	data, errData := service.Quest.GetByUserIdWithIndicators(bearer, id)
+	utils.CultivateServiceData(context, data, errData)
+}
+
 // Quest GetAll	godoc
 // @Summary	Получение всех опросов
 // @Tags	quest
@@ -139,6 +139,22 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 func (*TQuest) GetAll(context *gin.Context) {
 	bearer := utils.GetBearer(context)
 	data, errData := service.Quest.GetAll(bearer)
+	utils.CultivateServiceData(context, data, errData)
+}
+
+// Quest GetAll	godoc
+// @Summary	Получение всех опросов со статусами
+// @Tags	quest
+// @Accept	json
+// @Produce	json
+// @Param	Authorization header string true "Access token (с биркой)"
+// @Success	200	{array}	models.QuestWithStatuses
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
+// @Router	/quest-service/quest/all/with-statuses [get]
+func (*TQuest) GetAllWithStatuses(context *gin.Context) {
+	bearer := utils.GetBearer(context)
+	data, errData := service.Quest.GetAllWithStatuses(bearer)
 	utils.CultivateServiceData(context, data, errData)
 }
 
