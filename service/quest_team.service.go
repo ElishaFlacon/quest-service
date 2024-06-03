@@ -73,8 +73,7 @@ func (*TQuestTeam) CreateWithBatch(
 
 	batch := &pgx.Batch{}
 
-	for index := range teams {
-		team := teams[index]
+	for _, team := range teams {
 		batch.Queue(sqlString, idQuest, team.IdTeam, team.Name)
 	}
 
