@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
 	"github.com/ElishaFlacon/quest-service/utils"
@@ -264,6 +266,7 @@ func (*TQuest) Create(
 	}
 
 	idQuest := data[0].IdQuest
+	questLink := fmt.Sprintf("https://any-link/quest/%d", idQuest)
 
 	serviceTeams, errServiceTeams := Team.GetTeams(bearer, idTeams)
 	if errServiceTeams != nil {
@@ -280,6 +283,7 @@ func (*TQuest) Create(
 		return nil, errQuestTeams
 	}
 
+	users := []*models.User{}
 	teamUserArgs := []*models.QuestTeamUsers{}
 	for _, questTeam := range questTeams {
 		for _, serviceTeam := range serviceTeams {
@@ -292,6 +296,7 @@ func (*TQuest) Create(
 				Users:       serviceTeam.Users,
 			}
 
+			users = append(users, serviceTeam.Users...)
 			teamUserArgs = append(teamUserArgs, teamUserArg)
 		}
 	}
@@ -303,19 +308,7 @@ func (*TQuest) Create(
 		return nil, errTeamUser
 	}
 
-	// receivers := []*models.Notification{}
-	// questLink := fmt.Sprintf("https://any-link/quest/%d", idQuest)
-	// for _, serviceTeam := range serviceTeams {
-	// 	for _, user := range serviceTeam.Users {
-	// 		receiver := &models.Notification{
-	// 			Email: user.Email,
-	// 			Link:  questLink,
-	// 		}
-
-	// 		receivers = append(receivers, receiver)
-	// 	}
-	// }
-	// Notification.SendNotification(receivers)
+	go Notification.SendNotification(users, questLink)
 
 	return data[0], nil
 }
