@@ -15,20 +15,27 @@ type TNotification struct{}
 
 var Notification *TNotification
 
-func convertToNotificationJSON(receiver *models.Notification) []byte {
+func convertToNotificationJSON(user *models.User, link string) []byte {
+	title := "Анонимный опрос"
+	message := `
+		Вам был назначен анонимный опрос оценки вашей команды. 
+		Перейдите по ссылке, чтобы пройти опрос
+	`
+	button := "Перейти по ссылке"
+
 	notification := models.NotificationQueue{
-		ConsumerEmail: receiver.Email,
-		Title:         "Анонимный опрос",
-		Message:       "Вам был назначен анонимный опрос оценки вашей команды. Перейдите по ссылке, чтобы пройти опрос",
-		Link:          receiver.Link,
-		ButtonName:    "Перейти по ссылке",
+		ConsumerEmail: user.Email,
+		Title:         title,
+		Message:       message,
+		Link:          link,
+		ButtonName:    button,
 	}
 	jsonMessage, err := json.Marshal(notification)
 	utils.FailMessage(err, "Failed to convertToJson")
 	return jsonMessage
 }
 
-func (*TNotification) SendNotification(receivers []*models.Notification) {
+func (*TNotification) SendNotification(users []*models.User, link string) {
 	amqpServerURL := utils.GetAMQPUrl()
 
 	connectRabbitMQ, err := amqp091.Dial(amqpServerURL)
@@ -52,8 +59,8 @@ func (*TNotification) SendNotification(receivers []*models.Notification) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	for _, receiver := range receivers {
-		notification := convertToNotificationJSON(receiver)
+	for _, user := range users {
+		notification := convertToNotificationJSON(user, link)
 		err = channelRabbitMQ.PublishWithContext(ctx,
 			utils.GetAMQPExchange(),
 			q.Name,
