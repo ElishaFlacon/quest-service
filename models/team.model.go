@@ -10,7 +10,7 @@ type UserWithStatus struct {
 	IdUser *string `json:"id"`
 	Name   *string `json:"name"`
 	Email  *string `json:"email"`
-	Status bool    `json:"status"`
+	Status bool    `json:"progress"`
 }
 
 type UserWithStatusFull struct {
@@ -19,7 +19,7 @@ type UserWithStatusFull struct {
 	IdQuest int     `json:"idQuest"`
 	Name    *string `json:"name"`
 	Email   *string `json:"email"`
-	Status  bool    `json:"status"`
+	Status  bool    `json:"progress"`
 }
 
 type UserFull struct {
