@@ -52,12 +52,14 @@ func (*TQuest) Get(
 	endAt := utils.GetStringDate(quest.EndAt)
 
 	newQuest := &models.QuestResponse{
-		IdQuest: quest.IdQuest,
-		Name:    quest.Name,
-		Percent: quest.Percent,
-		StartAt: startAt,
-		EndAt:   endAt,
-		Status:  status,
+		IdQuest:    quest.IdQuest,
+		IdTemplate: quest.IdTemplate,
+		Name:       quest.Name,
+		Percent:    quest.Percent,
+		Available:  quest.Available,
+		StartAt:    startAt,
+		EndAt:      endAt,
+		Status:     status,
 	}
 
 	return newQuest, nil
@@ -75,11 +77,13 @@ func (*TQuest) GetWithIndicators(
 
 	questWithIndicators := &models.QuestWithIndicators{
 		IdQuest:    quest.IdQuest,
+		IdTemplate: quest.IdTemplate,
 		Name:       quest.Name,
 		StartAt:    quest.StartAt,
 		EndAt:      quest.EndAt,
 		Status:     quest.Status,
 		Percent:    quest.Percent,
+		Available:  quest.Available,
 		Indicators: indicators,
 	}
 
@@ -102,13 +106,15 @@ func (*TQuest) GetWithUsers(
 	)
 
 	questWithUsers := &models.QuestWithUsers{
-		IdQuest: quest.IdQuest,
-		Name:    quest.Name,
-		StartAt: quest.StartAt,
-		EndAt:   quest.EndAt,
-		Status:  quest.Status,
-		Percent: quest.Percent,
-		Users:   users,
+		IdQuest:    quest.IdQuest,
+		IdTemplate: quest.IdTemplate,
+		Name:       quest.Name,
+		StartAt:    quest.StartAt,
+		EndAt:      quest.EndAt,
+		Status:     quest.Status,
+		Percent:    quest.Percent,
+		Available:  quest.Available,
+		Users:      users,
 	}
 
 	return questWithUsers, nil
@@ -132,11 +138,13 @@ func (*TQuest) GetWithUsersAndIndicators(
 
 	questWithUsersAndIndicators := &models.QuestWithUsersAndIndicators{
 		IdQuest:    quest.IdQuest,
+		IdTemplate: quest.IdTemplate,
 		Name:       quest.Name,
 		StartAt:    quest.StartAt,
 		EndAt:      quest.EndAt,
 		Status:     quest.Status,
 		Percent:    quest.Percent,
+		Available:  quest.Available,
 		Users:      users,
 		Indicators: indicators,
 	}
@@ -185,8 +193,10 @@ func (*TQuest) GetByUserIdWithIndicators(
 
 		element := &models.QuestWithIndicators{
 			IdQuest:    quest.IdQuest,
+			IdTemplate: quest.IdTemplate,
 			Name:       quest.Name,
 			Percent:    quest.Percent,
+			Available:  quest.Available,
 			StartAt:    startAt,
 			EndAt:      endAt,
 			Status:     status,
@@ -228,12 +238,14 @@ func (*TQuest) GetAll(
 		endAt := utils.GetStringDate(quest.EndAt)
 
 		element := &models.QuestResponse{
-			IdQuest: quest.IdQuest,
-			Name:    quest.Name,
-			Percent: quest.Percent,
-			StartAt: startAt,
-			EndAt:   endAt,
-			Status:  status,
+			IdQuest:    quest.IdQuest,
+			IdTemplate: quest.IdTemplate,
+			Name:       quest.Name,
+			Percent:    quest.Percent,
+			Available:  quest.Available,
+			StartAt:    startAt,
+			EndAt:      endAt,
+			Status:     status,
 		}
 
 		quests = append(quests, element)
@@ -326,13 +338,15 @@ func (*TQuest) GetAllWithStatuses(
 		}
 
 		element := &models.QuestWithStatuses{
-			IdQuest: quest.IdQuest,
-			Name:    quest.Name,
-			Percent: quest.Percent,
-			StartAt: quest.StartAt,
-			EndAt:   quest.EndAt,
-			Status:  quest.Status,
-			Teams:   teams,
+			IdQuest:    quest.IdQuest,
+			IdTemplate: quest.IdTemplate,
+			Name:       quest.Name,
+			Percent:    quest.Percent,
+			StartAt:    quest.StartAt,
+			EndAt:      quest.EndAt,
+			Status:     quest.Status,
+			Available:  quest.Available,
+			Teams:      teams,
 		}
 
 		questsWithUsers = append(questsWithUsers, element)
