@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 31.05.2024
+-- Last Update - 04.06.2024
 
 
 
@@ -103,8 +103,8 @@ CREATE OR REPLACE FUNCTION get_results_count_by_quest_id(qid INT)
             SELECT COUNT(DISTINCT "result".id_from_user)
             FROM "quest_team"
             INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
-            INNER JOIN "result" ON qid = "result".id_quest
-            WHERE qid = "quest_team".id_quest
+            INNER JOIN "result" ON "result".id_quest = qid
+            WHERE "quest_team".id_quest = qid
             GROUP BY "result".id_from_user
         ) results_count);
     END; $$
@@ -119,7 +119,7 @@ CREATE OR REPLACE FUNCTION get_users_count_by_quest_id(qid INT)
         RETURN (SELECT COUNT("quest_team_user".id_quest_team)
             FROM "quest_team"
             INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
-            WHERE qid = "quest_team".id_quest
+            WHERE "quest_team".id_quest = qid
         );
     END; $$
     LANGUAGE plpgsql;
@@ -148,7 +148,7 @@ CREATE OR REPLACE FUNCTION get_quest_pass_percent(qid INT)
 
 -- +goose StatementBegin
 DROP FUNCTION IF EXISTS get_results_count_by_team_id;
-CREATE OR REPLACE FUNCTION get_results_count_by_team_id(tid VARCHAR(64)) 
+CREATE OR REPLACE FUNCTION get_results_count_by_team_id(tid VARCHAR(64), qid INT) 
 	RETURNS INT AS $$
     BEGIN
         RETURN (SELECT COUNT(*) FROM (
@@ -156,7 +156,7 @@ CREATE OR REPLACE FUNCTION get_results_count_by_team_id(tid VARCHAR(64))
             FROM "quest_team"
             INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
             INNER JOIN "result" ON "quest_team".id_quest = "result".id_quest
-            WHERE tid = "quest_team".id_team
+            WHERE "quest_team".id_team = tid AND "quest_team".id_quest = qid
             GROUP BY "result".id_from_user
         ) results_count);
     END; $$
@@ -168,10 +168,11 @@ DROP FUNCTION IF EXISTS get_users_count_by_team_and_quest_id;
 CREATE OR REPLACE FUNCTION get_users_count_by_team_and_quest_id(tid VARCHAR(64), qid INT) 
 	RETURNS INT AS $$
     BEGIN
-        RETURN (SELECT COUNT("quest_team_user".id_quest_team)
+        RETURN (
+            SELECT COUNT("quest_team_user".id_quest_team)
             FROM "quest_team"
             INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
-            WHERE tid = "quest_team".id_team AND qid = "quest_team".id_quest
+            WHERE  "quest_team".id_team = tid AND "quest_team".id_quest = qid
         );
     END; $$
     LANGUAGE plpgsql;
@@ -186,7 +187,7 @@ CREATE OR REPLACE FUNCTION get_team_pass_percent(tid VARCHAR(64), qid INT)
 			/ 
 		NULLIF((SELECT get_users_count_by_team_and_quest_id(tid, qid)), 0)
 			* 
-		NULLIF((SELECT get_results_count_by_team_id(tid)), 0)
+		NULLIF((SELECT get_results_count_by_team_id(tid, qid)), 0)
 	); 
     BEGIN
 		IF res IS NULL THEN
