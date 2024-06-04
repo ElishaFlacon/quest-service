@@ -77,12 +77,12 @@ func (*TCategory) Create(context *gin.Context) {
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/category/delete/{id} [delete]
-func (*TCategory) Delete(context *gin.Context) {
+func (*TCategory) Hide(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Category.Delete(id)
+	data, errData := service.Category.Hide(id)
 	utils.CultivateServiceData(context, data, errData)
 }

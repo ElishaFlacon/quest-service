@@ -8,7 +8,8 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS category (
     id_category SERIAL PRIMARY KEY,
-    name VARCHAR(128) NOT NULL
+    name VARCHAR(128) NOT NULL,
+    available BOOLEAN DEFAULT true
 );
 -- +goose StatementEnd
 

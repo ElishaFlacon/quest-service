@@ -26,7 +26,11 @@ func (*TCategory) Get(id int) (*models.Category, error) {
 }
 
 func (*TCategory) GetAll() ([]*models.Category, error) {
-	sqlString := `SELECT * FROM "category";`
+	sqlString := `
+		SELECT * 
+		FROM "category"
+		WHERE available = true;
+	`
 
 	data, err := database.BaseQuery[models.Category](sqlString)
 
@@ -45,9 +49,10 @@ func (*TCategory) Create(name string) (*models.Category, error) {
 	return utils.CultivateFirstDataElemet(data, err)
 }
 
-func (*TCategory) Delete(id int) (*models.Category, error) {
+func (*TCategory) Hide(id int) (*models.Category, error) {
 	sqlString := `
-		DELETE FROM "category" 
+		UPDATE "category" 
+		SET available = false
 		WHERE id_category = $1 
 		RETURNING *;
 	`

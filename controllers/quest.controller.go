@@ -17,20 +17,17 @@ var Quest *TQuest
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/{id} [get]
 func (*TQuest) Get(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Quest.Get(bearer, id)
+	data, errData := service.Quest.Get(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -40,20 +37,17 @@ func (*TQuest) Get(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/with-indicators/{id} [get]
 func (*TQuest) GetWithIndicators(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Quest.GetWithIndicators(bearer, id)
+	data, errData := service.Quest.GetWithIndicators(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -63,20 +57,17 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithUsers
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/with-users/{id} [get]
 func (*TQuest) GetWithUsers(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Quest.GetWithUsers(bearer, id)
+	data, errData := service.Quest.GetWithUsers(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -86,20 +77,17 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.QuestWithUsersAndIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/with-users-and-indicators/{id} [get]
 func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Quest.GetWithUsersAndIndicators(bearer, id)
+	data, errData := service.Quest.GetWithUsersAndIndicators(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -109,20 +97,37 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path string true "ID пользователя"
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/by-user/{id} [get]
 func (*TQuest) GetByUserIdWithIndicators(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
 	id, errParam := utils.CultivateStringParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Quest.GetByUserIdWithIndicators(bearer, id)
+	data, errData := service.Quest.GetByUserIdWithIndicators(id)
+	utils.CultivateServiceData(context, data, errData)
+}
+
+// Quest GetByUserIdWithStatuses	godoc
+// @Summary	Получение опросов по ID пользователя со статусами
+// @Tags	quest
+// @Accept	json
+// @Produce	json
+// @Param	id path string true "ID пользователя"
+// @Success	200	{array}	models.QuestWithStatusesForUser
+// @Failure	400	{object} 	models.Error
+// @Failure	500	{object} 	models.Error
+// @Router	/quest-service/quest/by-user/with-statuses/{id} [get]
+func (*TQuest) GetByUserIdWithStatuses(context *gin.Context) {
+	id, errParam := utils.CultivateStringParam(context, "id")
+	if errParam != nil {
+		return
+	}
+
+	data, errData := service.Quest.GetByUserIdWithStatuses(id)
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -131,14 +136,12 @@ func (*TQuest) GetByUserIdWithIndicators(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/all [get]
 func (*TQuest) GetAll(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-	data, errData := service.Quest.GetAll(bearer)
+	data, errData := service.Quest.GetAll()
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -147,14 +150,12 @@ func (*TQuest) GetAll(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{array}	models.QuestWithStatuses
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/quest/all/with-statuses [get]
 func (*TQuest) GetAllWithStatuses(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-	data, errData := service.Quest.GetAllWithStatuses(bearer)
+	data, errData := service.Quest.GetAllWithStatuses()
 	utils.CultivateServiceData(context, data, errData)
 }
 
@@ -209,25 +210,5 @@ func (*TQuest) Hide(context *gin.Context) {
 	}
 
 	data, errData := service.Quest.Hide(id)
-	utils.CultivateServiceData(context, data, errData)
-}
-
-// Quest Delete	godoc
-// @Summary	Удаление опроса по ID (нельзя удалить, используйте hide :3)
-// @Tags	quest
-// @Accept	json
-// @Produce	json
-// @Param	id path int true "ID опроса"
-// @Success	200	{object}	models.Quest
-// @Failure	400	{object} 	models.Error
-// @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/delete/{id} [delete]
-func (*TQuest) Delete(context *gin.Context) {
-	id, errParam := utils.CultivateNumberParam(context, "id")
-	if errParam != nil {
-		return
-	}
-
-	data, errData := service.Quest.Delete(id)
 	utils.CultivateServiceData(context, data, errData)
 }

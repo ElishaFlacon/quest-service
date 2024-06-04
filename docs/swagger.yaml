@@ -132,9 +132,11 @@ definitions:
         type: string
       idQuest:
         type: integer
+      idQuestTemplate:
+        type: integer
       name:
         type: string
-      percent:
+      progress:
         type: integer
       startAt:
         type: string
@@ -149,13 +151,15 @@ definitions:
         type: string
       idQuest:
         type: integer
+      idQuestTemplate:
+        type: integer
       indicators:
         items:
           $ref: '#/definitions/models.IndicatorWithCategoryName'
         type: array
       name:
         type: string
-      percent:
+      progress:
         type: integer
       startAt:
         type: string
@@ -170,9 +174,36 @@ definitions:
         type: string
       idQuest:
         type: integer
+      idQuestTemplate:
+        type: integer
       name:
         type: string
-      percent:
+      progress:
+        type: integer
+      startAt:
+        type: string
+      status:
+        type: string
+      teams:
+        items:
+          $ref: '#/definitions/models.TeamWithStatus'
+        type: array
+    type: object
+  models.QuestWithStatusesForUser:
+    properties:
+      available:
+        type: boolean
+      endAt:
+        type: string
+      idQuest:
+        type: integer
+      idQuestTemplate:
+        type: integer
+      isPass:
+        type: boolean
+      name:
+        type: string
+      progress:
         type: integer
       startAt:
         type: string
@@ -191,9 +222,11 @@ definitions:
         type: string
       idQuest:
         type: integer
+      idQuestTemplate:
+        type: integer
       name:
         type: string
-      percent:
+      progress:
         type: integer
       startAt:
         type: string
@@ -212,13 +245,15 @@ definitions:
         type: string
       idQuest:
         type: integer
+      idQuestTemplate:
+        type: integer
       indicators:
         items:
           $ref: '#/definitions/models.IndicatorWithCategoryName'
         type: array
       name:
         type: string
-      percent:
+      progress:
         type: integer
       startAt:
         type: string
@@ -341,7 +376,7 @@ definitions:
         type: string
       name:
         type: string
-      status:
+      progress:
         type: boolean
     type: object
 host: localhost:5000
@@ -666,11 +701,6 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -693,12 +723,6 @@ paths:
     get:
       consumes:
       - application/json
-      parameters:
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -723,12 +747,6 @@ paths:
     get:
       consumes:
       - application/json
-      parameters:
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -759,11 +777,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -782,6 +795,36 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Получение опросов по ID пользователя
+      tags:
+      - quest
+  /quest-service/quest/by-user/with-statuses/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.QuestWithStatusesForUser'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Получение опросов по ID пользователя со статусами
       tags:
       - quest
   /quest-service/quest/create:
@@ -816,34 +859,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Создание опроса
-      tags:
-      - quest
-  /quest-service/quest/delete/{id}:
-    delete:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID опроса
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Quest'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Удаление опроса по ID (нельзя удалить, используйте hide :3)
       tags:
       - quest
   /quest-service/quest/hide/{id}:
@@ -884,11 +899,6 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -917,11 +927,6 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -950,11 +955,6 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -973,71 +973,6 @@ paths:
       summary: Получение опроса c его пользователями по ID
       tags:
       - quest
-  /quest-service/result/by-quest-and-team/{id_quest}/{id_team}:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID опроса
-        in: path
-        name: id_quest
-        required: true
-        type: integer
-      - description: ID команды
-        in: path
-        name: id_team
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Result'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Получение результатов по ID опроса и ID команды
-      tags:
-      - result
-  /quest-service/result/by-quest/{id}:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID опроса
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Result'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Получение результатов по ID опроса
-      tags:
-      - result
   /quest-service/result/by-user/{id}:
     get:
       consumes:

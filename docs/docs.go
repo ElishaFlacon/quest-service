@@ -498,15 +498,6 @@ const docTemplate = `{
                     "quest"
                 ],
                 "summary": "Получение всех опросов",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -544,12 +535,49 @@ const docTemplate = `{
                     "quest"
                 ],
                 "summary": "Получение всех опросов со статусами",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.QuestWithStatuses"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/quest-service/quest/by-user/with-statuses/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quest"
+                ],
+                "summary": "Получение опросов по ID пользователя со статусами",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
+                        "description": "ID пользователя",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -559,7 +587,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.QuestWithStatuses"
+                                "$ref": "#/definitions/models.QuestWithStatusesForUser"
                             }
                         }
                     },
@@ -596,13 +624,6 @@ const docTemplate = `{
                         "description": "ID пользователя",
                         "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
                         "required": true
                     }
                 ],
@@ -658,49 +679,6 @@ const docTemplate = `{
                         "description": "Access token (с биркой)",
                         "name": "Authorization",
                         "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Quest"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/quest/delete/{id}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "quest"
-                ],
-                "summary": "Удаление опроса по ID (нельзя удалить, используйте hide :3)",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID опроса",
-                        "name": "id",
-                        "in": "path",
                         "required": true
                     }
                 ],
@@ -788,13 +766,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -837,13 +808,6 @@ const docTemplate = `{
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
                         "required": true
                     }
                 ],
@@ -888,13 +852,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -938,13 +895,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -952,105 +902,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.QuestResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/result/by-quest-and-team/{id_quest}/{id_team}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "result"
-                ],
-                "summary": "Получение результатов по ID опроса и ID команды",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID опроса",
-                        "name": "id_quest",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ID команды",
-                        "name": "id_team",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Result"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/result/by-quest/{id}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "result"
-                ],
-                "summary": "Получение результатов по ID опроса",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID опроса",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Result"
-                            }
                         }
                     },
                     "400": {
@@ -1721,10 +1572,13 @@ const docTemplate = `{
                 "idQuest": {
                     "type": "integer"
                 },
+                "idQuestTemplate": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
-                "percent": {
+                "progress": {
                     "type": "integer"
                 },
                 "startAt": {
@@ -1747,6 +1601,9 @@ const docTemplate = `{
                 "idQuest": {
                     "type": "integer"
                 },
+                "idQuestTemplate": {
+                    "type": "integer"
+                },
                 "indicators": {
                     "type": "array",
                     "items": {
@@ -1756,7 +1613,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "percent": {
+                "progress": {
                     "type": "integer"
                 },
                 "startAt": {
@@ -1779,10 +1636,51 @@ const docTemplate = `{
                 "idQuest": {
                     "type": "integer"
                 },
+                "idQuestTemplate": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
-                "percent": {
+                "progress": {
+                    "type": "integer"
+                },
+                "startAt": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "teams": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.TeamWithStatus"
+                    }
+                }
+            }
+        },
+        "models.QuestWithStatusesForUser": {
+            "type": "object",
+            "properties": {
+                "available": {
+                    "type": "boolean"
+                },
+                "endAt": {
+                    "type": "string"
+                },
+                "idQuest": {
+                    "type": "integer"
+                },
+                "idQuestTemplate": {
+                    "type": "integer"
+                },
+                "isPass": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "progress": {
                     "type": "integer"
                 },
                 "startAt": {
@@ -1811,10 +1709,13 @@ const docTemplate = `{
                 "idQuest": {
                     "type": "integer"
                 },
+                "idQuestTemplate": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
-                "percent": {
+                "progress": {
                     "type": "integer"
                 },
                 "startAt": {
@@ -1843,6 +1744,9 @@ const docTemplate = `{
                 "idQuest": {
                     "type": "integer"
                 },
+                "idQuestTemplate": {
+                    "type": "integer"
+                },
                 "indicators": {
                     "type": "array",
                     "items": {
@@ -1852,7 +1756,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "percent": {
+                "progress": {
                     "type": "integer"
                 },
                 "startAt": {
@@ -2042,7 +1946,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "status": {
+                "progress": {
                     "type": "boolean"
                 }
             }
