@@ -44,37 +44,6 @@ func (*TResult) GetByUsersId(ids []string) ([]*models.Result, error) {
 	return data, err
 }
 
-func (*TResult) GetByQuestId(id int) ([]*models.Result, error) {
-	// TODO получение результатов по айди опроса {команда, прогресс, + участники}
-
-	sqlString := `
-		SELECT *
-		FROM "result"
-		WHERE id_quest = $1;
-	`
-
-	data, err := database.BaseQuery[models.Result](sqlString, id)
-
-	return data, err
-}
-
-func (*TResult) GetByQuestIdAndTeamId(
-	idQuest int,
-	idTeam string,
-) ([]*models.Result, error) {
-	// TODO получение результатов членов команды по айди команды и опроса
-
-	sqlString := `
-		SELECT * FROM "result" 
-		WHERE id_quest = $1 AND id_team = $2;
-	`
-	args := []any{idQuest, idTeam}
-
-	data, err := database.BaseQuery[models.Result](sqlString, args...)
-
-	return data, err
-}
-
 func (*TResult) GetUsersCountByQuestId(id int) ([]*models.Count, error) {
 	sqlString := `
 		SELECT COUNT(*)

@@ -10,15 +10,15 @@ type TCsv struct{}
 var Csv = &TCsv{}
 
 func (*TCsv) GetCsvByQuestId(bearer string, id int) ([]byte, error) {
-	_, err := Quest.Get(bearer, id)
-	if err != nil {
-		return nil, err
-	}
+	// _, err := Quest.Get(bearer, id)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	results, errResults := Result.GetByQuestId(id)
-	if errResults != nil {
-		return nil, errResults
-	}
+	// results, errResults := Result.GetByQuestId(id)
+	// if errResults != nil {
+	// 	return nil, errResults
+	// }
 
 	// var usersFromAndToByResultId []*models.UsersFromAndToByResultId
 
@@ -59,32 +59,32 @@ func (*TCsv) GetCsvByQuestId(bearer string, id int) ([]byte, error) {
 		return nil, errWriter
 	}
 
-	for _, result := range results {
-		_, errIndicator := Indicator.Get(result.IdIndicator)
-		if errIndicator != nil {
-			return nil, errIndicator
-		}
+	// for _, result := range results {
+	// 	_, errIndicator := Indicator.Get(result.IdIndicator)
+	// 	if errIndicator != nil {
+	// 		return nil, errIndicator
+	// 	}
 
-		// userInfo, errUserInfo := findUsersInfoByIdResult(
-		// 	result.IdResult,
-		// 	usersInfo,
-		// )
-		// if errUserInfo != nil {
-		// 	return nil, errUserInfo
-		// }
-		// err = writer.Write([]string{
-		// 	quest.Name,
-		// 	indicator.Name,
-		// 	userInfo.FullNameFromUser,
-		// 	indicator.FromRole,
-		// 	userInfo.FullNameToUser,
-		// 	indicator.ToRole,
-		// 	result.Value,
-		// })
-		// if err != nil {
-		// 	return nil, err
-		// }
-	}
+	// userInfo, errUserInfo := findUsersInfoByIdResult(
+	// 	result.IdResult,
+	// 	usersInfo,
+	// )
+	// if errUserInfo != nil {
+	// 	return nil, errUserInfo
+	// }
+	// err = writer.Write([]string{
+	// 	quest.Name,
+	// 	indicator.Name,
+	// 	userInfo.FullNameFromUser,
+	// 	indicator.FromRole,
+	// 	userInfo.FullNameToUser,
+	// 	indicator.ToRole,
+	// 	result.Value,
+	// })
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// }
 
 	csvContent := csvBuffer.Bytes()
 

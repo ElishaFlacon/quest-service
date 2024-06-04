@@ -9,21 +9,6 @@ type Result struct {
 	Value       string `json:"value"`
 }
 
-type ResultWithInfo struct {
-	IdResult    int    `json:"idResult"`
-	IdIndicator int    `json:"idIndicator"`
-	IdQuest     int    `json:"idQuest"`
-	IdFromUser  string `json:"idFromUser"`
-	IdToUser    string `json:"idToUser"`
-	Value       string `json:"value"`
-
-	Teams struct {
-		IdTeam  string       `json:"idTeam"`
-		Percent int          `json:"percent"`
-		Users   []Id[string] `json:"users"`
-	} `json:"teams"`
-}
-
 type GetByUsersIdRequest struct {
 	Users []Id[string] `json:"users"`
 }

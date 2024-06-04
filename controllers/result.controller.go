@@ -55,48 +55,6 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 	utils.CultivateServiceData(context, data, errData)
 }
 
-// Result GetByQuestId	godoc
-// @Summary	Получение результатов по ID опроса
-// @Tags	result
-// @Accept	json
-// @Produce	json
-// @Param	id path int true "ID опроса"
-// @Success	200	{array}	models.Result
-// @Failure	400	{object} 	models.Error
-// @Failure	500	{object} 	models.Error
-// @Router	/quest-service/result/by-quest/{id} [get]
-func (*TResult) GetByQuestId(context *gin.Context) {
-	id, errParam := utils.CultivateNumberParam(context, "id")
-	if errParam != nil {
-		return
-	}
-
-	data, errData := service.Result.GetByQuestId(id)
-	utils.CultivateServiceData(context, data, errData)
-}
-
-// Result GetByQuestIdAndTeamId	godoc
-// @Summary	Получение результатов по ID опроса и ID команды
-// @Tags	result
-// @Accept	json
-// @Produce	json
-// @Param	id_quest path int true "ID опроса"
-// @Param	id_team path string true "ID команды"
-// @Success	200	{array}	models.Result
-// @Failure	400	{object} 	models.Error
-// @Failure	500	{object} 	models.Error
-// @Router	/quest-service/result/by-quest-and-team/{id_quest}/{id_team} [get]
-func (*TResult) GetByQuestIdAndTeamId(context *gin.Context) {
-	idQuest, errQuestParam := utils.CultivateNumberParam(context, "id_quest")
-	idTeam, errTeamParam := utils.CultivateStringParam(context, "id_team")
-	if errQuestParam != nil || errTeamParam != nil {
-		return
-	}
-
-	data, errData := service.Result.GetByQuestIdAndTeamId(idQuest, idTeam)
-	utils.CultivateServiceData(context, data, errData)
-}
-
 // Result Create	godoc
 // @Summary	Создание результатов
 // @Tags	result
