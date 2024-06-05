@@ -84,7 +84,7 @@
 
 ![image](https://github.com/ElishaFlacon/quest-service/assets/83610362/409a4f6d-e4db-46ca-b7e9-2dba0ef03711)
 
-> Схема актуальна для 05.06.2024, проверьте дату последних изменений в migrations
+> Схема актуальна для 06.06.2024, проверьте дату последних изменений в migrations
 
 
 

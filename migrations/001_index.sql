@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 05.06.2024
+-- Last Update - 06.06.2024
 
 
 
@@ -156,7 +156,7 @@ CREATE OR REPLACE FUNCTION get_results_count_by_team_id(tid VARCHAR(64), qid INT
             SELECT COUNT(DISTINCT "result".id_from_user)
             FROM "quest_team"
             INNER JOIN "quest_team_user" ON "quest_team".id_quest_team = "quest_team_user".id_quest_team
-            INNER JOIN "result" ON "quest_team".id_quest = "result".id_quest
+            INNER JOIN "result" ON "quest_team".id_quest = "result".id_quest AND "quest_team_user".id_user = "result".id_from_user
             WHERE "quest_team".id_team = tid AND "quest_team".id_quest = qid
             GROUP BY "result".id_from_user
         ) results_count);
