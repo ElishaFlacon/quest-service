@@ -31,6 +31,7 @@ import (
 // @host			localhost:5000
 func main() {
 	app := gin.Default()
+	gin.SetMode(utils.GetAppMode())
 
 	config.Init(app)
 	database.Init(utils.GetDatabaseString())
