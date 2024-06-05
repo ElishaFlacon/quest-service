@@ -6,6 +6,10 @@ type User struct {
 	Email  string `json:"email"`
 }
 
+type UsersId struct {
+	Users []Id[string] `json:"users"`
+}
+
 type UserWithStatus struct {
 	IdUser *string `json:"id"`
 	Name   *string `json:"name"`

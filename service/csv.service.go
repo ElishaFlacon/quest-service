@@ -9,7 +9,7 @@ type TCsv struct{}
 
 var Csv = &TCsv{}
 
-func (*TCsv) GetCsvByQuestId(bearer string, id int) ([]byte, error) {
+func (*TCsv) GetCsvByQuestId(id int) ([]byte, error) {
 	// _, err := Quest.Get(bearer, id)
 	// if err != nil {
 	// 	return nil, err

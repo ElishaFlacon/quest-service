@@ -20,6 +20,52 @@ func mapQuestTeamUserToString(
 	return questTeamUser.IdUser
 }
 
+func getUsersData() ([]*models.UserWithStatusFull, error) {
+	sqlString := `
+		SELECT
+			"quest".id_quest,
+			"quest_team".id_team,
+			"quest_team_user".id_user,
+			"quest_team_user".name,
+			"quest_team_user".email,
+			(SELECT get_user_status(
+				"quest".id_quest, 
+				"quest_team_user".id_user
+			)) status
+		FROM "quest"
+		INNER JOIN "quest_team" ON 
+			"quest".id_quest = "quest_team".id_quest
+		INNER JOIN "quest_team_user" ON 
+			"quest_team".id_quest_team = "quest_team_user".id_quest_team
+		WHERE "quest".available;
+	`
+
+	data, errData := database.BaseQuery[models.UserWithStatusFull](
+		sqlString,
+	)
+	if errData != nil {
+		return nil, errData
+	}
+
+	return data, nil
+}
+
+func getTeamsData() ([]*models.QuestTeamWithPercent, error) {
+	sqlString := `
+		SELECT *, (SELECT get_team_pass_percent(id_team, id_quest)) percent
+		FROM "quest_team";
+	`
+
+	data, errData := database.BaseQuery[models.QuestTeamWithPercent](
+		sqlString,
+	)
+	if errData != nil {
+		return nil, errData
+	}
+
+	return data, nil
+}
+
 func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 	sqlString := `
 		SELECT 
@@ -32,7 +78,7 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 			end_at, 
 			(SELECT get_qeust_pass_percent($1)) percent 
 		FROM "quest" 
-		WHERE available = true AND id_quest = $1;
+		WHERE id_quest = $1;
 	`
 
 	data, errData := database.BaseQuery[models.QuestWithPercent](
@@ -160,7 +206,7 @@ func (*TQuest) GetByUserId(
 			"quest".id_quest = "quest_team".id_quest
 		INNER JOIN "quest_team_user" ON
 			"quest_team".id_quest_team = "quest_team_user".id_quest_team
-		WHERE  "quest".available = true AND "quest_team_user".id_user = $1;
+		WHERE "quest".available = true AND "quest_team_user".id_user = $1;
 	`
 
 	data, errData := database.BaseQuery[models.QuestWithPercent](
@@ -230,40 +276,12 @@ func (*TQuest) GetByUserIdWithIndicators(
 func (*TQuest) GetByUserIdWithStatuses(
 	id string,
 ) ([]*models.QuestWithStatusesForUser, error) {
-	usersSqlString := `
-		SELECT
-			"quest".id_quest,
-			"quest_team".id_team,
-			"quest_team_user".id_user,
-			"quest_team_user".name,
-			"quest_team_user".email,
-			(SELECT get_user_status(
-				"quest".id_quest, 
-				"quest_team_user".id_user
-			)) status
-		FROM "quest"
-		INNER JOIN "quest_team" ON 
-			"quest".id_quest = "quest_team".id_quest
-		INNER JOIN "quest_team_user" ON 
-			"quest_team".id_quest_team = "quest_team_user".id_quest_team
-		WHERE "quest".available;
-	`
-
-	usersData, errUsersData := database.BaseQuery[models.UserWithStatusFull](
-		usersSqlString,
-	)
+	usersData, errUsersData := getUsersData()
 	if errUsersData != nil {
 		return nil, errUsersData
 	}
 
-	teamsSqlString := `
-		SELECT *, (SELECT get_team_pass_percent(id_team, id_quest)) percent
-		FROM "quest_team";
-	`
-
-	teamsData, errTeamsData := database.BaseQuery[models.QuestTeamWithPercent](
-		teamsSqlString,
-	)
+	teamsData, errTeamsData := getTeamsData()
 	if errTeamsData != nil {
 		return nil, errTeamsData
 	}
@@ -379,40 +397,12 @@ func (*TQuest) GetAll() ([]*models.QuestResponse, error) {
 }
 
 func (*TQuest) GetAllWithStatuses() ([]*models.QuestWithStatuses, error) {
-	usersSqlString := `
-		SELECT
-			"quest".id_quest,
-			"quest_team".id_team,
-			"quest_team_user".id_user,
-			"quest_team_user".name,
-			"quest_team_user".email,
-			(SELECT get_user_status(
-				"quest".id_quest, 
-				"quest_team_user".id_user
-			)) status
-		FROM "quest"
-		INNER JOIN "quest_team" ON 
-			"quest".id_quest = "quest_team".id_quest
-		INNER JOIN "quest_team_user" ON 
-			"quest_team".id_quest_team = "quest_team_user".id_quest_team
-		WHERE "quest".available;
-	`
-
-	usersData, errUsersData := database.BaseQuery[models.UserWithStatusFull](
-		usersSqlString,
-	)
+	usersData, errUsersData := getUsersData()
 	if errUsersData != nil {
 		return nil, errUsersData
 	}
 
-	teamsSqlString := `
-		SELECT *, (SELECT get_team_pass_percent(id_team, id_quest)) percent
-		FROM "quest_team";
-	`
-
-	teamsData, errTeamsData := database.BaseQuery[models.QuestTeamWithPercent](
-		teamsSqlString,
-	)
+	teamsData, errTeamsData := getTeamsData()
 	if errTeamsData != nil {
 		return nil, errTeamsData
 	}

@@ -164,7 +164,7 @@ func (*TQuest) GetAllWithStatuses(context *gin.Context) {
 // @Tags	quest
 // @Accept	json
 // @Produce	json
-// @Param request body models.QuestCreateRequest true "Body для создания опроса"
+// @Param request body models.QuestCreate true "Body для создания опроса"
 // @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	models.Quest
 // @Failure	400	{object} 	models.Error
@@ -173,7 +173,7 @@ func (*TQuest) GetAllWithStatuses(context *gin.Context) {
 func (*TQuest) Create(context *gin.Context) {
 	bearer := utils.GetBearer(context)
 
-	body := &models.QuestCreateRequest{}
+	body := &models.QuestCreate{}
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {
 		return
@@ -194,7 +194,7 @@ func (*TQuest) Create(context *gin.Context) {
 }
 
 // Quest Hide	godoc
-// @Summary	Скрытие опроса по ID
+// @Summary	Скрытие опроса по ID (используйте как удаление)
 // @Tags	quest
 // @Accept	json
 // @Produce	json

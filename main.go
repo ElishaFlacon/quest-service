@@ -26,9 +26,6 @@ import (
 //   -- Прогнать тесты, какие? :3
 // - Не забываем почитать README.md
 
-// Почините CSV статистику
-// results 2 тудушки
-
 // @title			Quest Service API
 // @description		Зашли почитать документацию? Жаль
 // @host			localhost:5000

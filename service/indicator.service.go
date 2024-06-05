@@ -14,7 +14,7 @@ var Indicator = &TIndicator{
 	table: "indicator",
 }
 
-func (*TIndicator) Get(id int) (*models.IndicatorWithCategoryName, error) {
+func (*TIndicator) Get(id int) (*models.IndicatorWithCategory, error) {
 	sqlString := `
 		SELECT
 			"indicator".id_indicator, 
@@ -44,12 +44,12 @@ func (*TIndicator) Get(id int) (*models.IndicatorWithCategoryName, error) {
 		WHERE "indicator".id_indicator = $1;
 	`
 
-	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
+	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString, id)
 
 	return utils.CultivateFirstDataElemet(data, err)
 }
 
-func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategoryName, error) {
+func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategory, error) {
 	sqlString := `
 		SELECT 
 			"indicator".id_indicator, 
@@ -83,12 +83,12 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategoryName,
 		WHERE "template".id_template = $1;
 	`
 
-	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
+	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString, id)
 
 	return data, err
 }
 
-func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategoryName, error) {
+func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategory, error) {
 	sqlString := `
 		SELECT 
 			"indicator".id_indicator, 
@@ -124,12 +124,12 @@ func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategoryName, er
 		WHERE "quest".id_quest = $1;
 	`
 
-	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString, id)
+	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString, id)
 
 	return data, err
 }
 
-func (*TIndicator) GetAll() ([]*models.IndicatorWithCategoryName, error) {
+func (*TIndicator) GetAll() ([]*models.IndicatorWithCategory, error) {
 	sqlString := `
 		SELECT
 			"indicator".id_indicator, 
@@ -155,10 +155,11 @@ func (*TIndicator) GetAll() ([]*models.IndicatorWithCategoryName, error) {
 			"category".name as category_name
 		FROM "indicator"
 		INNER JOIN "category" ON 
-			"indicator".id_category = "category".id_category;
+			"indicator".id_category = "category".id_category
+		WHERE "indicator".available = true;
 	`
 
-	data, err := database.BaseQuery[models.IndicatorWithCategoryName](sqlString)
+	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString)
 
 	return data, err
 }
@@ -188,18 +189,6 @@ func (*TIndicator) Hide(id int) (*models.Indicator, error) {
 	sqlString := `
 		UPDATE "indicator" 
 		SET available = false
-		WHERE id_indicator = $1 
-		RETURNING *;
-	`
-
-	data, err := database.BaseQuery[models.Indicator](sqlString, id)
-
-	return utils.CultivateFirstDataElemet(data, err)
-}
-
-func (*TIndicator) Delete(id int) (*models.Indicator, error) {
-	sqlString := `
-		DELETE FROM "indicator" 
 		WHERE id_indicator = $1 
 		RETURNING *;
 	`

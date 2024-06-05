@@ -7,6 +7,7 @@ import (
 
 func Quest(baseGroup *gin.RouterGroup) {
 	group := baseGroup.Group("/quest")
+
 	group.GET("/:id", controllers.Quest.Get)
 	group.GET("/with-indicators/:id", controllers.Quest.GetWithIndicators)
 	group.GET("/with-users/:id", controllers.Quest.GetWithUsers)

@@ -5,6 +5,6 @@ type Category struct {
 	Name       string `json:"name"`
 }
 
-type CategoryCreateRequest struct {
+type CategoryCreate struct {
 	Name string `json:"name"`
 }

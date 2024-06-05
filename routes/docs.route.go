@@ -8,5 +8,6 @@ import (
 
 func Docs(baseGroup *gin.RouterGroup) {
 	group := baseGroup.Group("/docs")
+
 	group.GET("/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

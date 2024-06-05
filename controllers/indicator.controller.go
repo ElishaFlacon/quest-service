@@ -17,7 +17,7 @@ var Indicator *TIndicator
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID вопроса"
-// @Success	200	{object}	models.IndicatorWithCategoryName
+// @Success	200	{object}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/indicator/{id} [get]
@@ -37,7 +37,7 @@ func (*TIndicator) Get(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID шаблона"
-// @Success	200	{array}	models.IndicatorWithCategoryName
+// @Success	200	{array}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/indicator/by-template/{id} [get]
@@ -57,7 +57,7 @@ func (*TIndicator) GetByTemplateId(context *gin.Context) {
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Success	200	{array}	models.IndicatorWithCategoryName
+// @Success	200	{array}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/indicator/by-quest/{id} [get]
@@ -76,7 +76,7 @@ func (*TIndicator) GetByQuestId(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
-// @Success	200	{array}	models.IndicatorWithCategoryName
+// @Success	200	{array}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/indicator/all [get]
@@ -90,13 +90,13 @@ func (*TIndicator) GetAll(context *gin.Context) {
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
-// @Param request body models.IndicatorCreateRequest true "Body для создания вопроса"
+// @Param request body models.IndicatorCreate true "Body для создания вопроса"
 // @Success	200	{object}	models.Indicator
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/indicator/create [post]
 func (*TIndicator) Create(context *gin.Context) {
-	body := &models.IndicatorCreateRequest{}
+	body := &models.IndicatorCreate{}
 
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {
@@ -115,7 +115,7 @@ func (*TIndicator) Create(context *gin.Context) {
 }
 
 // Indicator Hide	godoc
-// @Summary	Скрытие вопроса по ID
+// @Summary	Скрытие вопроса по ID (используйте как удаление)
 // @Tags	indicator
 // @Accept	json
 // @Produce	json
@@ -131,25 +131,5 @@ func (*TIndicator) Hide(context *gin.Context) {
 	}
 
 	data, errData := service.Indicator.Hide(id)
-	utils.CultivateServiceData(context, data, errData)
-}
-
-// Indicator Delete	godoc
-// @Summary	Удаление вопроса по ID (нельзя удалить, если вопрос используется)
-// @Tags	indicator
-// @Accept	json
-// @Produce	json
-// @Param	id path int true "ID вопроса"
-// @Success	200	{object}	models.Indicator
-// @Failure	400	{object} 	models.Error
-// @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/delete/{id} [delete]
-func (*TIndicator) Delete(context *gin.Context) {
-	id, errParam := utils.CultivateNumberParam(context, "id")
-	if errParam != nil {
-		return
-	}
-
-	data, errData := service.Indicator.Delete(id)
 	utils.CultivateServiceData(context, data, errData)
 }

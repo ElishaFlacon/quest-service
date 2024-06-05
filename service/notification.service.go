@@ -16,12 +16,9 @@ type TNotification struct{}
 var Notification *TNotification
 
 func convertToNotificationJSON(user *models.User, link string) []byte {
-	title := "Анонимный опрос"
-	message := `
-		Вам был назначен анонимный опрос оценки вашей команды. 
-		Перейдите по ссылке, чтобы пройти опрос
-	`
-	button := "Перейти по ссылке"
+	title := "Опрос"
+	message := "Привет! Тебе был назначен опрос, пройди пожалуйста :3"
+	button := "Пройти опрос"
 
 	notification := models.NotificationQueue{
 		ConsumerEmail: user.Email,

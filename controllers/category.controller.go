@@ -50,13 +50,13 @@ func (*TCategory) GetAll(context *gin.Context) {
 // @Tags	category
 // @Accept	json
 // @Produce	json
-// @Param request body models.CategoryCreateRequest true "Body для создания категории"
+// @Param request body models.CategoryCreate true "Body для создания категории"
 // @Success	200	{object}	models.Category
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/category/create [post]
 func (*TCategory) Create(context *gin.Context) {
-	body := &models.CategoryCreateRequest{}
+	body := &models.CategoryCreate{}
 
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {
@@ -67,8 +67,8 @@ func (*TCategory) Create(context *gin.Context) {
 	utils.CultivateServiceData(context, data, errData)
 }
 
-// Category Delete	godoc
-// @Summary	Удаление категории по ID (нельзя удалить, если категория используется)
+// Category Hide	godoc
+// @Summary	Скрытие категории по ID (используйте как удаление)
 // @Tags	category
 // @Accept	json
 // @Produce	json
@@ -76,7 +76,7 @@ func (*TCategory) Create(context *gin.Context) {
 // @Success	200	{object}	models.Category
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/category/delete/{id} [delete]
+// @Router	/quest-service/category/hide/{id} [put]
 func (*TCategory) Hide(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {

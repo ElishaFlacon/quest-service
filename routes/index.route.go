@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// При добавлении нового роута, не забываем добавить его сюда
+
 func Init(app *gin.Engine) {
 	group := app.Group("/quest-service")
 

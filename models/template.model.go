@@ -16,14 +16,14 @@ type TemplateWithCountIndicators struct {
 }
 
 type TemplateWithIndicators struct {
-	IdTemplate  int                          `json:"idQuestTemplate"`
-	Name        string                       `json:"name"`
-	Description *string                      `json:"description"`
-	Available   bool                         `json:"available"`
-	Indicators  []*IndicatorWithCategoryName `json:"indicators"`
+	IdTemplate  int                      `json:"idQuestTemplate"`
+	Name        string                   `json:"name"`
+	Description *string                  `json:"description"`
+	Available   bool                     `json:"available"`
+	Indicators  []*IndicatorWithCategory `json:"indicators"`
 }
 
-type TemplateCreateRequest struct {
+type TemplateCreate struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Indicators  []Id[int] `json:"indicators"`

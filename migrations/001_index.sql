@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 04.06.2024
+-- Last Update - 05.06.2024
 
 
 
@@ -219,5 +219,4 @@ CREATE OR REPLACE FUNCTION get_user_status(qid INT, uid VARCHAR(64))
         );
     END; $$
     LANGUAGE plpgsql;
-
 -- +goose StatementEnd

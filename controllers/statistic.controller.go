@@ -16,19 +16,16 @@ var Statistic *TStatistic
 // @Accept	json
 // @Produce	json
 // @Param	id path int true "ID опроса"
-// @Param	Authorization header string true "Access token (с биркой)"
 // @Success	200	{object}	[]byte
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/statistic/quest/{id} [get]
 func (*TStatistic) Quest(context *gin.Context) {
-	bearer := utils.GetBearer(context)
-
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
 		return
 	}
 
-	data, errData := service.Csv.GetCsvByQuestId(bearer, id)
+	data, errData := service.Csv.GetCsvByQuestId(id)
 	utils.CultivateServiceData(context, data, errData)
 }

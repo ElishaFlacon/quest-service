@@ -36,13 +36,13 @@ func (*TResult) GetByUserId(context *gin.Context) {
 // @Tags	result
 // @Accept	json
 // @Produce	json
-// @Param request body models.GetByUsersIdRequest true "Body для получения результатов по ID пользователей"
+// @Param request body models.UsersId true "Body для получения результатов по ID пользователей"
 // @Success	200	{array}	models.Result
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/result/by-users [get]
 func (*TResult) GetByUsersId(context *gin.Context) {
-	body := &models.GetByUsersIdRequest{}
+	body := &models.UsersId{}
 
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {
@@ -60,13 +60,13 @@ func (*TResult) GetByUsersId(context *gin.Context) {
 // @Tags	result
 // @Accept	json
 // @Produce	json
-// @Param request body models.ResultCreateRequest true "Body для создания результатов"
+// @Param request body models.ResultCreate true "Body для создания результатов"
 // @Success	200	{object}	models.ResultResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/result/create [post]
 func (*TResult) Create(context *gin.Context) {
-	body := &models.ResultCreateRequest{}
+	body := &models.ResultCreate{}
 
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {

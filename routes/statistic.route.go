@@ -7,5 +7,6 @@ import (
 
 func Statistic(baseGroup *gin.RouterGroup) {
 	group := baseGroup.Group("/statistic")
+
 	group.GET("/quest/:id", controllers.Statistic.Quest)
 }

@@ -28,26 +28,22 @@ func (*TTemplate) Get(id int) (*models.Template, error) {
 func (*TTemplate) GetWithIndicators(
 	id int,
 ) (*models.TemplateWithIndicators, error) {
-	sqlString := `SELECT * FROM "template" WHERE id_template = $1;`
-
-	data, errData := database.BaseQuery[models.Template](sqlString, id)
-	if errData != nil {
-		return nil, errData
+	template, errTemplate := Template.Get(id)
+	if errTemplate != nil {
+		return nil, errTemplate
 	}
 
-	templateIndicators, err := Indicator.GetByTemplateId(id)
-	if err != nil {
-		return nil, err
+	indicators, errIndicators := Indicator.GetByTemplateId(id)
+	if errIndicators != nil {
+		return nil, errIndicators
 	}
-
-	template := data[0]
 
 	newTemplate := &models.TemplateWithIndicators{
 		IdTemplate:  template.IdTemplate,
 		Name:        template.Name,
 		Description: template.Description,
 		Available:   template.Available,
-		Indicators:  templateIndicators,
+		Indicators:  indicators,
 	}
 
 	return newTemplate, nil
@@ -107,18 +103,6 @@ func (*TTemplate) Hide(id int) (*models.Template, error) {
 	sqlString := `
 		UPDATE "template" 
 		SET available = false
-		WHERE id_template = $1 
-		RETURNING *;
-	`
-
-	data, err := database.BaseQuery[models.Template](sqlString, id)
-
-	return utils.CultivateFirstDataElemet(data, err)
-}
-
-func (*TTemplate) Delete(id int) (*models.Template, error) {
-	sqlString := `
-		DELETE FROM "template" 
 		WHERE id_template = $1 
 		RETURNING *;
 	`

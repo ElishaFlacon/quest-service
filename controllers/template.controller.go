@@ -72,13 +72,13 @@ func (*TTemplate) GetAll(context *gin.Context) {
 // @Tags	template
 // @Accept	json
 // @Produce	json
-// @Param request body models.TemplateCreateRequest true "Body для создания шаблона"
+// @Param request body models.TemplateCreate true "Body для создания шаблона"
 // @Success	200	{object}	models.TemplateWithCountIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
 // @Router	/quest-service/template/create [post]
 func (*TTemplate) Create(context *gin.Context) {
-	body := &models.TemplateCreateRequest{}
+	body := &models.TemplateCreate{}
 
 	errBody := utils.CultivateBody(context, body)
 	if errBody != nil {
@@ -118,7 +118,7 @@ func (*TTemplate) Create(context *gin.Context) {
 }
 
 // Template Hide	godoc
-// @Summary	Скрытие шаблона по ID
+// @Summary	Скрытие шаблона по ID (используйте как удаление)
 // @Tags	template
 // @Accept	json
 // @Produce	json
@@ -134,25 +134,5 @@ func (*TTemplate) Hide(context *gin.Context) {
 	}
 
 	data, errData := service.Template.Hide(id)
-	utils.CultivateServiceData(context, data, errData)
-}
-
-// Template Delete	godoc
-// @Summary	Удаление шаблона по ID (нельзя удалить, используйте hide :3)
-// @Tags	template
-// @Accept	json
-// @Produce	json
-// @Param	id path int true "ID шаблона"
-// @Success	200	{object}	models.Template
-// @Failure	400	{object} 	models.Error
-// @Failure	500	{object} 	models.Error
-// @Router	/quest-service/template/delete/{id} [delete]
-func (*TTemplate) Delete(context *gin.Context) {
-	id, errParam := utils.CultivateNumberParam(context, "id")
-	if errParam != nil {
-		return
-	}
-
-	data, errData := service.Template.Delete(id)
 	utils.CultivateServiceData(context, data, errData)
 }

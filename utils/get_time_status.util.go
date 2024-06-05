@@ -4,11 +4,14 @@ import (
 	"time"
 )
 
-func GetQuestTimeStatus(StartAt int, EndAt int) string {
-	currentMinutes := time.Now().Minute()
+func GetQuestTimeStatus(startAt int, endAt int) string {
+	currentMinutes := time.Now().UnixMilli() / 1000
 
-	isReady := StartAt < currentMinutes
-	isStart := StartAt >= currentMinutes && EndAt <= currentMinutes
+	startAt64 := int64(startAt)
+	endAt64 := int64(endAt)
+
+	isReady := startAt64 < currentMinutes
+	isStart := startAt64 >= currentMinutes && endAt64 <= currentMinutes
 
 	if isReady {
 		return "Подготовлен"
