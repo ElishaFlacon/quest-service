@@ -46,6 +46,7 @@
 
 - Зпускаем через Docker:
     - устанавливаем Docker
+    - добавляем в конфиг Docker зеркала, <a href="https://dockerhub.timeweb.cloud/">тут гайд</a>
     - `git clone https://github.com/ElishaFlacon/quest-service.git`
     - `cd quest-service`
     - `cp .env-example .env`
