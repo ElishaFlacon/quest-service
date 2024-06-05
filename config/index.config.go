@@ -5,7 +5,6 @@ import (
 )
 
 func Init(app *gin.Engine) {
-	InitDotenv()
 	InitProxies(app)
 	InitUsings(app)
 }

@@ -30,12 +30,16 @@ import (
 // @description		Зашли почитать документацию? Жаль
 // @host			localhost:5000
 func main() {
-	app := gin.Default()
+	config.InitDotenv()
 	gin.SetMode(utils.GetAppMode())
+
+	app := gin.Default()
 
 	config.Init(app)
 	database.Init(utils.GetDatabaseString())
 	routes.Init(app)
+
+	println("APP WORK")
 
 	app.Run(utils.GetAppUrl())
 }
