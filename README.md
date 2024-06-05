@@ -96,6 +96,7 @@
     ⚡ Немного дополнительной информации:
 </h2>
 
+- `APP_MODE`: `PRODUCTION` или `DEBUG`
 - Документация `/quest-service/docs/index.html`
 - Миграции (выполняются в bash терминале, для windows он идет вместе с git)
     - принять последнюю миграцию `./goose.sh up`
