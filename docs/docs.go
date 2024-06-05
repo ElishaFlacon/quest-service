@@ -71,7 +71,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CategoryCreateRequest"
+                            "$ref": "#/definitions/models.CategoryCreate"
                         }
                     }
                 ],
@@ -97,8 +97,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/category/delete/{id}": {
-            "delete": {
+        "/quest-service/category/hide/{id}": {
+            "put": {
                 "consumes": [
                     "application/json"
                 ],
@@ -108,7 +108,7 @@ const docTemplate = `{
                 "tags": [
                     "category"
                 ],
-                "summary": "Удаление категории по ID (нельзя удалить, если категория используется)",
+                "summary": "Скрытие категории по ID (используйте как удаление)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -201,7 +201,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                                "$ref": "#/definitions/models.IndicatorWithCategory"
                             }
                         }
                     },
@@ -247,7 +247,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                                "$ref": "#/definitions/models.IndicatorWithCategory"
                             }
                         }
                     },
@@ -293,7 +293,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                                "$ref": "#/definitions/models.IndicatorWithCategory"
                             }
                         }
                     },
@@ -331,51 +331,8 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.IndicatorCreateRequest"
+                            "$ref": "#/definitions/models.IndicatorCreate"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Indicator"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/indicator/delete/{id}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "indicator"
-                ],
-                "summary": "Удаление вопроса по ID (нельзя удалить, если вопрос используется)",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID вопроса",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -411,7 +368,7 @@ const docTemplate = `{
                 "tags": [
                     "indicator"
                 ],
-                "summary": "Скрытие вопроса по ID",
+                "summary": "Скрытие вопроса по ID (используйте как удаление)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -468,7 +425,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                            "$ref": "#/definitions/models.IndicatorWithCategory"
                         }
                     },
                     "400": {
@@ -671,7 +628,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.QuestCreateRequest"
+                            "$ref": "#/definitions/models.QuestCreate"
                         }
                     },
                     {
@@ -715,7 +672,7 @@ const docTemplate = `{
                 "tags": [
                     "quest"
                 ],
-                "summary": "Скрытие опроса по ID",
+                "summary": "Скрытие опроса по ID (используйте как удаление)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -984,7 +941,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.GetByUsersIdRequest"
+                            "$ref": "#/definitions/models.UsersId"
                         }
                     }
                 ],
@@ -1032,7 +989,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ResultCreateRequest"
+                            "$ref": "#/definitions/models.ResultCreate"
                         }
                     }
                 ],
@@ -1076,13 +1033,6 @@ const docTemplate = `{
                         "description": "ID опроса",
                         "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Access token (с биркой)",
-                        "name": "Authorization",
-                        "in": "header",
                         "required": true
                     }
                 ],
@@ -1167,7 +1117,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.TemplateCreateRequest"
+                            "$ref": "#/definitions/models.TemplateCreate"
                         }
                     }
                 ],
@@ -1176,49 +1126,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.TemplateWithCountIndicators"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/template/delete/{id}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "template"
-                ],
-                "summary": "Удаление шаблона по ID (нельзя удалить, используйте hide :3)",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID шаблона",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Template"
                         }
                     },
                     "400": {
@@ -1247,7 +1154,7 @@ const docTemplate = `{
                 "tags": [
                     "template"
                 ],
-                "summary": "Скрытие шаблона по ID",
+                "summary": "Скрытие шаблона по ID (используйте как удаление)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1378,7 +1285,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.CategoryCreateRequest": {
+        "models.CategoryCreate": {
             "type": "object",
             "properties": {
                 "name": {
@@ -1391,22 +1298,6 @@ const docTemplate = `{
             "properties": {
                 "error": {
                     "type": "string"
-                }
-            }
-        },
-        "models.GetByUsersIdRequest": {
-            "type": "object",
-            "properties": {
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "id": {
-                                "type": "string"
-                            }
-                        }
-                    }
                 }
             }
         },
@@ -1442,7 +1333,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.IndicatorCreateRequest": {
+        "models.IndicatorCreate": {
             "type": "object",
             "properties": {
                 "answers": {
@@ -1468,7 +1359,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.IndicatorWithCategoryName": {
+        "models.IndicatorWithCategory": {
             "type": "object",
             "properties": {
                 "answers": {
@@ -1529,7 +1420,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.QuestCreateRequest": {
+        "models.QuestCreate": {
             "type": "object",
             "properties": {
                 "description": {
@@ -1607,7 +1498,7 @@ const docTemplate = `{
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                        "$ref": "#/definitions/models.IndicatorWithCategory"
                     }
                 },
                 "name": {
@@ -1750,7 +1641,7 @@ const docTemplate = `{
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                        "$ref": "#/definitions/models.IndicatorWithCategory"
                     }
                 },
                 "name": {
@@ -1796,7 +1687,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ResultCreateRequest": {
+        "models.ResultCreate": {
             "type": "object",
             "properties": {
                 "results": {
@@ -1869,7 +1760,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.TemplateCreateRequest": {
+        "models.TemplateCreate": {
             "type": "object",
             "properties": {
                 "description": {
@@ -1926,7 +1817,7 @@ const docTemplate = `{
                 "indicators": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.IndicatorWithCategoryName"
+                        "$ref": "#/definitions/models.IndicatorWithCategory"
                     }
                 },
                 "name": {
@@ -1948,6 +1839,22 @@ const docTemplate = `{
                 },
                 "progress": {
                     "type": "boolean"
+                }
+            }
+        },
+        "models.UsersId": {
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         }

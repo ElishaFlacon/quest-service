@@ -6,7 +6,7 @@ definitions:
       name:
         type: string
     type: object
-  models.CategoryCreateRequest:
+  models.CategoryCreate:
     properties:
       name:
         type: string
@@ -15,16 +15,6 @@ definitions:
     properties:
       error:
         type: string
-    type: object
-  models.GetByUsersIdRequest:
-    properties:
-      users:
-        items:
-          properties:
-            id:
-              type: string
-          type: object
-        type: array
     type: object
   models.Indicator:
     properties:
@@ -47,7 +37,7 @@ definitions:
       toRole:
         type: string
     type: object
-  models.IndicatorCreateRequest:
+  models.IndicatorCreate:
     properties:
       answers:
         items:
@@ -64,7 +54,7 @@ definitions:
       toRole:
         type: string
     type: object
-  models.IndicatorWithCategoryName:
+  models.IndicatorWithCategory:
     properties:
       answers:
         items:
@@ -104,7 +94,7 @@ definitions:
       startAt:
         type: integer
     type: object
-  models.QuestCreateRequest:
+  models.QuestCreate:
     properties:
       description:
         type: string
@@ -155,7 +145,7 @@ definitions:
         type: integer
       indicators:
         items:
-          $ref: '#/definitions/models.IndicatorWithCategoryName'
+          $ref: '#/definitions/models.IndicatorWithCategory'
         type: array
       name:
         type: string
@@ -249,7 +239,7 @@ definitions:
         type: integer
       indicators:
         items:
-          $ref: '#/definitions/models.IndicatorWithCategoryName'
+          $ref: '#/definitions/models.IndicatorWithCategory'
         type: array
       name:
         type: string
@@ -279,7 +269,7 @@ definitions:
       value:
         type: string
     type: object
-  models.ResultCreateRequest:
+  models.ResultCreate:
     properties:
       results:
         items:
@@ -326,7 +316,7 @@ definitions:
       name:
         type: string
     type: object
-  models.TemplateCreateRequest:
+  models.TemplateCreate:
     properties:
       description:
         type: string
@@ -363,7 +353,7 @@ definitions:
         type: integer
       indicators:
         items:
-          $ref: '#/definitions/models.IndicatorWithCategoryName'
+          $ref: '#/definitions/models.IndicatorWithCategory'
         type: array
       name:
         type: string
@@ -378,6 +368,16 @@ definitions:
         type: string
       progress:
         type: boolean
+    type: object
+  models.UsersId:
+    properties:
+      users:
+        items:
+          properties:
+            id:
+              type: string
+          type: object
+        type: array
     type: object
 host: localhost:5000
 info:
@@ -447,7 +447,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.CategoryCreateRequest'
+          $ref: '#/definitions/models.CategoryCreate'
       produces:
       - application/json
       responses:
@@ -466,8 +466,8 @@ paths:
       summary: Создание категории
       tags:
       - category
-  /quest-service/category/delete/{id}:
-    delete:
+  /quest-service/category/hide/{id}:
+    put:
       consumes:
       - application/json
       parameters:
@@ -491,7 +491,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Удаление категории по ID (нельзя удалить, если категория используется)
+      summary: Скрытие категории по ID (используйте как удаление)
       tags:
       - category
   /quest-service/indicator/{id}:
@@ -510,7 +510,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.IndicatorWithCategoryName'
+            $ref: '#/definitions/models.IndicatorWithCategory'
         "400":
           description: Bad Request
           schema:
@@ -533,7 +533,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.IndicatorWithCategoryName'
+              $ref: '#/definitions/models.IndicatorWithCategory'
             type: array
         "400":
           description: Bad Request
@@ -563,7 +563,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.IndicatorWithCategoryName'
+              $ref: '#/definitions/models.IndicatorWithCategory'
             type: array
         "400":
           description: Bad Request
@@ -593,7 +593,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.IndicatorWithCategoryName'
+              $ref: '#/definitions/models.IndicatorWithCategory'
             type: array
         "400":
           description: Bad Request
@@ -616,7 +616,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.IndicatorCreateRequest'
+          $ref: '#/definitions/models.IndicatorCreate'
       produces:
       - application/json
       responses:
@@ -633,34 +633,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Создание вопроса
-      tags:
-      - indicator
-  /quest-service/indicator/delete/{id}:
-    delete:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID вопроса
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Indicator'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Удаление вопроса по ID (нельзя удалить, если вопрос используется)
       tags:
       - indicator
   /quest-service/indicator/hide/{id}:
@@ -688,7 +660,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Скрытие вопроса по ID
+      summary: Скрытие вопроса по ID (используйте как удаление)
       tags:
       - indicator
   /quest-service/quest/{id}:
@@ -837,7 +809,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.QuestCreateRequest'
+          $ref: '#/definitions/models.QuestCreate'
       - description: Access token (с биркой)
         in: header
         name: Authorization
@@ -886,7 +858,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Скрытие опроса по ID
+      summary: Скрытие опроса по ID (используйте как удаление)
       tags:
       - quest
   /quest-service/quest/with-indicators/{id}:
@@ -1013,7 +985,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.GetByUsersIdRequest'
+          $ref: '#/definitions/models.UsersId'
       produces:
       - application/json
       responses:
@@ -1044,7 +1016,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.ResultCreateRequest'
+          $ref: '#/definitions/models.ResultCreate'
       produces:
       - application/json
       responses:
@@ -1073,11 +1045,6 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Access token (с биркой)
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1160,7 +1127,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.TemplateCreateRequest'
+          $ref: '#/definitions/models.TemplateCreate'
       produces:
       - application/json
       responses:
@@ -1177,34 +1144,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Создание шаблона
-      tags:
-      - template
-  /quest-service/template/delete/{id}:
-    delete:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID шаблона
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Template'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Удаление шаблона по ID (нельзя удалить, используйте hide :3)
       tags:
       - template
   /quest-service/template/hide/{id}:
@@ -1232,7 +1171,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Error'
-      summary: Скрытие шаблона по ID
+      summary: Скрытие шаблона по ID (используйте как удаление)
       tags:
       - template
   /quest-service/template/with-indicators/{id}:
