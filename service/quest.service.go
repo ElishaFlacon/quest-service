@@ -76,7 +76,7 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 			available,
 			start_at,
 			end_at, 
-			(SELECT get_qeust_pass_percent($1)) percent 
+			(SELECT get_quest_pass_percent($1)) percent 
 		FROM "quest" 
 		WHERE id_quest = $1;
 	`
@@ -200,7 +200,7 @@ func (*TQuest) GetByUserId(
 			"quest".available,
 			"quest".start_at,
 			"quest".end_at,
-			(SELECT get_qeust_pass_percent("quest".id_quest)) percent
+			(SELECT get_quest_pass_percent("quest".id_quest)) percent
 		FROM "quest" 
 		INNER JOIN "quest_team" ON
 			"quest".id_quest = "quest_team".id_quest

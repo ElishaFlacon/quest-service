@@ -34,6 +34,7 @@ func main() {
 	gin.SetMode(utils.GetAppMode())
 
 	app := gin.Default()
+	app.Use(gin.Recovery())
 
 	config.Init(app)
 	database.Init(utils.GetDatabaseString())
