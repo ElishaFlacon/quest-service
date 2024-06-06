@@ -22,7 +22,7 @@ func (init *TTemplateIndicator) Get(id int) (*models.TemplateIndicator, error) {
 
 	data, err := database.BaseQuery[models.TemplateIndicator](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }
 
 func (init *TTemplateIndicator) GetAll() ([]*models.TemplateIndicator, error) {

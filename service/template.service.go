@@ -109,5 +109,5 @@ func (*TTemplate) Hide(id int) (*models.Template, error) {
 
 	data, err := database.BaseQuery[models.Template](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }

@@ -551,5 +551,5 @@ func (*TQuest) Hide(id int) (*models.Quest, error) {
 
 	data, err := database.BaseQuery[models.Quest](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }

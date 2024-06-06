@@ -22,7 +22,7 @@ func (*TCategory) Get(id int) (*models.Category, error) {
 
 	data, err := database.BaseQuery[models.Category](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }
 
 func (*TCategory) GetAll() ([]*models.Category, error) {
@@ -46,7 +46,7 @@ func (*TCategory) Create(name string) (*models.Category, error) {
 
 	data, err := database.BaseQuery[models.Category](sqlString, name)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }
 
 func (*TCategory) Hide(id int) (*models.Category, error) {
@@ -59,5 +59,5 @@ func (*TCategory) Hide(id int) (*models.Category, error) {
 
 	data, err := database.BaseQuery[models.Category](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }

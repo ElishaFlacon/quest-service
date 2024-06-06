@@ -23,7 +23,7 @@ func (*TQuestTeam) Get(id int) (*models.QuestTeam, error) {
 
 	data, err := database.BaseQuery[models.QuestTeam](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }
 
 func (*TQuestTeam) GetByQuestId(id int) ([]*models.QuestTeam, error) {

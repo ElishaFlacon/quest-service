@@ -46,7 +46,7 @@ func (*TIndicator) Get(id int) (*models.IndicatorWithCategory, error) {
 
 	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }
 
 func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategory, error) {
@@ -182,7 +182,7 @@ func (*TIndicator) Create(
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, args...)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }
 
 func (*TIndicator) Hide(id int) (*models.Indicator, error) {
@@ -195,5 +195,5 @@ func (*TIndicator) Hide(id int) (*models.Indicator, error) {
 
 	data, err := database.BaseQuery[models.Indicator](sqlString, id)
 
-	return utils.CultivateFirstDataElemet(data, err)
+	return utils.CultivateFirstDataElement(data, err)
 }

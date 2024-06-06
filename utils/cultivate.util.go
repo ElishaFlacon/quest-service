@@ -9,7 +9,7 @@ import (
 // тут много всяких полезных обрабатывалок для controllers
 // но лучше не залазьте сюда, душный файл
 
-func CultivateFirstDataElemet[T any](
+func CultivateFirstDataElement[T any](
 	data []*T,
 	err error,
 ) (*T, error) {
