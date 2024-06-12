@@ -20,7 +20,7 @@ var Indicator *TIndicator
 // @Success	200	{object}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/{id} [get]
+// @Router	/api/v1/quest-service/indicator/{id} [get]
 func (*TIndicator) Get(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -40,7 +40,7 @@ func (*TIndicator) Get(context *gin.Context) {
 // @Success	200	{array}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/by-template/{id} [get]
+// @Router	/api/v1/quest-service/indicator/by-template/{id} [get]
 func (*TIndicator) GetByTemplateId(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -60,7 +60,7 @@ func (*TIndicator) GetByTemplateId(context *gin.Context) {
 // @Success	200	{array}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/by-quest/{id} [get]
+// @Router	/api/v1/quest-service/indicator/by-quest/{id} [get]
 func (*TIndicator) GetByQuestId(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -79,7 +79,7 @@ func (*TIndicator) GetByQuestId(context *gin.Context) {
 // @Success	200	{array}	models.IndicatorWithCategory
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/all [get]
+// @Router	/api/v1/quest-service/indicator/all [get]
 func (*TIndicator) GetAll(context *gin.Context) {
 	data, errData := service.Indicator.GetAll()
 	utils.CultivateServiceData(context, data, errData)
@@ -94,7 +94,7 @@ func (*TIndicator) GetAll(context *gin.Context) {
 // @Success	200	{object}	models.Indicator
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/create [post]
+// @Router	/api/v1/quest-service/indicator/create [post]
 func (*TIndicator) Create(context *gin.Context) {
 	body := &models.IndicatorCreate{}
 
@@ -123,7 +123,7 @@ func (*TIndicator) Create(context *gin.Context) {
 // @Success	200	{object}	models.Indicator
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/indicator/hide/{id} [put]
+// @Router	/api/v1/quest-service/indicator/hide/{id} [put]
 func (*TIndicator) Hide(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {

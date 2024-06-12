@@ -20,7 +20,7 @@ var Category *TCategory
 // @Success	200	{object}	models.Category
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/category/{id} [get]
+// @Router	/api/v1/quest-service/category/{id} [get]
 func (*TCategory) Get(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -39,7 +39,7 @@ func (*TCategory) Get(context *gin.Context) {
 // @Success	200	{array}	models.Category
 // @Failure	400	{string}	string
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/category/all [get]
+// @Router	/api/v1/quest-service/category/all [get]
 func (*TCategory) GetAll(context *gin.Context) {
 	data, errData := service.Category.GetAll()
 	utils.CultivateServiceData(context, data, errData)
@@ -54,7 +54,7 @@ func (*TCategory) GetAll(context *gin.Context) {
 // @Success	200	{object}	models.Category
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/category/create [post]
+// @Router	/api/v1/quest-service/category/create [post]
 func (*TCategory) Create(context *gin.Context) {
 	body := &models.CategoryCreate{}
 
@@ -76,7 +76,7 @@ func (*TCategory) Create(context *gin.Context) {
 // @Success	200	{object}	models.Category
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/category/hide/{id} [put]
+// @Router	/api/v1/quest-service/category/hide/{id} [put]
 func (*TCategory) Hide(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {

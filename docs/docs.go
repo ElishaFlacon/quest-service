@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/quest-service/category/all": {
+        "/api/v1/quest-service/category/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -52,7 +52,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/category/create": {
+        "/api/v1/quest-service/category/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -97,7 +97,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/category/hide/{id}": {
+        "/api/v1/quest-service/category/hide/{id}": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -140,7 +140,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/category/{id}": {
+        "/api/v1/quest-service/category/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -183,7 +183,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/indicator/all": {
+        "/api/v1/quest-service/indicator/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -220,7 +220,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/indicator/by-quest/{id}": {
+        "/api/v1/quest-service/indicator/by-quest/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -266,7 +266,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/indicator/by-template/{id}": {
+        "/api/v1/quest-service/indicator/by-template/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -312,7 +312,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/indicator/create": {
+        "/api/v1/quest-service/indicator/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -357,7 +357,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/indicator/hide/{id}": {
+        "/api/v1/quest-service/indicator/hide/{id}": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -400,7 +400,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/indicator/{id}": {
+        "/api/v1/quest-service/indicator/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -443,7 +443,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/all": {
+        "/api/v1/quest-service/quest/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -480,7 +480,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/all/with-statuses": {
+        "/api/v1/quest-service/quest/all/with-statuses": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -517,7 +517,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/by-user/with-statuses/{id}": {
+        "/api/v1/quest-service/quest/by-user/with-statuses/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -563,7 +563,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/by-user/{id}": {
+        "/api/v1/quest-service/quest/by-user/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -609,7 +609,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/create": {
+        "/api/v1/quest-service/quest/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -661,7 +661,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/hide/{id}": {
+        "/api/v1/quest-service/quest/hide/{id}": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -704,7 +704,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/with-indicators/{id}": {
+        "/api/v1/quest-service/quest/with-indicators/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -747,7 +747,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/with-users-and-indicators/{id}": {
+        "/api/v1/quest-service/quest/with-users-and-indicators/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -790,7 +790,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/with-users/{id}": {
+        "/api/v1/quest-service/quest/with-users/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -833,7 +833,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/quest/{id}": {
+        "/api/v1/quest-service/quest/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -876,7 +876,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/result/by-user/{id}": {
+        "/api/v1/quest-service/result/by-user/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -922,7 +922,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/result/by-users": {
+        "/api/v1/quest-service/result/by-users": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -970,7 +970,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/result/create": {
+        "/api/v1/quest-service/result/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1015,7 +1015,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/statistic/quest/{id}": {
+        "/api/v1/quest-service/statistic/quest/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -1061,7 +1061,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/template/all": {
+        "/api/v1/quest-service/template/all": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -1098,7 +1098,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/quest-service/template/create": {
+        "/api/v1/quest-service/template/create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1126,6 +1126,92 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.TemplateWithCountIndicators"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/quest-service/template/with-indicators/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "template"
+                ],
+                "summary": "Получение шаблона с вопросами по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.TemplateWithIndicators"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/quest-service/template/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "template"
+                ],
+                "summary": "Получение шаблона по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Template"
                         }
                     },
                     "400": {
@@ -1185,98 +1271,15 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/quest-service/template/with-indicators/{id}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "template"
-                ],
-                "summary": "Получение шаблона с вопросами по ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID шаблона",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.TemplateWithIndicators"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/template/{id}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "template"
-                ],
-                "summary": "Получение шаблона по ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID шаблона",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Template"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
         "models.Category": {
             "type": "object",
             "properties": {
+                "available": {
+                    "type": "boolean"
+                },
                 "idCategory": {
                     "type": "integer"
                 },

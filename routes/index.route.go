@@ -7,7 +7,7 @@ import (
 // При добавлении нового роута, не забываем добавить его сюда
 
 func Init(app *gin.Engine) {
-	group := app.Group("/quest-service")
+	group := app.Group("/api/v1/quest-service")
 
 	routes := []func(app *gin.RouterGroup){
 		Category,

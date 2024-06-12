@@ -22,7 +22,7 @@ var Template *TTemplate
 // @Success	200	{object}	models.Template
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/template/{id} [get]
+// @Router	/api/v1/quest-service/template/{id} [get]
 func (*TTemplate) Get(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -42,7 +42,7 @@ func (*TTemplate) Get(context *gin.Context) {
 // @Success	200	{object}	models.TemplateWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/template/with-indicators/{id} [get]
+// @Router	/api/v1/quest-service/template/with-indicators/{id} [get]
 func (*TTemplate) GetWithIndicators(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -61,7 +61,7 @@ func (*TTemplate) GetWithIndicators(context *gin.Context) {
 // @Success	200	{array}	models.Template
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/template/all [get]
+// @Router	/api/v1/quest-service/template/all [get]
 func (*TTemplate) GetAll(context *gin.Context) {
 	data, errData := service.Template.GetAll()
 	utils.CultivateServiceData(context, data, errData)
@@ -76,7 +76,7 @@ func (*TTemplate) GetAll(context *gin.Context) {
 // @Success	200	{object}	models.TemplateWithCountIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/template/create [post]
+// @Router	/api/v1/quest-service/template/create [post]
 func (*TTemplate) Create(context *gin.Context) {
 	body := &models.TemplateCreate{}
 

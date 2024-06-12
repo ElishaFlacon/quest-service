@@ -20,7 +20,7 @@ var Quest *TQuest
 // @Success	200	{object}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/{id} [get]
+// @Router	/api/v1/quest-service/quest/{id} [get]
 func (*TQuest) Get(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -40,7 +40,7 @@ func (*TQuest) Get(context *gin.Context) {
 // @Success	200	{object}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/with-indicators/{id} [get]
+// @Router	/api/v1/quest-service/quest/with-indicators/{id} [get]
 func (*TQuest) GetWithIndicators(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -60,7 +60,7 @@ func (*TQuest) GetWithIndicators(context *gin.Context) {
 // @Success	200	{object}	models.QuestWithUsers
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/with-users/{id} [get]
+// @Router	/api/v1/quest-service/quest/with-users/{id} [get]
 func (*TQuest) GetWithUsers(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -80,7 +80,7 @@ func (*TQuest) GetWithUsers(context *gin.Context) {
 // @Success	200	{object}	models.QuestWithUsersAndIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/with-users-and-indicators/{id} [get]
+// @Router	/api/v1/quest-service/quest/with-users-and-indicators/{id} [get]
 func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
@@ -100,7 +100,7 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/by-user/{id} [get]
+// @Router	/api/v1/quest-service/quest/by-user/{id} [get]
 func (*TQuest) GetByUserIdWithIndicators(context *gin.Context) {
 	id, errParam := utils.CultivateStringParam(context, "id")
 	if errParam != nil {
@@ -120,7 +120,7 @@ func (*TQuest) GetByUserIdWithIndicators(context *gin.Context) {
 // @Success	200	{array}	models.QuestWithStatusesForUser
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/by-user/with-statuses/{id} [get]
+// @Router	/api/v1/quest-service/quest/by-user/with-statuses/{id} [get]
 func (*TQuest) GetByUserIdWithStatuses(context *gin.Context) {
 	id, errParam := utils.CultivateStringParam(context, "id")
 	if errParam != nil {
@@ -139,7 +139,7 @@ func (*TQuest) GetByUserIdWithStatuses(context *gin.Context) {
 // @Success	200	{array}	models.QuestResponse
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/all [get]
+// @Router	/api/v1/quest-service/quest/all [get]
 func (*TQuest) GetAll(context *gin.Context) {
 	data, errData := service.Quest.GetAll()
 	utils.CultivateServiceData(context, data, errData)
@@ -153,7 +153,7 @@ func (*TQuest) GetAll(context *gin.Context) {
 // @Success	200	{array}	models.QuestWithStatuses
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/all/with-statuses [get]
+// @Router	/api/v1/quest-service/quest/all/with-statuses [get]
 func (*TQuest) GetAllWithStatuses(context *gin.Context) {
 	data, errData := service.Quest.GetAllWithStatuses()
 	utils.CultivateServiceData(context, data, errData)
@@ -169,7 +169,7 @@ func (*TQuest) GetAllWithStatuses(context *gin.Context) {
 // @Success	200	{object}	models.Quest
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/create [post]
+// @Router	/api/v1/quest-service/quest/create [post]
 func (*TQuest) Create(context *gin.Context) {
 	bearer := utils.GetBearer(context)
 
@@ -202,7 +202,7 @@ func (*TQuest) Create(context *gin.Context) {
 // @Success	200	{object}	models.Quest
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/quest/hide/{id} [put]
+// @Router	/api/v1/quest-service/quest/hide/{id} [put]
 func (*TQuest) Hide(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {

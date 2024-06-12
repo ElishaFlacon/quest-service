@@ -19,7 +19,7 @@ var Statistic *TStatistic
 // @Success	200	{object}	[]byte
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/statistic/quest/{id} [get]
+// @Router	/api/v1/quest-service/statistic/quest/{id} [get]
 func (*TStatistic) Quest(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {
