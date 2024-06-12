@@ -14,7 +14,7 @@ type TTeam struct{}
 
 var Team *TTeam
 
-func GetTeam(
+func (*TTeam) GetTeam(
 	bearer string,
 	id string,
 ) (*models.Team, error) {
@@ -83,7 +83,7 @@ func (*TTeam) GetTeams(
 	teams := []*models.Team{}
 
 	for _, id := range ids {
-		team, errTeam := GetTeam(bearer, id)
+		team, errTeam := Team.GetTeam(bearer, id)
 		if errTeam != nil {
 			return nil, errTeam
 		}
