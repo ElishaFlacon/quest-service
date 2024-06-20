@@ -87,6 +87,26 @@ func CultivateServiceData(
 	return nil
 }
 
+func CultivateCsvData(
+	context *gin.Context,
+	data []byte,
+	err error,
+) error {
+	errCultivate := CultivateServiceError(context, err)
+	if errCultivate != nil {
+		return errCultivate
+	}
+
+	context.Header("Content-Description", "File Transfer")
+	context.Header("Content-Transfer-Encoding", "binary")
+	context.Header("Content-Disposition", "attachment; filename=statistic.csv")
+
+	context.Data(200, "text/csv", data)
+	context.Abort()
+
+	return nil
+}
+
 func CultivateParamsError(
 	context *gin.Context,
 	err error,

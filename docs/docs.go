@@ -1017,11 +1017,12 @@ const docTemplate = `{
         },
         "/api/v1/quest-service/statistic/quest/{id}": {
             "get": {
+                "description": "Ответ содержит файл CSV с колонками: Название опроса, Название вопроса, Название команды, От кого, Роль (от кого), Кому, Роль (кому), Результат ответа",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
-                    "application/json"
+                    "text/csv"
                 ],
                 "tags": [
                     "statistic"
@@ -1040,10 +1041,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            }
+                            "type": "file"
                         }
                     },
                     "400": {

@@ -1041,6 +1041,9 @@ paths:
     get:
       consumes:
       - application/json
+      description: 'Ответ содержит файл CSV с колонками: Название опроса, Название
+        вопроса, Название команды, От кого, Роль (от кого), Кому, Роль (кому), Результат
+        ответа'
       parameters:
       - description: ID опроса
         in: path
@@ -1048,14 +1051,12 @@ paths:
         required: true
         type: integer
       produces:
-      - application/json
+      - text/csv
       responses:
         "200":
           description: OK
           schema:
-            items:
-              type: integer
-            type: array
+            type: file
         "400":
           description: Bad Request
           schema:
