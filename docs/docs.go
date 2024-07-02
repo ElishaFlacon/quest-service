@@ -1317,9 +1317,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "fromRole": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -1329,7 +1326,10 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "toRole": {
+                "role": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -1355,7 +1355,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "toRole": {
+                "type": {
                     "type": "string"
                 }
             }
@@ -1378,9 +1378,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "fromRole": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -1390,7 +1387,10 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "toRole": {
+                "role": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }

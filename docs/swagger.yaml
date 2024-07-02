@@ -28,15 +28,15 @@ definitions:
         type: boolean
       description:
         type: string
-      fromRole:
-        type: string
       id:
         type: integer
       idСategory:
         type: integer
       name:
         type: string
-      toRole:
+      role:
+        type: string
+      type:
         type: string
     type: object
   models.IndicatorCreate:
@@ -53,7 +53,7 @@ definitions:
         type: integer
       name:
         type: string
-      toRole:
+      type:
         type: string
     type: object
   models.IndicatorWithCategory:
@@ -68,15 +68,15 @@ definitions:
         type: string
       description:
         type: string
-      fromRole:
-        type: string
       id:
         type: integer
       idСategory:
         type: integer
       name:
         type: string
-      toRole:
+      role:
+        type: string
+      type:
         type: string
     type: object
   models.Quest:

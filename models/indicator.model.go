@@ -6,8 +6,8 @@ type Indicator struct {
 	IdCategory  int      `json:"idСategory"`
 	Description string   `json:"description"`
 	Answers     []string `json:"answers"`
-	FromRole    string   `json:"fromRole"`
-	ToRole      string   `json:"toRole"`
+	FromRole    string   `json:"role"`
+	ToRole      string   `json:"type"`
 	Available   bool     `json:"available"`
 }
 
@@ -17,8 +17,8 @@ type IndicatorWithCategory struct {
 	Name         string   `json:"name"`
 	Description  string   `json:"description"`
 	Answers      []string `json:"answers"`
-	FromRole     string   `json:"fromRole"`
-	ToRole       string   `json:"toRole"`
+	FromRole     string   `json:"role"`
+	ToRole       string   `json:"type"`
 	CategoryName string   `json:"categoryName"`
 	Available    bool     `json:"available"`
 }
@@ -29,5 +29,5 @@ type IndicatorCreate struct {
 	Description string   `json:"description"`
 	Answers     []string `json:"answers"`
 	FromRole    string   `json:"fromRole"`
-	ToRole      string   `json:"toRole"`
+	ToRole      string   `json:"type"`
 }

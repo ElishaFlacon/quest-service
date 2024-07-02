@@ -1309,9 +1309,6 @@
                 "description": {
                     "type": "string"
                 },
-                "fromRole": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -1321,7 +1318,10 @@
                 "name": {
                     "type": "string"
                 },
-                "toRole": {
+                "role": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -1347,7 +1347,7 @@
                 "name": {
                     "type": "string"
                 },
-                "toRole": {
+                "type": {
                     "type": "string"
                 }
             }
@@ -1370,9 +1370,6 @@
                 "description": {
                     "type": "string"
                 },
-                "fromRole": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -1382,7 +1379,10 @@
                 "name": {
                     "type": "string"
                 },
-                "toRole": {
+                "role": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
