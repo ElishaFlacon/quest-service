@@ -28,6 +28,6 @@ type IndicatorCreate struct {
 	Name        string   `json:"name"`
 	Description string   `json:"description"`
 	Answers     []string `json:"answers"`
-	FromRole    string   `json:"fromRole"`
+	FromRole    string   `json:"role"`
 	ToRole      string   `json:"type"`
 }
