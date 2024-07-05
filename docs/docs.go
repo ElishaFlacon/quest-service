@@ -1141,6 +1141,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/quest-service/template/hide/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "template"
+                ],
+                "summary": "Скрытие шаблона по ID (используйте как удаление)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID шаблона",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Template"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/quest-service/template/with-indicators/{id}": {
             "get": {
                 "consumes": [
@@ -1196,49 +1239,6 @@ const docTemplate = `{
                     "template"
                 ],
                 "summary": "Получение шаблона по ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID шаблона",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Template"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/quest-service/template/hide/{id}": {
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "template"
-                ],
-                "summary": "Скрытие шаблона по ID (используйте как удаление)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1346,13 +1346,13 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "fromRole": {
-                    "type": "string"
-                },
                 "idCategory": {
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "type": {

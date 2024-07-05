@@ -126,7 +126,7 @@ func (*TTemplate) Create(context *gin.Context) {
 // @Success	200	{object}	models.Template
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/quest-service/template/hide/{id} [put]
+// @Router	/api/v1/quest-service/template/hide/{id} [put]
 func (*TTemplate) Hide(context *gin.Context) {
 	id, errParam := utils.CultivateNumberParam(context, "id")
 	if errParam != nil {

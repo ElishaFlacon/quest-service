@@ -47,11 +47,11 @@ definitions:
         type: array
       description:
         type: string
-      fromRole:
-        type: string
       idCategory:
         type: integer
       name:
+        type: string
+      role:
         type: string
       type:
         type: string
@@ -1149,6 +1149,34 @@ paths:
       summary: Создание шаблона
       tags:
       - template
+  /api/v1/quest-service/template/hide/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID шаблона
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Template'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Скрытие шаблона по ID (используйте как удаление)
+      tags:
+      - template
   /api/v1/quest-service/template/with-indicators/{id}:
     get:
       consumes:
@@ -1175,34 +1203,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Получение шаблона с вопросами по ID
-      tags:
-      - template
-  /quest-service/template/hide/{id}:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID шаблона
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Template'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Скрытие шаблона по ID (используйте как удаление)
       tags:
       - template
 swagger: "2.0"
