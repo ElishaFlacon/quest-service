@@ -19,7 +19,7 @@ services:
     networks:
       - quest-network
   
-  migrations:
+  quest-migrations:
     image: ghcr.io/kukymbr/goose-docker:3.15.1
     env_file:
       - .docker.env
@@ -43,6 +43,18 @@ services:
     depends_on:
       - quest-postgres
       - quest-pgadmin
+      - quest-rabbitmq
+    networks:
+      - quest-network
+
+  quest-rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     networks:
       - quest-network
 
