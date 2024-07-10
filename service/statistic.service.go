@@ -32,22 +32,28 @@ func (*TStatistic) GetQuestStatistic(id int) ([]byte, error) {
 	}
 
 	sqlString := `
-		SELECT 
+		SELECT DISTINCT
 			q.name AS quest_name,
 			i.name AS indicator_name,
 			u1.name AS from_user,
 			i.from_role,
-			u2.name AS to_user,
+			COALESCE(
+				CASE
+					WHEN r.id_to_user LIKE 'TEAM-%' THEN qt.name
+					ELSE u2.name
+				END,
+				'Unknown User'
+			) AS to_user,
 			i.to_role,
 			r.value,
-			qt.name AS team_name
+			COALESCE(qt.name, 'Unknown Team') AS team_name
 		FROM result r
 		INNER JOIN quest q ON r.id_quest = q.id_quest
 		INNER JOIN indicator i ON r.id_indicator = i.id_indicator
 		INNER JOIN quest_team_user u1 ON r.id_from_user = u1.id_user
-		INNER JOIN quest_team_user u2 ON r.id_to_user = u2.id_user
-		INNER JOIN quest_team qt ON u1.id_quest_team = qt.id_quest_team
-		WHERE r.id_quest = $1;
+		LEFT JOIN quest_team_user u2 ON r.id_to_user = u2.id_user
+		INNER JOIN quest_team qt ON qt.id_quest = q.id_quest AND qt.id_quest_team = u1.id_quest_team
+		WHERE r.id_quest = $1
 	`
 
 	data, err := database.BaseQuery[models.StatisticQuestCsvRecord](sqlString, id)
