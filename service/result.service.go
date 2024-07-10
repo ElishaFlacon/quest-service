@@ -31,7 +31,7 @@ func (*TResult) GetByUserId(id string) ([]*models.Result, error) {
 }
 
 func (*TResult) GetByUsersId(ids []string) ([]*models.Result, error) {
-	sqlString := `SELECT * FROM "result" WHERE id_result = $1;`
+	sqlString := `SELECT * FROM "result" WHERE id_from_user = $1;`
 
 	batch := &pgx.Batch{}
 
