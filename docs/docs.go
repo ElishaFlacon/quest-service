@@ -923,7 +923,7 @@ const docTemplate = `{
             }
         },
         "/api/v1/quest-service/result/by-users": {
-            "get": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
