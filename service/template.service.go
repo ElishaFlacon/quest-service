@@ -50,7 +50,10 @@ func (*TTemplate) GetWithIndicators(
 }
 
 func (*TTemplate) GetAll() ([]*models.Template, error) {
-	sqlString := `SELECT * FROM "template";`
+	sqlString := `
+		SELECT * FROM "template" 
+		WHERE available = true;
+	`
 
 	data, errData := database.BaseQuery[models.Template](sqlString)
 	if errData != nil {
