@@ -40,7 +40,7 @@ func (*TResult) GetByUserId(context *gin.Context) {
 // @Success	200	{array}	models.Result
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/api/v1/quest-service/result/by-users [get]
+// @Router	/api/v1/quest-service/result/by-users [post]
 func (*TResult) GetByUsersId(context *gin.Context) {
 	body := &models.UsersId{}
 
