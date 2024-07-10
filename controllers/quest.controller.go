@@ -100,7 +100,7 @@ func (*TQuest) GetWithUsersAndIndicators(context *gin.Context) {
 // @Success	200	{array}	models.QuestWithIndicators
 // @Failure	400	{object} 	models.Error
 // @Failure	500	{object} 	models.Error
-// @Router	/api/v1/quest-service/quest/by-user/{id} [get]
+// @Router	/api/v1/quest-service/quest/by-user/with-indicators/{id} [get]
 func (*TQuest) GetByUserIdWithIndicators(context *gin.Context) {
 	id, errParam := utils.CultivateStringParam(context, "id")
 	if errParam != nil {

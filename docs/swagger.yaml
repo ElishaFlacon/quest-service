@@ -741,7 +741,7 @@ paths:
       summary: Получение всех опросов со статусами
       tags:
       - quest
-  /api/v1/quest-service/quest/by-user/{id}:
+  /api/v1/quest-service/quest/by-user/with-indicators/{id}:
     get:
       consumes:
       - application/json
