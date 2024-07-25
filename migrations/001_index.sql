@@ -184,7 +184,7 @@ DROP FUNCTION IF EXISTS get_team_pass_percent;
 CREATE OR REPLACE FUNCTION get_team_pass_percent(tid VARCHAR(64), qid INT)
 	RETURNS INT AS $$
 	DECLARE res INT = (
-		100 
+		100.0
 			/ 
 		NULLIF((SELECT get_users_count_by_team_and_quest_id(tid, qid)), 0)
 			* 
