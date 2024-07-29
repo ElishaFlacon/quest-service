@@ -41,7 +41,7 @@ func (*TIndicator) Get(id int) (*models.IndicatorWithCategory, error) {
 		FROM "indicator"
 		INNER JOIN "category" ON 
 			"indicator".id_category = "category".id_category
-		WHERE "indicator".id_indicator = $1;
+		WHERE "indicator".id_indicator = $1 AND "indicator".available = true;
 	`
 
 	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString, id)
@@ -80,7 +80,7 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategory, err
 			ON "indicator".id_indicator = "template_indicator".id_indicator
 		INNER JOIN "template" 
 			ON "template_indicator".id_template = "template".id_template
-		WHERE "template".id_template = $1;
+		WHERE "template".id_template = $1 AND "indicator".available = true;
 	`
 
 	data, err := database.BaseQuery[models.IndicatorWithCategory](sqlString, id)
@@ -88,6 +88,7 @@ func (*TIndicator) GetByTemplateId(id int) ([]*models.IndicatorWithCategory, err
 	return data, err
 }
 
+// NOTE: видно при available = false
 func (*TIndicator) GetByQuestId(id int) ([]*models.IndicatorWithCategory, error) {
 	sqlString := `
 		SELECT 

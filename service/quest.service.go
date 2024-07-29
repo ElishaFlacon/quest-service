@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/ElishaFlacon/quest-service/database"
 	"github.com/ElishaFlacon/quest-service/models"
 	"github.com/ElishaFlacon/quest-service/utils"
@@ -78,7 +80,7 @@ func (*TQuest) Get(id int) (*models.QuestResponse, error) {
 			end_at, 
 			(SELECT get_quest_pass_percent($1)) percent 
 		FROM "quest" 
-		WHERE id_quest = $1;
+		WHERE id_quest = $1 AND available = true;
 	`
 
 	data, errData := database.BaseQuery[models.QuestWithPercent](
@@ -113,6 +115,10 @@ func (*TQuest) GetWithIndicators(id int) (*models.QuestWithIndicators, error) {
 	if errQuest != nil {
 		return nil, errQuest
 	}
+	if quest == nil {
+		return nil, errors.New("quest not found")
+	}
+
 	indicators, _ := Indicator.GetByQuestId(id)
 
 	questWithIndicators := &models.QuestWithIndicators{
@@ -134,6 +140,9 @@ func (*TQuest) GetWithUsers(id int) (*models.QuestWithUsers, error) {
 	quest, errQuest := Quest.Get(id)
 	if errQuest != nil {
 		return nil, errQuest
+	}
+	if quest == nil {
+		return nil, errors.New("quest not found")
 	}
 
 	usersData, _ := QuestTeamUser.GetByQuestId(id)
@@ -163,6 +172,9 @@ func (*TQuest) GetWithUsersAndIndicators(
 	quest, errQuest := Quest.Get(id)
 	if errQuest != nil {
 		return nil, errQuest
+	}
+	if quest == nil {
+		return nil, errors.New("quest not found")
 	}
 
 	indicators, _ := Indicator.GetByQuestId(id)
@@ -206,7 +218,7 @@ func (*TQuest) GetByUserId(
 			"quest".id_quest = "quest_team".id_quest
 		INNER JOIN "quest_team_user" ON
 			"quest_team".id_quest_team = "quest_team_user".id_quest_team
-		WHERE "quest".available = true AND "quest_team_user".id_user = $1;
+		WHERE "quest".available = true AND "quest_team_user".id_user = $1 AND "quest".available = true;
 	`
 
 	data, errData := database.BaseQuery[models.QuestWithPercent](

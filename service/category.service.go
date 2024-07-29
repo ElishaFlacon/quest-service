@@ -17,7 +17,7 @@ var Category = &TCategory{
 func (*TCategory) Get(id int) (*models.Category, error) {
 	sqlString := `
 		SELECT * FROM "category" 
-		WHERE id_category = $1;
+		WHERE id_category = $1 AND available = true;
 	`
 
 	data, err := database.BaseQuery[models.Category](sqlString, id)
