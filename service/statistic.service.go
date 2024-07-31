@@ -44,7 +44,13 @@ func (*TStatistic) GetQuestStatistic(id int) ([]byte, error) {
 				END,
 				'Unknown User'
 			) AS to_user,
-			i.to_role,
+			COALESCE(
+				CASE
+					WHEN i.to_role LIKE 'TEAM-%' THEN 'TEAM'
+					ELSE i.to_role
+				END,
+				'TEAM'
+			) AS to_role,
 			r.value,
 			COALESCE(qt.name, 'Unknown Team') AS team_name
 		FROM result r
