@@ -1,5 +1,5 @@
 -- Мне стало лень вести миграции, так что актуальная ифнормация о базе будет тут))
--- Last Update - 06.06.2024
+-- Last Update - 05.08.2024
 
 
 
@@ -131,7 +131,7 @@ DROP FUNCTION IF EXISTS get_quest_pass_percent;
 CREATE OR REPLACE FUNCTION get_quest_pass_percent(qid INT) 
 	RETURNS INT AS $$
 	DECLARE res INT = (
-		100 
+		100.0 
 			/ 
 		NULLIF((SELECT get_users_count_by_quest_id(qid)), 0)
 			* 
